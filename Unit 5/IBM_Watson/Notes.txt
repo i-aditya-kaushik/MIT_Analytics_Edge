@@ -1,0 +1,29 @@
+Step 1:
+    LATs are used to generate answers. For eg, This singer is the world's best singer.
+    Here LAT is going to be This singer.
+
+Step 2:
+    The second step is Hypothesis generation. Here we look at the candidate answers.
+    For eg, This planet is hottest in solar system will have candidate answers like 
+    Earth, Mercury,Mars, etc
+
+    Hypothesis 1: Mars is hottest in solar system.
+    Hypothesis 2: Earth is hottest in solar system
+    Hypothesis 3....
+
+Step 3:
+    Lightweight Scoring Algo:
+        If likelihood is not high, it discards if the likelihood is good enough, then it keeps it for
+        the next Step
+    Passage Search:
+        It searches for the evidence in the passages of its database and comes up with the best 
+        Hypothesis
+    Scoring Analytics is performed
+
+Step 4:
+    Final Merging and ranking. For eg, the similar things like Obama and first black president should be 
+    merged and the results for them should be added. 
+    Then we rank the Hypothesis and come up with the best answer
+    Logistic Regression is used for Scoring Algo.. if the confidence is good enough, then it buzzes for 
+    the  answers
+
