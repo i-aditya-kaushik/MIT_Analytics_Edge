@@ -1,0 +1,287 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pisa = read.csv('pisa2009train.csv)
++ pisa = read.csv('pisa2009train.csv')
+Error: unexpected symbol in:
+"pisa = read.csv('pisa2009train.csv)
+pisa = read.csv('pisa2009train.csv"
+> pisa = read.csv('pisa2009train.csv')
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'pisa2009train.csv': No such file or directory
+> pisa = read.csv('pisa2009train.csv')
+> str(pisa)
+'data.frame':   3663 obs. of  24 variables:
+ $ grade                : int  11 11 9 10 10 10 10 10 9 10 ...
+ $ male                 : int  1 1 1 0 1 1 0 0 0 1 ...
+ $ raceeth              : Factor w/ 7 levels "American Indian/Alaska Native",..: NA 7 7 3 4 3 2 7 7 5 ...
+ $ preschool            : int  NA 0 1 1 1 1 0 1 1 1 ...
+ $ expectBachelors      : int  0 0 1 1 0 1 1 1 0 1 ...
+ $ motherHS             : int  NA 1 1 0 1 NA 1 1 1 1 ...
+ $ motherBachelors      : int  NA 1 1 0 0 NA 0 0 NA 1 ...
+ $ motherWork           : int  1 1 1 1 1 1 1 0 1 1 ...
+ $ fatherHS             : int  NA 1 1 1 1 1 NA 1 0 0 ...
+ $ fatherBachelors      : int  NA 0 NA 0 0 0 NA 0 NA 0 ...
+ $ fatherWork           : int  1 1 1 1 0 1 NA 1 1 1 ...
+ $ selfBornUS           : int  1 1 1 1 1 1 0 1 1 1 ...
+ $ motherBornUS         : int  0 1 1 1 1 1 1 1 1 1 ...
+ $ fatherBornUS         : int  0 1 1 1 0 1 NA 1 1 1 ...
+ $ englishAtHome        : int  0 1 1 1 1 1 1 1 1 1 ...
+ $ computerForSchoolwork: int  1 1 1 1 1 1 1 1 1 1 ...
+ $ read30MinsADay       : int  0 1 0 1 1 0 0 1 0 0 ...
+ $ minutesPerWeekEnglish: int  225 450 250 200 250 300 250 300 378 294 ...
+ $ studentsInEnglish    : int  NA 25 28 23 35 20 28 30 20 24 ...
+ $ schoolHasLibrary     : int  1 1 1 1 1 1 1 1 0 1 ...
+ $ publicSchool         : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ urban                : int  1 0 0 1 1 0 1 0 1 0 ...
+ $ schoolSize           : int  673 1173 1233 2640 1095 227 2080 1913 502 899 ...
+ $ readingScore         : num  476 575 555 458 614 ...
+> tapply(readingScore,male,mean)
+Error in tapply(readingScore, male, mean) : object 'male' not found
+> tapply(pisa$readingScore,pisa$male,mean)
+       0        1 
+512.9406 483.5325 
+> summary(pisa)
+     grade            male                      raceeth       preschool     
+ Min.   : 8.00   Min.   :0.0000   White             :2015   Min.   :0.0000  
+ 1st Qu.:10.00   1st Qu.:0.0000   Hispanic          : 834   1st Qu.:0.0000  
+ Median :10.00   Median :1.0000   Black             : 444   Median :1.0000  
+ Mean   :10.09   Mean   :0.5111   Asian             : 143   Mean   :0.7228  
+ 3rd Qu.:10.00   3rd Qu.:1.0000   More than one race: 124   3rd Qu.:1.0000  
+ Max.   :12.00   Max.   :1.0000   (Other)           :  68   Max.   :1.0000  
+                                  NA's              :  35   NA's   :56      
+ expectBachelors     motherHS    motherBachelors    motherWork    
+ Min.   :0.0000   Min.   :0.00   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:1.0000   1st Qu.:1.00   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :1.0000   Median :1.00   Median :0.0000   Median :1.0000  
+ Mean   :0.7859   Mean   :0.88   Mean   :0.3481   Mean   :0.7345  
+ 3rd Qu.:1.0000   3rd Qu.:1.00   3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :1.00   Max.   :1.0000   Max.   :1.0000  
+ NA's   :62       NA's   :97     NA's   :397      NA's   :93      
+    fatherHS      fatherBachelors    fatherWork       selfBornUS    
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.:1.0000   1st Qu.:1.0000  
+ Median :1.0000   Median :0.0000   Median :1.0000   Median :1.0000  
+ Mean   :0.8593   Mean   :0.3319   Mean   :0.8531   Mean   :0.9313  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+ NA's   :245      NA's   :569      NA's   :233      NA's   :69      
+  motherBornUS     fatherBornUS    englishAtHome    computerForSchoolwork
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000       
+ 1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:1.0000       
+ Median :1.0000   Median :1.0000   Median :1.0000   Median :1.0000       
+ Mean   :0.7725   Mean   :0.7668   Mean   :0.8717   Mean   :0.8994       
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000       
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000       
+ NA's   :71       NA's   :113      NA's   :71       NA's   :65           
+ read30MinsADay   minutesPerWeekEnglish studentsInEnglish schoolHasLibrary
+ Min.   :0.0000   Min.   :   0.0        Min.   : 1.0      Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.: 225.0        1st Qu.:20.0      1st Qu.:1.0000  
+ Median :0.0000   Median : 250.0        Median :25.0      Median :1.0000  
+ Mean   :0.2899   Mean   : 266.2        Mean   :24.5      Mean   :0.9676  
+ 3rd Qu.:1.0000   3rd Qu.: 300.0        3rd Qu.:30.0      3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :2400.0        Max.   :75.0      Max.   :1.0000  
+ NA's   :34       NA's   :186           NA's   :249       NA's   :143     
+  publicSchool        urban          schoolSize    readingScore  
+ Min.   :0.0000   Min.   :0.0000   Min.   : 100   Min.   :168.6  
+ 1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.: 712   1st Qu.:431.7  
+ Median :1.0000   Median :0.0000   Median :1212   Median :499.7  
+ Mean   :0.9339   Mean   :0.3849   Mean   :1369   Mean   :497.9  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1900   3rd Qu.:566.2  
+ Max.   :1.0000   Max.   :1.0000   Max.   :6694   Max.   :746.0  
+                                   NA's   :162                   
+> pisaTrain = na.omit(pisaTrain)
+Error in na.omit(pisaTrain) : object 'pisaTrain' not found
+> 
+> pisaTrain = na.omit(pisa)
+> pisaTest = read.csv('pisa2009test.csv')
+> pisaTest = na.omit(pisaTest)
+> str(pisaTest)
+'data.frame':   990 obs. of  24 variables:
+ $ grade                : int  10 10 10 10 11 10 10 10 10 10 ...
+ $ male                 : int  0 0 0 0 0 1 0 1 1 0 ...
+ $ raceeth              : Factor w/ 7 levels "American Indian/Alaska Native",..: 7 7 1 7 7 4 7 4 7 4 ...
+ $ preschool            : int  1 1 1 1 0 1 0 1 1 1 ...
+ $ expectBachelors      : int  0 1 0 0 0 1 1 0 1 1 ...
+ $ motherHS             : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ motherBachelors      : int  1 0 0 0 1 1 0 0 1 0 ...
+ $ motherWork           : int  1 0 0 1 1 1 0 1 1 1 ...
+ $ fatherHS             : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ fatherBachelors      : int  0 1 0 0 1 0 0 0 1 1 ...
+ $ fatherWork           : int  0 1 0 1 1 1 1 0 1 1 ...
+ $ selfBornUS           : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ motherBornUS         : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ fatherBornUS         : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ englishAtHome        : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ computerForSchoolwork: int  1 1 1 1 1 1 1 1 1 1 ...
+ $ read30MinsADay       : int  0 0 1 1 1 1 0 0 0 1 ...
+ $ minutesPerWeekEnglish: int  240 240 240 270 270 350 350 360 350 360 ...
+ $ studentsInEnglish    : int  30 30 30 35 30 25 27 28 25 27 ...
+ $ schoolHasLibrary     : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ publicSchool         : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ urban                : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ schoolSize           : int  808 808 808 808 808 899 899 899 899 899 ...
+ $ readingScore         : num  355 454 405 665 605 ...
+ - attr(*, "na.action")= 'omit' Named int  2 3 4 6 12 16 17 19 22 23 ...
+  ..- attr(*, "names")= chr  "2" "3" "4" "6" ...
+> str(pisaTrain)
+'data.frame':   2414 obs. of  24 variables:
+ $ grade                : int  11 10 10 10 10 10 10 10 11 9 ...
+ $ male                 : int  1 0 1 0 1 0 0 0 1 1 ...
+ $ raceeth              : Factor w/ 7 levels "American Indian/Alaska Native",..: 7 3 4 7 5 4 7 4 7 7 ...
+ $ preschool            : int  0 1 1 1 1 1 1 1 1 1 ...
+ $ expectBachelors      : int  0 1 0 1 1 1 1 0 1 1 ...
+ $ motherHS             : int  1 0 1 1 1 1 1 0 1 1 ...
+ $ motherBachelors      : int  1 0 0 0 1 0 0 0 0 1 ...
+ $ motherWork           : int  1 1 1 0 1 1 1 0 0 1 ...
+ $ fatherHS             : int  1 1 1 1 0 1 1 0 1 1 ...
+ $ fatherBachelors      : int  0 0 0 0 0 0 1 0 1 1 ...
+ $ fatherWork           : int  1 1 0 1 1 0 1 1 1 1 ...
+ $ selfBornUS           : int  1 1 1 1 1 0 1 0 1 1 ...
+ $ motherBornUS         : int  1 1 1 1 1 0 1 0 1 1 ...
+ $ fatherBornUS         : int  1 1 0 1 1 0 1 0 1 1 ...
+ $ englishAtHome        : int  1 1 1 1 1 0 1 0 1 1 ...
+ $ computerForSchoolwork: int  1 1 1 1 1 0 1 1 1 1 ...
+ $ read30MinsADay       : int  1 1 1 1 0 1 1 1 0 0 ...
+ $ minutesPerWeekEnglish: int  450 200 250 300 294 232 225 270 275 225 ...
+ $ studentsInEnglish    : int  25 23 35 30 24 14 20 25 30 15 ...
+ $ schoolHasLibrary     : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ publicSchool         : int  1 1 1 1 1 1 1 1 1 0 ...
+ $ urban                : int  0 1 1 0 0 0 0 1 1 1 ...
+ $ schoolSize           : int  1173 2640 1095 1913 899 1733 149 1400 1988 915 ...
+ $ readingScore         : num  575 458 614 439 466 ...
+ - attr(*, "na.action")= 'omit' Named int  1 3 6 7 9 11 13 21 29 30 ...
+  ..- attr(*, "names")= chr  "1" "3" "6" "7" ...
+> pisaTrain$raceeth = relevel(pisaTrain$raceeth, "White")
+> 
+> pisaTest$raceeth = relevel(pisaTest$raceeth, "White")
+> 
+> lin_model = lm(readingScore ~ .,data = pisaTrain)
+> summary(lin_model)
+
+Call:
+lm(formula = readingScore ~ ., data = pisaTrain)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-247.44  -48.86    1.86   49.77  217.18 
+
+Coefficients:
+                                                Estimate Std. Error t value
+(Intercept)                                   143.766333  33.841226   4.248
+grade                                          29.542707   2.937399  10.057
+male                                          -14.521653   3.155926  -4.601
+raceethAmerican Indian/Alaska Native          -67.277327  16.786935  -4.008
+raceethAsian                                   -4.110325   9.220071  -0.446
+raceethBlack                                  -67.012347   5.460883 -12.271
+raceethHispanic                               -38.975486   5.177743  -7.528
+raceethMore than one race                     -16.922522   8.496268  -1.992
+raceethNative Hawaiian/Other Pacific Islander  -5.101601  17.005696  -0.300
+preschool                                      -4.463670   3.486055  -1.280
+expectBachelors                                55.267080   4.293893  12.871
+motherHS                                        6.058774   6.091423   0.995
+motherBachelors                                12.638068   3.861457   3.273
+motherWork                                     -2.809101   3.521827  -0.798
+fatherHS                                        4.018214   5.579269   0.720
+fatherBachelors                                16.929755   3.995253   4.237
+fatherWork                                      5.842798   4.395978   1.329
+selfBornUS                                     -3.806278   7.323718  -0.520
+motherBornUS                                   -8.798153   6.587621  -1.336
+fatherBornUS                                    4.306994   6.263875   0.688
+englishAtHome                                   8.035685   6.859492   1.171
+computerForSchoolwork                          22.500232   5.702562   3.946
+read30MinsADay                                 34.871924   3.408447  10.231
+minutesPerWeekEnglish                           0.012788   0.010712   1.194
+studentsInEnglish                              -0.286631   0.227819  -1.258
+schoolHasLibrary                               12.215085   9.264884   1.318
+publicSchool                                  -16.857475   6.725614  -2.506
+urban                                          -0.110132   3.962724  -0.028
+schoolSize                                      0.006540   0.002197   2.977
+                                              Pr(>|t|)    
+(Intercept)                                   2.24e-05 ***
+grade                                          < 2e-16 ***
+male                                          4.42e-06 ***
+raceethAmerican Indian/Alaska Native          6.32e-05 ***
+raceethAsian                                   0.65578    
+raceethBlack                                   < 2e-16 ***
+raceethHispanic                               7.29e-14 ***
+raceethMore than one race                      0.04651 *  
+raceethNative Hawaiian/Other Pacific Islander  0.76421    
+preschool                                      0.20052    
+expectBachelors                                < 2e-16 ***
+motherHS                                       0.32001    
+motherBachelors                                0.00108 ** 
+motherWork                                     0.42517    
+fatherHS                                       0.47147    
+fatherBachelors                               2.35e-05 ***
+fatherWork                                     0.18393    
+selfBornUS                                     0.60331    
+motherBornUS                                   0.18182    
+fatherBornUS                                   0.49178    
+englishAtHome                                  0.24153    
+computerForSchoolwork                         8.19e-05 ***
+read30MinsADay                                 < 2e-16 ***
+minutesPerWeekEnglish                          0.23264    
+studentsInEnglish                              0.20846    
+schoolHasLibrary                               0.18749    
+publicSchool                                   0.01226 *  
+urban                                          0.97783    
+schoolSize                                     0.00294 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 73.81 on 2385 degrees of freedom
+Multiple R-squared:  0.3251,    Adjusted R-squared:  0.3172 
+F-statistic: 41.04 on 28 and 2385 DF,  p-value: < 2.2e-16
+
+> SSE = sum(lin_model$residuals^2)
+> RMSE = sqrt(SSE/nrow(pisaTrain))
+> RMSE 
+[1] 73.36555
+> pre = predict(lin_model, newdata = pisaTest)
+> summary(pre)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  353.2   482.0   524.0   516.7   555.7   637.7 
+> 637.7-353.2
+[1] 284.5
+> sum((predTest-pisaTest$readingScore)^2)
+Error: object 'predTest' not found
+> sum((pre-pisaTest$readingScore)^2)
+[1] 5762082
+> sqrt(mean((pre - pisaTest$readingScore)^2))
+[1] 76.29079
+> baseline = mean(pisaTrain$readingScore)
+> 
+> baseline
+[1] 517.9629
+> sum((baseline-pisaTest$readingScore)^2)
+[1] 7802354
+> SSE
+[1] 12993365
+> SSE = sum(pre$residuals^2)
+Error in pre$residuals : $ operator is invalid for atomic vectors
+> SSE = sum((pre - pisaTest$readingScore)^2)
+> SSE
+[1] 5762082
+> R2 = 1-SSE/7802354
+> R2
+[1] 0.2614944
+> 

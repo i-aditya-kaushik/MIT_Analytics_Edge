@@ -1,0 +1,291 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> flu = read.csv('FluTrain.csv')
+> str(flu)
+'data.frame':   417 obs. of  3 variables:
+ $ Week   : Factor w/ 417 levels "2004-01-04 - 2004-01-10",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ ILI    : num  2.42 1.81 1.71 1.54 1.44 ...
+ $ Queries: num  0.238 0.22 0.226 0.238 0.224 ...
+> which.max(flu$Queries)
+[1] 303
+> flu[303]
+Error in `[.data.frame`(flu, 303) : undefined columns selected
+> flu$Week[303]
+[1] 2009-10-18 - 2009-10-24
+417 Levels: 2004-01-04 - 2004-01-10 ... 2011-12-25 - 2011-12-31
+> hist(flu$ILI)
+> plot(flu$Queries, log(flu$ILI))
+> FluTrend1 = lm(log(ILI)~Queries, data=flu)
+> summary(FluTrend1)
+
+Call:
+lm(formula = log(ILI) ~ Queries, data = flu)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.76003 -0.19696 -0.01657  0.18685  1.06450 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -0.49934    0.03041  -16.42   <2e-16 ***
+Queries      2.96129    0.09312   31.80   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.2995 on 415 degrees of freedom
+Multiple R-squared:  0.709,     Adjusted R-squared:  0.7083 
+F-statistic:  1011 on 1 and 415 DF,  p-value: < 2.2e-16
+
+>           Estimate Std. Error t value Pr(>|t|)    
+Error: unexpected symbol in "          Estimate Std."
+> FluTest = read.csv('FluTest.csv')
+> PredTest1 = predict(FluTrend1, newdata=FluTest)
+> PredTest1 = exp(predict(FluTrend1, newdata=FluTest))
+> 
+> which(FluTest$Week == "2012-03-11 - 2012-03-17")
+[1] 11
+> 
+> PredTest1[11]
+      11 
+2.187378 
+> 
+> Flutest$ILI[11]
+Error: object 'Flutest' not found
+> FluTest$ILI[11]
+[1] 2.293422
+> (2.293422-2.187378)/2.187378
+[1] 0.04847996
+> SSE = sum((PredTest1-FluTest$ILI)^2)
+> 
+> RMSE = sqrt(SSE / nrow(FluTest))
+> 
+> RMSE
+[1] 0.7490645
+> install.packages("zoo")
+--- Please select a CRAN mirror for use in this session ---
+Warning: failed to download mirrors file (cannot open URL 'https://cran.r-project.org/CRAN_mirrors.csv'); using local file 'C:/PROGRA~1/R/R-36~1.2/doc/CRAN_mirrors.csv'
+Warning: unable to access index for repository https://wbc.upm.edu.my/cran/src/contrib:
+  cannot open URL 'https://wbc.upm.edu.my/cran/src/contrib/PACKAGES'
+Warning: unable to access index for repository https://wbc.upm.edu.my/cran/bin/windows/contrib/3.6:
+  cannot open URL 'https://wbc.upm.edu.my/cran/bin/windows/contrib/3.6/PACKAGES'
+Warning messages:
+1: In download.file(url, destfile = f, quiet = TRUE) :
+  InternetOpenUrl failed: ''
+2: package ‘zoo’ is not available (for R version 3.6.2) 
+> 
+> install.packages("zoo")
+Warning: unable to access index for repository https://wbc.upm.edu.my/cran/src/contrib:
+  cannot open URL 'https://wbc.upm.edu.my/cran/src/contrib/PACKAGES'
+Warning: unable to access index for repository https://wbc.upm.edu.my/cran/bin/windows/contrib/3.6:
+  cannot open URL 'https://wbc.upm.edu.my/cran/bin/windows/contrib/3.6/PACKAGES'
+Warning message:
+package ‘zoo’ is not available (for R version 3.6.2) 
+> save.image("E:\\Summer Proj\\Analytics edge\\Unit 2\\Assign2\\Flu\\.RData")
+> 
+> setRepositories()
+> setRepositories()
+> install.packages("zoo")
+Warning: unable to access index for repository https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/3.6:
+  cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/3.6/PACKAGES'
+Warning message:
+package ‘zoo’ is not available (for R version 3.6.2) 
+> ap <- available.packages()
+> ap
+            Package       Version    Priority Depends                
+GLMMGibbs   "GLMMGibbs"   "0.5-1.2"  NA       "R (>= 2.10)"          
+RDCOMClient "RDCOMClient" "0.93-0.2" NA       "methods"              
+Rstem       "Rstem"       "0.4-1"    NA       NA                     
+Sxslt       "Sxslt"       "0.91-1"   NA       "R (>= 1.3.0), methods"
+XMLRPC      "XMLRPC"      "0.3-0"    NA       NA                     
+survnnet    "survnnet"    "1.1-3"    NA       "survival"             
+yags        "yags"        "4.0-2.2"  NA       "R (>= 2.10), methods" 
+            Imports               LinkingTo Suggests       Enhances
+GLMMGibbs   NA                    NA        NA             NA      
+RDCOMClient NA                    NA        "SWinTypeLibs" NA      
+Rstem       NA                    NA        NA             NA      
+Sxslt       "XML"                 NA        NA             NA      
+XMLRPC      "methods, RCurl, XML" NA        NA             NA      
+survnnet    NA                    NA        NA             NA      
+yags        "MASS"                NA        NA             NA      
+            License      License_is_FOSS License_restricts_use OS_type Archs
+GLMMGibbs   "GPL (>= 2)" NA              NA                    NA      NA   
+RDCOMClient "GPL-2"      NA              NA                    NA      NA   
+Rstem       "BSD"        NA              NA                    NA      NA   
+Sxslt       "GPL | BSD"  NA              NA                    NA      NA   
+XMLRPC      "BSD"        NA              NA                    NA      NA   
+survnnet    "GPL (>= 2)" NA              NA                    NA      NA   
+yags        "GPL-2"      NA              NA                    NA      NA   
+            MD5sum                             NeedsCompilation File
+GLMMGibbs   "0f05caa3d546b1a0b0c7c7d8eb565889" "yes"            NA  
+RDCOMClient "21ba373091d5bfd94be192366d1dcc23" "yes"            NA  
+Rstem       "889cd107b32a266f146b92daecff1101" "yes"            NA  
+Sxslt       "144b9d8f33e06ca9906030a3c1528bb9" "yes"            NA  
+XMLRPC      "91df53f13c782ab2ea4642bb309ee0f6" "no"             NA  
+survnnet    "1ddd4314b42d7d464deeeadc9bd73209" "yes"            NA  
+yags        "02d148a0c6c29f8e7bce33255ec658ee" "yes"            NA  
+            Repository                                       
+GLMMGibbs   "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+RDCOMClient "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+Rstem       "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+Sxslt       "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+XMLRPC      "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+survnnet    "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+yags        "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+> setRepositories()
+> ap
+            Package       Version    Priority Depends                
+GLMMGibbs   "GLMMGibbs"   "0.5-1.2"  NA       "R (>= 2.10)"          
+RDCOMClient "RDCOMClient" "0.93-0.2" NA       "methods"              
+Rstem       "Rstem"       "0.4-1"    NA       NA                     
+Sxslt       "Sxslt"       "0.91-1"   NA       "R (>= 1.3.0), methods"
+XMLRPC      "XMLRPC"      "0.3-0"    NA       NA                     
+survnnet    "survnnet"    "1.1-3"    NA       "survival"             
+yags        "yags"        "4.0-2.2"  NA       "R (>= 2.10), methods" 
+            Imports               LinkingTo Suggests       Enhances
+GLMMGibbs   NA                    NA        NA             NA      
+RDCOMClient NA                    NA        "SWinTypeLibs" NA      
+Rstem       NA                    NA        NA             NA      
+Sxslt       "XML"                 NA        NA             NA      
+XMLRPC      "methods, RCurl, XML" NA        NA             NA      
+survnnet    NA                    NA        NA             NA      
+yags        "MASS"                NA        NA             NA      
+            License      License_is_FOSS License_restricts_use OS_type Archs
+GLMMGibbs   "GPL (>= 2)" NA              NA                    NA      NA   
+RDCOMClient "GPL-2"      NA              NA                    NA      NA   
+Rstem       "BSD"        NA              NA                    NA      NA   
+Sxslt       "GPL | BSD"  NA              NA                    NA      NA   
+XMLRPC      "BSD"        NA              NA                    NA      NA   
+survnnet    "GPL (>= 2)" NA              NA                    NA      NA   
+yags        "GPL-2"      NA              NA                    NA      NA   
+            MD5sum                             NeedsCompilation File
+GLMMGibbs   "0f05caa3d546b1a0b0c7c7d8eb565889" "yes"            NA  
+RDCOMClient "21ba373091d5bfd94be192366d1dcc23" "yes"            NA  
+Rstem       "889cd107b32a266f146b92daecff1101" "yes"            NA  
+Sxslt       "144b9d8f33e06ca9906030a3c1528bb9" "yes"            NA  
+XMLRPC      "91df53f13c782ab2ea4642bb309ee0f6" "no"             NA  
+survnnet    "1ddd4314b42d7d464deeeadc9bd73209" "yes"            NA  
+yags        "02d148a0c6c29f8e7bce33255ec658ee" "yes"            NA  
+            Repository                                       
+GLMMGibbs   "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+RDCOMClient "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+Rstem       "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+Sxslt       "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+XMLRPC      "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+survnnet    "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+yags        "https://www.stats.ox.ac.uk/pub/RWin/src/contrib"
+> install.packages("zoo")
+--- Please select a CRAN mirror for use in this session ---
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/zoo_1.8-7.zip'
+Content type 'application/zip' length 1106982 bytes (1.1 MB)
+downloaded 1.1 MB
+
+package ‘zoo’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\pc\AppData\Local\Temp\RtmpcVNL5s\downloaded_packages
+> 
+> library(zoo)
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Warning message:
+package ‘zoo’ was built under R version 3.6.3 
+> 
+> ILILag2 = lag(zoo(FluTrain$ILI), -2, na.pad=TRUE)
+Error in index(x) : object 'FluTrain' not found
+> 
+> ILILag2 = lag(zoo(flu$ILI), -2, na.pad=TRUE)
+> flu$ILILag2 = coredata(ILILag2)
+> summary(flu)
+                      Week          ILI            Queries       
+ 2004-01-04 - 2004-01-10:  1   Min.   :0.5341   Min.   :0.04117  
+ 2004-01-11 - 2004-01-17:  1   1st Qu.:0.9025   1st Qu.:0.15671  
+ 2004-01-18 - 2004-01-24:  1   Median :1.2526   Median :0.28154  
+ 2004-01-25 - 2004-01-31:  1   Mean   :1.6769   Mean   :0.28603  
+ 2004-02-01 - 2004-02-07:  1   3rd Qu.:2.0587   3rd Qu.:0.37849  
+ 2004-02-08 - 2004-02-14:  1   Max.   :7.6189   Max.   :1.00000  
+ (Other)                :411                                     
+    ILILag2      
+ Min.   :0.5341  
+ 1st Qu.:0.9010  
+ Median :1.2519  
+ Mean   :1.6754  
+ 3rd Qu.:2.0580  
+ Max.   :7.6189  
+ NA's   :2       
+> plot(log(flu$ILILag2),log(flu$ILI))
+> FluTrend2 = lm(log(ILI)~Queries+log(ILILag2), data=flu)
+> summary(FluTrend2)
+
+Call:
+lm(formula = log(ILI) ~ Queries + log(ILILag2), data = flu)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.52209 -0.11082 -0.01819  0.08143  0.76785 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  -0.24064    0.01953  -12.32   <2e-16 ***
+Queries       1.25578    0.07910   15.88   <2e-16 ***
+log(ILILag2)  0.65569    0.02251   29.14   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1703 on 412 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared:  0.9063,    Adjusted R-squared:  0.9059 
+F-statistic:  1993 on 2 and 412 DF,  p-value: < 2.2e-16
+
+> 
+> PredTest2 = exp(predict(FluTrend2, newdata=FluTest))
+Error in model.frame.default(Terms, newdata, na.action = na.action, xlev = object$xlevels) : 
+  variable lengths differ (found for 'log(ILILag2)')
+In addition: Warning message:
+'newdata' had 52 rows but variables found have 417 rows 
+> ILILag2 = lag(zoo(FluTest$ILI), -2, na.pad=TRUE)
+> FluTest$ILILag2 = coredata(ILILag2)
+> summary(Flutest$ILILag2)
+Error in summary(Flutest$ILILag2) : object 'Flutest' not found
+> summary(FluTest$ILILag2)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+ 0.9018  1.1359  1.3409  1.5188  1.7606  3.6002       2 
+> PredTest2 = predict(ILILag2, newdata=FluTest)
+Error in UseMethod("predict") : 
+  no applicable method for 'predict' applied to an object of class "zoo"
+> nrow(FluTrain)
+Error in nrow(FluTrain) : object 'FluTrain' not found
+> nrow(flu)
+[1] 417
+> FluTest$ILILag2[1] = flu$ILI[416]
+> FluTest$ILILag2[2] = flu$ILI[417]
+> FluTest$ILILag2[1]
+[1] 1.852736
+> FluTest$ILILag2[2]
+[1] 2.12413
+> PredTest2 = exp(predict(FluTrend2, newdata=FluTest))
+> 
+> SSE = sum((PredTest2-FluTest$ILI)^2)
+> RMSE = sqrt(SSE / nrow(FluTest))
+> 

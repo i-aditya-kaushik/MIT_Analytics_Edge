@@ -1,0 +1,4 @@
+1. If you want to combine two vars in a model, use : while describing the data.
+   Eg: sex:data
+2. trees can capture nonlinear relationships that logistic regression can not, but that we can get around this sometimes by using variables that are the combination of two variables.
+3. 

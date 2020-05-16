@@ -1,0 +1,24 @@
+---------------------Video 1 Lecture----------------------------
+
+The Story of Moneyball
+
+1. Using Statistics is the best way.
+
+----------------------------------------------------------------
+
+
+---------------------Video 2 Lecture----------------------------
+
+Making it to the Playoffs
+
+1. Result Var = Test Var*Estimate + Intercept Estimate
+
+----------------------------------------------------------------
+
+---------------------Video 3 Lecture----------------------------
+
+Predicting Runs
+
+1. Seeing the coefficients of the variable we can consider its importance in the
+   model. Here, OBP is worth more as compared to SLG, but both are important.
+2. 

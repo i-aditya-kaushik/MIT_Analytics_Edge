@@ -1,0 +1,16 @@
+1. As we discussed in lecture, random forest models work by building a large collection of trees. As a result, we lose some of the interpretability that comes with CART in terms of seeing how predictions are made and which variables are important. However, we can still compute metrics that give us insight into which variables are important.
+
+One metric that we can look at is the number of times, aggregated over all of the trees in the random forest model, that a certain variable is selected for a split. To view this metric, run the following lines of R code (replace "MODEL" with the name of your random forest model):
+
+vu = varUsed(MODEL, count=TRUE)
+
+vusorted = sort(vu, decreasing = FALSE, index.return = TRUE)
+
+dotchart(vusorted$x, names(MODEL$forest$xlevels[vusorted$ix]))
+
+This code produces a chart that for each variable measures the number of times that variable was selected for splitting (the value on the x-axis). 
+
+2.  A different metric we can look at is related to "impurity", which measures how homogenous each bucket or leaf of the tree is. In each tree in the forest, whenever we select a variable and perform a split, the impurity is decreased. Therefore, one way to measure the importance of a variable is to average the reduction in impurity, taken over all the times that variable is selected for splitting in all of the trees in the forest. To compute this metric, run the following command in R (replace "MODEL" with the name of your random forest model):
+
+varImpPlot(MODEL)
+

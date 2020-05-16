@@ -1,0 +1,5 @@
+1. SongsTrain = train[ , !(names(train) %in% nonvars) ] where nonvars are the 
+   nonvars = c("year", "songtitle", "artistname", "songID", "artistID")
+2. Exclude the variable from consideration with -variable_name
+   Eg: SongsLog2 = glm(Top10 ~ . - loudness, data=SongsTrain, family=binomial)
+3.

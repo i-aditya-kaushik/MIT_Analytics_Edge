@@ -1,0 +1,8 @@
+1. Regression Trees sometimes makes the dataset categorize well and can give us 
+   better models
+2. While finding the Penalty Matrix:
+	RSS: Residual sum of squares
+	RSS = sum(y-f(x)^2)
+	sumleaves = RSS of each leaf + lambda*S (S is number of splits)
+3. 
+	

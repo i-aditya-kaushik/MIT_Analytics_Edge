@@ -1,0 +1,440 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> polling = read.csv('PollingData.csv')
+> str(polling)
+'data.frame':   145 obs. of  7 variables:
+ $ State     : Factor w/ 50 levels "Alabama","Alaska",..: 1 1 2 2 3 3 3 4 4 4 ...
+ $ Year      : int  2004 2008 2004 2008 2004 2008 2012 2004 2008 2012 ...
+ $ Rasmussen : int  11 21 NA 16 5 5 8 7 10 NA ...
+ $ SurveyUSA : int  18 25 NA NA 15 NA NA 5 NA NA ...
+ $ DiffCount : int  5 5 1 6 8 9 4 8 5 2 ...
+ $ PropR     : num  1 1 1 1 1 ...
+ $ Republican: int  1 1 1 1 1 1 1 1 1 1 ...
+> table(polling$Year)
+
+2004 2008 2012 
+  50   50   45 
+> summary(polling)
+         State          Year        Rasmussen          SurveyUSA       
+ Arizona    :  3   Min.   :2004   Min.   :-41.0000   Min.   :-33.0000  
+ Arkansas   :  3   1st Qu.:2004   1st Qu.: -8.0000   1st Qu.:-11.7500  
+ California :  3   Median :2008   Median :  1.0000   Median : -2.0000  
+ Colorado   :  3   Mean   :2008   Mean   :  0.0404   Mean   : -0.8243  
+ Connecticut:  3   3rd Qu.:2012   3rd Qu.:  8.5000   3rd Qu.:  8.0000  
+ Florida    :  3   Max.   :2012   Max.   : 39.0000   Max.   : 30.0000  
+ (Other)    :127                  NA's   :46         NA's   :71        
+   DiffCount           PropR          Republican    
+ Min.   :-19.000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.: -6.000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :  1.000   Median :0.6250   Median :1.0000  
+ Mean   : -1.269   Mean   :0.5259   Mean   :0.5103  
+ 3rd Qu.:  4.000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   : 11.000   Max.   :1.0000   Max.   :1.0000  
+                                                    
+> install.packages('mice')
+--- Please select a CRAN mirror for use in this session ---
+also installing the dependencies ‘utf8’, ‘plyr’, ‘cli’, ‘crayon’, ‘fansi’, ‘pillar’, ‘digest’, ‘backports’, ‘generics’, ‘purrr’, ‘reshape2’, ‘stringr’, ‘tibble’, ‘ellipsis’, ‘assertthat’, ‘glue’, ‘magrittr’, ‘pkgconfig’, ‘R6’, ‘rlang’, ‘tidyselect’, ‘BH’, ‘plogr’, ‘stringi’, ‘vctrs’, ‘lifecycle’, ‘broom’, ‘dplyr’, ‘tidyr’, ‘Rcpp’
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/utf8_1.1.4.zip'
+Content type 'application/zip' length 215073 bytes (210 KB)
+downloaded 210 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/plyr_1.8.6.zip'
+Content type 'application/zip' length 1313886 bytes (1.3 MB)
+downloaded 1.3 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/cli_2.0.2.zip'
+Content type 'application/zip' length 397709 bytes (388 KB)
+downloaded 388 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/crayon_1.3.4.zip'
+Content type 'application/zip' length 749656 bytes (732 KB)
+downloaded 732 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/fansi_0.4.1.zip'
+Content type 'application/zip' length 223743 bytes (218 KB)
+downloaded 218 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/pillar_1.4.3.zip'
+Content type 'application/zip' length 184423 bytes (180 KB)
+downloaded 180 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/digest_0.6.25.zip'
+Content type 'application/zip' length 249457 bytes (243 KB)
+downloaded 243 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/backports_1.1.6.zip'
+Content type 'application/zip' length 77492 bytes (75 KB)
+downloaded 75 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/generics_0.0.2.zip'
+Content type 'application/zip' length 64734 bytes (63 KB)
+downloaded 63 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/purrr_0.3.4.zip'
+Content type 'application/zip' length 430046 bytes (419 KB)
+downloaded 419 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/reshape2_1.4.4.zip'
+Content type 'application/zip' length 631001 bytes (616 KB)
+downloaded 616 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/stringr_1.4.0.zip'
+Content type 'application/zip' length 216599 bytes (211 KB)
+downloaded 211 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/tibble_3.0.1.zip'
+Content type 'application/zip' length 411860 bytes (402 KB)
+downloaded 402 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/ellipsis_0.3.0.zip'
+Content type 'application/zip' length 44556 bytes (43 KB)
+downloaded 43 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/assertthat_0.2.1.zip'
+Content type 'application/zip' length 54944 bytes (53 KB)
+downloaded 53 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/glue_1.4.0.zip'
+Content type 'application/zip' length 157944 bytes (154 KB)
+downloaded 154 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/magrittr_1.5.zip'
+Content type 'application/zip' length 157540 bytes (153 KB)
+downloaded 153 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/pkgconfig_2.0.3.zip'
+Content type 'application/zip' length 22188 bytes (21 KB)
+downloaded 21 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/R6_2.4.1.zip'
+Content type 'application/zip' length 59306 bytes (57 KB)
+downloaded 57 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/rlang_0.4.5.zip'
+Content type 'application/zip' length 1130097 bytes (1.1 MB)
+downloaded 1.1 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/tidyselect_1.0.0.zip'
+Content type 'application/zip' length 244897 bytes (239 KB)
+downloaded 239 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/BH_1.72.0-3.zip'
+Content type 'application/zip' length 18270741 bytes (17.4 MB)
+downloaded 17.4 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/plogr_0.2.0.zip'
+Content type 'application/zip' length 18858 bytes (18 KB)
+downloaded 18 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/stringi_1.4.6.zip'
+Content type 'application/zip' length 15310634 bytes (14.6 MB)
+downloaded 14.6 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/vctrs_0.2.4.zip'
+Content type 'application/zip' length 1027261 bytes (1003 KB)
+downloaded 1003 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/lifecycle_0.2.0.zip'
+Content type 'application/zip' length 101535 bytes (99 KB)
+downloaded 99 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/broom_0.5.6.zip'
+Content type 'application/zip' length 1969347 bytes (1.9 MB)
+downloaded 1.9 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/dplyr_0.8.5.zip'
+Content type 'application/zip' length 3227123 bytes (3.1 MB)
+downloaded 3.1 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/tidyr_1.0.2.zip'
+Content type 'application/zip' length 1298102 bytes (1.2 MB)
+downloaded 1.2 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/Rcpp_1.0.4.6.zip'
+Content type 'application/zip' length 3030940 bytes (2.9 MB)
+downloaded 2.9 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/mice_3.8.0.zip'
+Content type 'application/zip' length 1782714 bytes (1.7 MB)
+downloaded 1.7 MB
+
+package ‘utf8’ successfully unpacked and MD5 sums checked
+package ‘plyr’ successfully unpacked and MD5 sums checked
+package ‘cli’ successfully unpacked and MD5 sums checked
+package ‘crayon’ successfully unpacked and MD5 sums checked
+package ‘fansi’ successfully unpacked and MD5 sums checked
+package ‘pillar’ successfully unpacked and MD5 sums checked
+package ‘digest’ successfully unpacked and MD5 sums checked
+package ‘backports’ successfully unpacked and MD5 sums checked
+package ‘generics’ successfully unpacked and MD5 sums checked
+package ‘purrr’ successfully unpacked and MD5 sums checked
+package ‘reshape2’ successfully unpacked and MD5 sums checked
+package ‘stringr’ successfully unpacked and MD5 sums checked
+package ‘tibble’ successfully unpacked and MD5 sums checked
+package ‘ellipsis’ successfully unpacked and MD5 sums checked
+package ‘assertthat’ successfully unpacked and MD5 sums checked
+package ‘glue’ successfully unpacked and MD5 sums checked
+package ‘magrittr’ successfully unpacked and MD5 sums checked
+package ‘pkgconfig’ successfully unpacked and MD5 sums checked
+package ‘R6’ successfully unpacked and MD5 sums checked
+package ‘rlang’ successfully unpacked and MD5 sums checked
+package ‘tidyselect’ successfully unpacked and MD5 sums checked
+package ‘BH’ successfully unpacked and MD5 sums checked
+package ‘plogr’ successfully unpacked and MD5 sums checked
+package ‘stringi’ successfully unpacked and MD5 sums checked
+package ‘vctrs’ successfully unpacked and MD5 sums checked
+package ‘lifecycle’ successfully unpacked and MD5 sums checked
+package ‘broom’ successfully unpacked and MD5 sums checked
+package ‘dplyr’ successfully unpacked and MD5 sums checked
+package ‘tidyr’ successfully unpacked and MD5 sums checked
+package ‘Rcpp’ successfully unpacked and MD5 sums checked
+package ‘mice’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\pc\AppData\Local\Temp\RtmpE9hk7M\downloaded_packages
+> library('mice')
+
+Attaching package: ‘mice’
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Warning message:
+package ‘mice’ was built under R version 3.6.3 
+> str(polling)
+'data.frame':   145 obs. of  7 variables:
+ $ State     : Factor w/ 50 levels "Alabama","Alaska",..: 1 1 2 2 3 3 3 4 4 4 ...
+ $ Year      : int  2004 2008 2004 2008 2004 2008 2012 2004 2008 2012 ...
+ $ Rasmussen : int  11 21 NA 16 5 5 8 7 10 NA ...
+ $ SurveyUSA : int  18 25 NA NA 15 NA NA 5 NA NA ...
+ $ DiffCount : int  5 5 1 6 8 9 4 8 5 2 ...
+ $ PropR     : num  1 1 1 1 1 ...
+ $ Republican: int  1 1 1 1 1 1 1 1 1 1 ...
+> simple = polling[c('Rasmussen','SurveyUSA','PropR','DiffCount')]
+> summary(simple)
+   Rasmussen          SurveyUSA            PropR          DiffCount      
+ Min.   :-41.0000   Min.   :-33.0000   Min.   :0.0000   Min.   :-19.000  
+ 1st Qu.: -8.0000   1st Qu.:-11.7500   1st Qu.:0.0000   1st Qu.: -6.000  
+ Median :  1.0000   Median : -2.0000   Median :0.6250   Median :  1.000  
+ Mean   :  0.0404   Mean   : -0.8243   Mean   :0.5259   Mean   : -1.269  
+ 3rd Qu.:  8.5000   3rd Qu.:  8.0000   3rd Qu.:1.0000   3rd Qu.:  4.000  
+ Max.   : 39.0000   Max.   : 30.0000   Max.   :1.0000   Max.   : 11.000  
+ NA's   :46         NA's   :71                                           
+> set.seed(144)
+> imputed = complete(mice(simple))
+
+ iter imp variable
+  1   1  Rasmussen  SurveyUSA
+  1   2  Rasmussen  SurveyUSA
+  1   3  Rasmussen  SurveyUSA
+  1   4  Rasmussen  SurveyUSA
+  1   5  Rasmussen  SurveyUSA
+  2   1  Rasmussen  SurveyUSA
+  2   2  Rasmussen  SurveyUSA
+  2   3  Rasmussen  SurveyUSA
+  2   4  Rasmussen  SurveyUSA
+  2   5  Rasmussen  SurveyUSA
+  3   1  Rasmussen  SurveyUSA
+  3   2  Rasmussen  SurveyUSA
+  3   3  Rasmussen  SurveyUSA
+  3   4  Rasmussen  SurveyUSA
+  3   5  Rasmussen  SurveyUSA
+  4   1  Rasmussen  SurveyUSA
+  4   2  Rasmussen  SurveyUSA
+  4   3  Rasmussen  SurveyUSA
+  4   4  Rasmussen  SurveyUSA
+  4   5  Rasmussen  SurveyUSA
+  5   1  Rasmussen  SurveyUSA
+  5   2  Rasmussen  SurveyUSA
+  5   3  Rasmussen  SurveyUSA
+  5   4  Rasmussen  SurveyUSA
+  5   5  Rasmussen  SurveyUSA
+> imputed = complete(mice(simple))
+
+ iter imp variable
+  1   1  Rasmussen  SurveyUSA
+  1   2  Rasmussen  SurveyUSA
+  1   3  Rasmussen  SurveyUSA
+  1   4  Rasmussen  SurveyUSA
+  1   5  Rasmussen  SurveyUSA
+  2   1  Rasmussen  SurveyUSA
+  2   2  Rasmussen  SurveyUSA
+  2   3  Rasmussen  SurveyUSA
+  2   4  Rasmussen  SurveyUSA
+  2   5  Rasmussen  SurveyUSA
+  3   1  Rasmussen  SurveyUSA
+  3   2  Rasmussen  SurveyUSA
+  3   3  Rasmussen  SurveyUSA
+  3   4  Rasmussen  SurveyUSA
+  3   5  Rasmussen  SurveyUSA
+  4   1  Rasmussen  SurveyUSA
+  4   2  Rasmussen  SurveyUSA
+  4   3  Rasmussen  SurveyUSA
+  4   4  Rasmussen  SurveyUSA
+  4   5  Rasmussen  SurveyUSA
+  5   1  Rasmussen  SurveyUSA
+  5   2  Rasmussen  SurveyUSA
+  5   3  Rasmussen  SurveyUSA
+  5   4  Rasmussen  SurveyUSA
+  5   5  Rasmussen  SurveyUSA
+> polling$Rasmussen = imputed$Rasmussen
+> polling$SurveyUSA = imputed$SurveyUSA
+> summary(polling)
+         State          Year        Rasmussen       SurveyUSA     
+ Arizona    :  3   Min.   :2004   Min.   :-41.0   Min.   :-33.00  
+ Arkansas   :  3   1st Qu.:2004   1st Qu.:-10.0   1st Qu.:-11.00  
+ California :  3   Median :2008   Median :  3.0   Median :  1.00  
+ Colorado   :  3   Mean   :2008   Mean   :  2.8   Mean   :  2.09  
+ Connecticut:  3   3rd Qu.:2012   3rd Qu.: 12.0   3rd Qu.: 18.00  
+ Florida    :  3   Max.   :2012   Max.   : 39.0   Max.   : 30.00  
+ (Other)    :127                                                  
+   DiffCount           PropR          Republican    
+ Min.   :-19.000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.: -6.000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :  1.000   Median :0.6250   Median :1.0000  
+ Mean   : -1.269   Mean   :0.5259   Mean   :0.5103  
+ 3rd Qu.:  4.000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   : 11.000   Max.   :1.0000   Max.   :1.0000  
+                                                    
+> train = subset(polling, Year == 2004 || Year == 2008)
+> test = subset(polling, Year == 2012)
+> table(train$Republican)
+
+ 0  1 
+71 74 
+> train = subset(polling, Year == 2004 | Year == 2008)
+> table(train$Republican)
+
+ 0  1 
+47 53 
+> table(train$Republican, sign(train$Rasmussen))
+   
+    -1  0  1
+  0 42  1  4
+  1  0  1 52
+> cor(train)
+Error in cor(train) : 'x' must be numeric
+> cor(train[c('Rasmussen','SurveyUSA','PropR','DiffCount','Republican')
++ cor(train[c('Rasmussen','SurveyUSA','PropR','DiffCount','Republican')
+Error: unexpected symbol in:
+"cor(train[c('Rasmussen','SurveyUSA','PropR','DiffCount','Republican')
+cor"
+> cor(train[c('Rasmussen','SurveyUSA','PropR','DiffCount','Republican')])
+           Rasmussen SurveyUSA     PropR DiffCount Republican
+Rasmussen  1.0000000 0.9007080 0.8205853 0.4912427  0.7672609
+SurveyUSA  0.9007080 1.0000000 0.8747402 0.5566519  0.8058466
+PropR      0.8205853 0.8747402 1.0000000 0.8273785  0.9484204
+DiffCount  0.4912427 0.5566519 0.8273785 1.0000000  0.8092777
+Republican 0.7672609 0.8058466 0.9484204 0.8092777  1.0000000
+> model = glm(Republican~PropR,data = train, family = binomial)
+> summary(model)
+
+Call:
+glm(formula = Republican ~ PropR, family = binomial, data = train)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-2.22880  -0.06541   0.10260   0.10260   1.37392  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -6.146      1.977  -3.108 0.001882 ** 
+PropR         11.390      3.153   3.613 0.000303 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 138.269  on 99  degrees of freedom
+Residual deviance:  15.772  on 98  degrees of freedom
+AIC: 19.772
+
+Number of Fisher Scoring iterations: 8
+
+> pred1 = predict(model,type='response')
+> table(train$Republican, pred1>=0.5)
+   
+    FALSE TRUE
+  0    45    2
+  1     2   51
+> model2 = glm(Republican~SurveyUSA+DiffCount,data = train, family = binomial)
+> pred2 = predict(model2,type='response')
+> table(train$Republican, pred2>=0.5)
+   
+    FALSE TRUE
+  0    45    2
+  1     1   52
+> #Neither of these variables are very significant
+> summary(model2)
+
+Call:
+glm(formula = Republican ~ SurveyUSA + DiffCount, family = binomial, 
+    data = train)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-2.61918  -0.03336   0.03178   0.15833   1.39599  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)  
+(Intercept) -0.63771    0.84175  -0.758   0.4487  
+SurveyUSA    0.13720    0.07076   1.939   0.0525 .
+DiffCount    0.78263    0.35235   2.221   0.0263 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 138.269  on 99  degrees of freedom
+Residual deviance:  17.039  on 97  degrees of freedom
+AIC: 23.039
+
+Number of Fisher Scoring iterations: 8
+
+> table(test$Republican , sign(test$Rasmussen))
+   
+    -1  0  1
+  0 18  2  4
+  1  0  0 21
+> TestPrediction = predict(model2, newdata = Test , type = 'response')
+Error in predict.lm(object, newdata, se.fit, scale = 1, type = if (type ==  : 
+  object 'Test' not found
+> TestPrediction = predict(model2, newdata = test , type = 'response')
+> table(test$Republican, TestPrediction >= 0.5)
+   
+    FALSE TRUE
+  0    23    1
+  1     0   21
+> table(test$Republican, TestPrediction >= 0.6)
+   
+    FALSE TRUE
+  0    23    1
+  1     0   21
+> table(test$Republican, TestPrediction >= 0.5)
+   
+    FALSE TRUE
+  0    23    1
+  1     0   21
+> subset(test, TestPrediction>=0.5 & Republican == 0)
+     State Year Rasmussen SurveyUSA DiffCount     PropR Republican
+24 Florida 2012         2         0         6 0.6666667          0
+> 

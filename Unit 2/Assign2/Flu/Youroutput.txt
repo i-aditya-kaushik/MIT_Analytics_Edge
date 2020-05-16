@@ -1,0 +1,31 @@
+flu = read.csv('FluTrain.csv')
+str(flu)
+which.max(flu$Queries)
+flu[303]
+flu$Week[303]
+hist(flu$ILI)
+plot(flu$Queries, log(flu$ILI))
+FluTrend1 = lm(log(ILI)~Queries, data=flu)
+summary(FluTrend1)
+          Estimate Std. Error t value Pr(>|t|)    
+FluTest = read.csv('FluTest.csv')
+PredTest1 = predict(FluTrend1, newdata=FluTest)
+PredTest1 = exp(predict(FluTrend1, newdata=FluTest))
+
+which(FluTest$Week == "2012-03-11 - 2012-03-17")
+
+PredTest1[11]
+
+Flutest$ILI[11]
+FluTest$ILI[11]
+(2.293422-2.187378)/2.187378
+SSE = sum((PredTest1-FluTest$ILI)^2)
+
+RMSE = sqrt(SSE / nrow(FluTest))
+
+RMSE
+install.packages("zoo")
+
+install.packages("zoo")
+save.image("E:\\Summer Proj\\Analytics edge\\Unit 2\\Assign2\\Flu\\.RData")
+

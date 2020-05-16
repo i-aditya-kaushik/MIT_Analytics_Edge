@@ -1,0 +1,251 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> q()
+> loans = read.csv('loans.csv')
+> str(loans)
+'data.frame':   9578 obs. of  14 variables:
+ $ credit.policy    : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ purpose          : Factor w/ 7 levels "all_other","credit_card",..: 3 2 3 3 2 2 3 1 5 3 ...
+ $ int.rate         : num  0.119 0.107 0.136 0.101 0.143 ...
+ $ installment      : num  829 228 367 162 103 ...
+ $ log.annual.inc   : num  11.4 11.1 10.4 11.4 11.3 ...
+ $ dti              : num  19.5 14.3 11.6 8.1 15 ...
+ $ fico             : int  737 707 682 712 667 727 667 722 682 707 ...
+ $ days.with.cr.line: num  5640 2760 4710 2700 4066 ...
+ $ revol.bal        : int  28854 33623 3511 33667 4740 50807 3839 24220 69909 5630 ...
+ $ revol.util       : num  52.1 76.7 25.6 73.2 39.5 51 76.8 68.6 51.1 23 ...
+ $ inq.last.6mths   : int  0 0 1 1 0 0 0 0 1 1 ...
+ $ delinq.2yrs      : int  0 0 0 0 1 0 0 0 0 0 ...
+ $ pub.rec          : int  0 0 0 0 0 0 1 0 0 0 ...
+ $ not.fully.paid   : int  0 0 0 0 0 0 1 1 0 0 ...
+> table(loans$not.fully.paid)
+
+   0    1 
+8045 1533 
+> summary(loans)
+ credit.policy                 purpose        int.rate       installment    
+ Min.   :0.000   all_other         :2331   Min.   :0.0600   Min.   : 15.67  
+ 1st Qu.:1.000   credit_card       :1262   1st Qu.:0.1039   1st Qu.:163.77  
+ Median :1.000   debt_consolidation:3957   Median :0.1221   Median :268.95  
+ Mean   :0.805   educational       : 343   Mean   :0.1226   Mean   :319.09  
+ 3rd Qu.:1.000   home_improvement  : 629   3rd Qu.:0.1407   3rd Qu.:432.76  
+ Max.   :1.000   major_purchase    : 437   Max.   :0.2164   Max.   :940.14  
+                 small_business    : 619                                    
+ log.annual.inc        dti              fico       days.with.cr.line
+ Min.   : 7.548   Min.   : 0.000   Min.   :612.0   Min.   :  179    
+ 1st Qu.:10.558   1st Qu.: 7.213   1st Qu.:682.0   1st Qu.: 2820    
+ Median :10.928   Median :12.665   Median :707.0   Median : 4140    
+ Mean   :10.932   Mean   :12.607   Mean   :710.8   Mean   : 4562    
+ 3rd Qu.:11.290   3rd Qu.:17.950   3rd Qu.:737.0   3rd Qu.: 5730    
+ Max.   :14.528   Max.   :29.960   Max.   :827.0   Max.   :17640    
+ NA's   :4                                         NA's   :29       
+   revol.bal         revol.util     inq.last.6mths    delinq.2yrs     
+ Min.   :      0   Min.   :  0.00   Min.   : 0.000   Min.   : 0.0000  
+ 1st Qu.:   3187   1st Qu.: 22.70   1st Qu.: 0.000   1st Qu.: 0.0000  
+ Median :   8596   Median : 46.40   Median : 1.000   Median : 0.0000  
+ Mean   :  16914   Mean   : 46.87   Mean   : 1.572   Mean   : 0.1638  
+ 3rd Qu.:  18250   3rd Qu.: 71.00   3rd Qu.: 2.000   3rd Qu.: 0.0000  
+ Max.   :1207359   Max.   :119.00   Max.   :33.000   Max.   :13.0000  
+                   NA's   :62       NA's   :29       NA's   :29       
+    pub.rec       not.fully.paid  
+ Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.0000   Median :0.0000  
+ Mean   :0.0621   Mean   :0.1601  
+ 3rd Qu.:0.0000   3rd Qu.:0.0000  
+ Max.   :5.0000   Max.   :1.0000  
+ NA's   :29                       
+> missing = subset(loans, is.na(log.annual.inc) | is.na(days.with.cr.line) | is.na(revol.util) | is.na(inq.last.6mths) | is.na(delinq.2yrs) | is.na(pub.rec))
+> library(mice)
+
+Attaching package: ‘mice’
+
+The following objects are masked from ‘package:base’:
+
+    cbind, rbind
+
+Warning message:
+package ‘mice’ was built under R version 3.6.3 
+> set.seed(144)
+> vars.for.imputation = setdiff(names(loans), "not.fully.paid")
+> imputed = complete(mice(loans[vars.for.imputation]))
+
+ iter imp variable
+  1   1  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  1   2  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  1   3  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  1   4  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  1   5  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  2   1  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  2   2  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  2   3  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  2   4  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  2   5  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  3   1  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  3   2  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  3   3  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  3   4  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  3   5  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  4   1  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  4   2  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  4   3  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  4   4  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  4   5  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  5   1  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  5   2  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  5   3  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  5   4  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+  5   5  log.annual.inc  days.with.cr.line  revol.util  inq.last.6mths  delinq.2yrs  pub.rec
+> loans[vars.for.imputation] = imputed
+> library(caTools)
+Warning message:
+package ‘caTools’ was built under R version 3.6.3 
+> 
+> set.seed(144)
+> 
+> spl = sample.split(loans$not.fully.paid, 0.7)
+> 
+> train = subset(loans, spl == TRUE)
+> 
+> test = subset(loans, spl == FALSE)
+> mod = glm(not.fully.paid~., data=train, family="binomial")
+> summary(mod)
+
+Call:
+glm(formula = not.fully.paid ~ ., family = "binomial", data = train)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.2008  -0.6213  -0.4953  -0.3609   2.6389  
+
+Coefficients:
+                            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                9.250e+00  1.552e+00   5.959 2.54e-09 ***
+credit.policy             -3.417e-01  1.009e-01  -3.388 0.000704 ***
+purposecredit_card        -6.124e-01  1.344e-01  -4.557 5.18e-06 ***
+purposedebt_consolidation -3.199e-01  9.179e-02  -3.485 0.000493 ***
+purposeeducational         1.351e-01  1.753e-01   0.771 0.440814    
+purposehome_improvement    1.728e-01  1.479e-01   1.168 0.242901    
+purposemajor_purchase     -4.828e-01  2.008e-01  -2.404 0.016215 *  
+purposesmall_business      4.123e-01  1.418e-01   2.907 0.003653 ** 
+int.rate                   6.434e-01  2.085e+00   0.309 0.757592    
+installment                1.274e-03  2.092e-04   6.091 1.12e-09 ***
+log.annual.inc            -4.328e-01  7.145e-02  -6.058 1.38e-09 ***
+dti                        4.781e-03  5.499e-03   0.869 0.384626    
+fico                      -9.408e-03  1.706e-03  -5.513 3.53e-08 ***
+days.with.cr.line          2.967e-06  1.586e-05   0.187 0.851551    
+revol.bal                  3.082e-06  1.167e-06   2.641 0.008276 ** 
+revol.util                 1.632e-03  1.531e-03   1.066 0.286415    
+inq.last.6mths             8.227e-02  1.594e-02   5.160 2.48e-07 ***
+delinq.2yrs               -8.334e-02  6.551e-02  -1.272 0.203280    
+pub.rec                    3.299e-01  1.138e-01   2.899 0.003740 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 5896.6  on 6704  degrees of freedom
+Residual deviance: 5486.9  on 6686  degrees of freedom
+AIC: 5524.9
+
+Number of Fisher Scoring iterations: 5
+
+> #Because Application A is identical to Application B other than having a FICO score 10 lower, its predicted log odds differ by -0.009317 * -10 = 0.09317 from the predicted log odds of Application B.
+> #Using the answer from the previous question, the predicted odds of loan A not being paid back in full are exp(0.09317) = 1.0976 times larger than the predicted odds for loan B. Intuitively, it makes sense that loan A should have higher odds of non-payment than loan B, since the borrower has a worse credit score.
+> test$predicted.risk = predict(mod, newdata=test, type="response")
+> table(test$not.fully.paid, test$predicted.risk > 0.5)
+   
+    FALSE TRUE
+  0  2400   13
+  1   457    3
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+Warning messages:
+1: package ‘ROCR’ was built under R version 3.6.3 
+2: package ‘gplots’ was built under R version 3.6.3 
+> pred = prediction(test$predicted.risk, test$not.fully.paid)
+> as.numeric(performance(pred, "auc")@y.values)
+[1] 0.672104
+> cor(train$int.rate, train$fico)
+[1] -0.711659
+> bivariate = glm(not.fully.paid~int.rate, data=train, family="binomial")
+> summary(bivariate)
+
+Call:
+glm(formula = not.fully.paid ~ int.rate, family = "binomial", 
+    data = train)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.0547  -0.6271  -0.5442  -0.4361   2.2914  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  -3.6726     0.1688  -21.76   <2e-16 ***
+int.rate     15.9214     1.2702   12.54   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 5896.6  on 6704  degrees of freedom
+Residual deviance: 5734.8  on 6703  degrees of freedom
+AIC: 5738.8
+
+Number of Fisher Scoring iterations: 4
+
+> pred.bivariate = predict(bivariate, newdata=test, type="response")
+> summary(pred.bivariate)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.06196 0.11549 0.15077 0.15963 0.18928 0.42662 
+> prediction.bivariate = prediction(pred.bivariate, test$not.fully.paid)
+> as.numeric(performance(prediction.bivariate, "auc")@y.values)
+[1] 0.6239081
+> test$profit = exp(test$int.rate*3) - 1
+> test$profit[test$not.fully.paid == 1] = -1
+> summary(test$profit)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-1.0000  0.2858  0.4111  0.2094  0.4980  0.8895 
+> highInterest = subset(test, int.rate >= 0.15)
+> summary(highInterest$profit)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-1.0000 -1.0000  0.5992  0.2251  0.6380  0.8895 
+> table(highInterest$not.fully.paid)
+
+  0   1 
+327 110 
+> selectedLoans = subset(highInterest, predicted.risk <= cutoff)
+Error in eval(e, x, parent.frame()) : object 'cutoff' not found
+> cutoff = sort(highInterest$predicted.risk, decreasing=FALSE)[100]
+> selectedLoans = subset(highInterest, predicted.risk <= cutoff)
+> sum(selectedLoans$profit)
+[1] 31.27825
+> table(selectedLoans$not.fully.paid)
+
+ 0  1 
+81 19 
+> 

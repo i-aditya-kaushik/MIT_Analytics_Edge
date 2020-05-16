@@ -1,0 +1,5 @@
+1. Take 0.1 as the minimum cutoff if you want to consider a variable as an 
+   independent variable in a model
+2. SST = sum((mean(ElantraTrain$ElantraSales) - ElantraTest$ElantraSales)^2)
+
+Then, using the SSE you computed previously, the R-squared is 1 minus the SSE divided by the SST.

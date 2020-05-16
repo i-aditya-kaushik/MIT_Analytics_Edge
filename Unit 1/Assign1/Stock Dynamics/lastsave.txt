@@ -1,0 +1,141 @@
+> boeing = read.csv('BoeingStock.csv')
+> coca = read.csv('CocaColaStock.csv')
+> ge = read.csv('GEStock.csv')
+> ibm = read.csv('IBMStock.csv')
+> proc = read.csv('ProcterGambleStock.csv')
+> str(boeing)
+'data.frame':   480 obs. of  2 variables:
+ $ Date      : Factor w/ 480 levels "1/1/00","1/1/01",..: 11 171 211 251 291 331 371 411 451 51 ...
+ $ StockPrice: num  27.9 22.4 23.1 21.6 18.9 ...
+> str(coca)
+'data.frame':   480 obs. of  2 variables:
+ $ Date      : Factor w/ 480 levels "1/1/00","1/1/01",..: 11 171 211 251 291 331 371 411 451 51 ...
+ $ StockPrice: num  83.4 81.6 81.3 76.8 69.3 ...
+> str(ge)
+'data.frame':   480 obs. of  2 variables:
+ $ Date      : Factor w/ 480 levels "1/1/00","1/1/01",..: 11 171 211 251 291 331 371 411 451 51 ...
+ $ StockPrice: num  74.3 70 72.2 74.3 66.7 ...
+> str(ibm)
+'data.frame':   480 obs. of  2 variables:
+ $ Date      : Factor w/ 480 levels "1/1/00","1/1/01",..: 11 171 211 251 291 331 371 411 451 51 ...
+ $ StockPrice: num  360 347 327 320 270 ...
+> str(proc)
+'data.frame':   480 obs. of  2 variables:
+ $ Date      : Factor w/ 480 levels "1/1/00","1/1/01",..: 11 171 211 251 291 331 371 411 451 51 ...
+ $ StockPrice: num  111.9 111.5 108.5 106.3 73.3 ...
+> ibm$Date = as.Date(ibm$Date, "%m/%d/%y")
+> coca$Date = as.Date(coca$Date, "%m/%d/%y")
+> boeing$Date = as.Date(boeing$Date, "%m/%d/%y")
+> ge$Date = as.Date(ge$Date, "%m/%d/%y")
+> proc$Date = as.Date(proc$Date, "%m/%d/%y")
+> which.min(ibm$Date & coca$Date & boeing$Date & ge$Date & proc$Date)
+Error in Ops.Date(ibm$Date, coca$Date) : & not defined for "Date" objects
+> which.min(ibm$Date)
+[1] 1
+> which.min(coca$Date)
+[1] 1
+> ibm$Date[1]
+[1] "1970-01-01"
+> summary(ibm)
+      Date              StockPrice    
+ Min.   :1970-01-01   Min.   : 43.40  
+ 1st Qu.:1979-12-24   1st Qu.: 88.34  
+ Median :1989-12-16   Median :112.11  
+ Mean   :1989-12-15   Mean   :144.38  
+ 3rd Qu.:1999-12-08   3rd Qu.:165.41  
+ Max.   :2009-12-01   Max.   :438.90  
+> summary(ge)
+      Date              StockPrice     
+ Min.   :1970-01-01   Min.   :  9.294  
+ 1st Qu.:1979-12-24   1st Qu.: 44.214  
+ Median :1989-12-16   Median : 55.812  
+ Mean   :1989-12-15   Mean   : 59.303  
+ 3rd Qu.:1999-12-08   3rd Qu.: 72.226  
+ Max.   :2009-12-01   Max.   :156.844  
+> summary(coca)
+      Date              StockPrice    
+ Min.   :1970-01-01   Min.   : 30.06  
+ 1st Qu.:1979-12-24   1st Qu.: 42.76  
+ Median :1989-12-16   Median : 51.44  
+ Mean   :1989-12-15   Mean   : 60.03  
+ 3rd Qu.:1999-12-08   3rd Qu.: 69.62  
+ Max.   :2009-12-01   Max.   :146.58  
+> summary(boeing)
+      Date              StockPrice    
+ Min.   :1970-01-01   Min.   : 12.74  
+ 1st Qu.:1979-12-24   1st Qu.: 34.64  
+ Median :1989-12-16   Median : 44.88  
+ Mean   :1989-12-15   Mean   : 46.59  
+ 3rd Qu.:1999-12-08   3rd Qu.: 57.21  
+ Max.   :2009-12-01   Max.   :107.28  
+> sd(proc$StockPrice)
+[1] 18.19414
+> plot(coca$Date,coca$StockPrice, xlab="Date", ylab="Stock Price",breaks= 100)
+Warning messages:
+1: In plot.window(...) : "breaks" is not a graphical parameter
+2: In plot.xy(xy, type, ...) : "breaks" is not a graphical parameter
+3: In axis(side, at = z, labels = labels, ...) :
+  "breaks" is not a graphical parameter
+4: In axis(side = side, at = at, labels = labels, ...) :
+  "breaks" is not a graphical parameter
+5: In box(...) : "breaks" is not a graphical parameter
+6: In title(...) : "breaks" is not a graphical parameter
+> plot(coca$Date,coca$StockPrice, xlab="Date", ylab="Stock Price")
+> plot(coca$Date,coca$StockPrice, xlab="Date", ylab="Stock Price",type='I')
+Error in plot.xy(xy, type, ...) : invalid plot type 'I'
+> plot(coca$Date,coca$StockPrice, xlab="Date", ylab="Stock Price",type='l')
+> lines(proc$Date,proc$StockPrice)
+Error in plot.xy(xy.coords(x, y), type = type, ...) : 
+  plot.new has not been called yet
+> plot(coca$Date,coca$StockPrice, xlab="Date", ylab="Stock Price",type='l')
+> lines(proc$Date,proc$StockPrice)
+> lines(proc$Date,proc$StockPrice,col="red")
+> abline(v=as.Date(c("2000-03-01")),lwd=2)
+> abline(v=as.Date(c("1983-01-01")),lwd=2)
+> plot(coca$Date[301:432],coca$StockPrice[301:432],type='l',col='red',ylim=c(0,210))
+> plot(coca$Date,coca$StockPrice,type='l',col='red',xlim=c(1995,2005),ylim=c(0,210))
+> plot(coca$Date[301:432],coca$StockPrice[301:432],type='l',col='red',ylim=c(0,210))
+> plot(coca$Date[301:432],coca$StockPrice[301:432],type='lty=2',col='red',ylim=c(0,210))
+Warning message:
+In plot.xy(xy, type, ...) :
+  plot type 'lty=2' will be truncated to first character
+> plot(proc$Date[301:432],proc$StockPrice[301:432])
+> plot(coca$Date[301:432],coca$StockPrice[301:432],type='l',col='red',ylim=c(0,210))
+> lines(proc$Date[301:432],proc$StockPrice[301:432])
+> lines(ibm$Date[301:432],ibm$StockPrice[301:432],col="blue")
+> lines(ge$Date[301:432],ge$StockPrice[301:432],col="yellow")
+> lines(boeing$Date[301:432],boeing$StockPrice[301:432],col="violet")
+> abline(v=as.Date(c("2000-03-01")),lwd=2)
+> abline(v=as.Date(c("1997-10-01")),lwd=2)
+> abline(v=as.Date(c("1997-11-01")),lwd=2)
+> tapply(IBM$StockPrice, months(IBM$Date), mean)
+Error in months(IBM$Date) : object 'IBM' not found
+> tapply(ibm$StockPrice, months(ibm$Date), mean)
+    April    August  December  February   January      July      June     March 
+ 152.1168  140.1455  140.7593  152.6940  150.2384  139.0670  139.0907  152.4327 
+      May  November   October September 
+ 151.5022  138.0187  137.3466  139.0885 
+> tapply(coca$StockPrice, months(coca$Date), mean)
+    April    August  December  February   January      July      June     March 
+ 62.68888  58.88014  59.73223  60.73475  60.36849  58.98346  60.81208  62.07135 
+      May  November   October September 
+ 61.44358  59.10268  57.93887  57.60024 
+> tapply(proc$StockPrice, months(proc$Date), mean)
+    April    August  December  February   January      July      June     March 
+ 77.68671  76.82266  78.29661  79.02575  79.61798  76.64556  77.39275  77.34761 
+      May  November   October September 
+ 77.85958  78.45610  76.67903  76.62385 
+> tapply(ge$StockPrice, months(ge$Date), mean)
+    April    August  December  February   January      July      June     March 
+ 64.48009  56.50315  59.10217  62.52080  62.04511  56.73349  56.46844  63.15055 
+      May  November   October September 
+ 60.87135  57.28879  56.23897  56.23913 
+> tapply(boeing$StockPrice, months(boeing$Date), mean)
+    April    August  December  February   January      July      June     March 
+ 47.04686  46.86311  46.17315  46.89223  46.51097  46.55360  47.38525  46.88208 
+      May  November   October September 
+ 48.13716  45.14990  45.21603  46.30485 
+> which.min(tapply(boeing$StockPrice, months(boeing$Date), mean))
+November 
+      10 
+> 

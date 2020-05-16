@@ -1,0 +1,212 @@
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> #Unit 3 Exercise 1
+> -1.5+35*-0.5
+[1] -19
+> -1.5+3+5*-0.5
+[1] -1
+> exp(-1)
+[1] 0.3678794
+> 1/(1+exp(1))
+[1] 0.2689414
+> quality = read.csv('quality.csv')
+> str(quality)
+'data.frame':   131 obs. of  14 variables:
+ $ MemberID            : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ InpatientDays       : int  0 1 0 0 8 2 16 2 2 4 ...
+ $ ERVisits            : int  0 1 0 1 2 0 1 0 1 2 ...
+ $ OfficeVisits        : int  18 6 5 19 19 9 8 8 4 0 ...
+ $ Narcotics           : int  1 1 3 0 3 2 1 0 3 2 ...
+ $ DaysSinceLastERVisit: num  731 411 731 158 449 ...
+ $ Pain                : int  10 0 10 34 10 6 4 5 5 2 ...
+ $ TotalVisits         : int  18 8 5 20 29 11 25 10 7 6 ...
+ $ ProviderCount       : int  21 27 16 14 24 40 19 11 28 21 ...
+ $ MedicalClaims       : int  93 19 27 59 51 53 40 28 20 17 ...
+ $ ClaimLines          : int  222 115 148 242 204 156 261 87 98 66 ...
+ $ StartedOnCombination: logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+ $ AcuteDrugGapSmall   : int  0 1 5 0 0 4 0 0 0 0 ...
+ $ PoorCare            : int  0 0 0 0 0 1 0 0 1 0 ...
+> summary(quality)
+    MemberID     InpatientDays       ERVisits       OfficeVisits  
+ Min.   :  1.0   Min.   : 0.000   Min.   : 0.000   Min.   : 0.00  
+ 1st Qu.: 33.5   1st Qu.: 0.000   1st Qu.: 0.000   1st Qu.: 7.00  
+ Median : 66.0   Median : 0.000   Median : 1.000   Median :12.00  
+ Mean   : 66.0   Mean   : 2.718   Mean   : 1.496   Mean   :13.23  
+ 3rd Qu.: 98.5   3rd Qu.: 3.000   3rd Qu.: 2.000   3rd Qu.:18.50  
+ Max.   :131.0   Max.   :30.000   Max.   :11.000   Max.   :46.00  
+   Narcotics      DaysSinceLastERVisit      Pain         TotalVisits   
+ Min.   : 0.000   Min.   :  6.0        Min.   :  0.00   Min.   : 0.00  
+ 1st Qu.: 0.000   1st Qu.:207.0        1st Qu.:  1.00   1st Qu.: 8.00  
+ Median : 1.000   Median :641.0        Median :  8.00   Median :15.00  
+ Mean   : 4.573   Mean   :480.6        Mean   : 15.56   Mean   :17.44  
+ 3rd Qu.: 3.000   3rd Qu.:731.0        3rd Qu.: 23.00   3rd Qu.:22.50  
+ Max.   :59.000   Max.   :731.0        Max.   :104.00   Max.   :69.00  
+ ProviderCount   MedicalClaims      ClaimLines    StartedOnCombination
+ Min.   : 5.00   Min.   : 11.00   Min.   : 20.0   Mode :logical       
+ 1st Qu.:15.00   1st Qu.: 25.50   1st Qu.: 83.5   FALSE:125           
+ Median :20.00   Median : 37.00   Median :120.0   TRUE :6             
+ Mean   :23.98   Mean   : 43.24   Mean   :142.9                       
+ 3rd Qu.:30.00   3rd Qu.: 49.50   3rd Qu.:185.0                       
+ Max.   :82.00   Max.   :194.00   Max.   :577.0                       
+ AcuteDrugGapSmall    PoorCare     
+ Min.   : 0.000    Min.   :0.0000  
+ 1st Qu.: 0.000    1st Qu.:0.0000  
+ Median : 1.000    Median :0.0000  
+ Mean   : 2.695    Mean   :0.2519  
+ 3rd Qu.: 3.000    3rd Qu.:0.5000  
+ Max.   :71.000    Max.   :1.0000  
+> table(quality$Poorcare)
+< table of extent 0 >
+> table(quality$PoorCare)
+
+ 0  1 
+98 33 
+> 98/(nrow(quality))
+[1] 0.7480916
+> install.packages('caTools')
+Warning in install.packages("caTools") :
+  'lib = "C:/Program Files/R/R-3.6.3/library"' is not writable
+Error in install.packages("caTools") : unable to install packages
+> #install.packages('caTools')after running it as an admin
+> library(caTools)
+> nrow(quality)
+[1] 131
+> #So we divide the dataset to approximately half by typing in set.seed(88)
+> set.seed(88)
+> split = sample.split(quality$PoorCare, SplitRatio=0.75)
+> split
+  [1]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE
+ [13]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [25] FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE
+ [37] FALSE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+ [49] FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [61]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
+ [73]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+ [85]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
+ [97]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE
+[109]  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
+[121] FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE
+> qualityTrain = subset(quality, split == TRUE)
+> qualityTest = subset(quality, split == FALSE)
+> nrow(qualityTrain)
+[1] 99
+> nrow(qualityTest)
+[1] 32
+> QualitiyLog = glm(PoorCare ~ OfficeVisits+Narcotics)
+Error in eval(predvars, data, env) : object 'PoorCare' not found
+> QualitiyLog = glm(PoorCare ~ OfficeVisits+Narcotics, data=quality)
+> QualitiyLog = glm(PoorCare ~ OfficeVisits+Narcotics, data=qualityTrain, family = binomial)
+> summary(QualitiyLog)
+
+Call:
+glm(formula = PoorCare ~ OfficeVisits + Narcotics, family = binomial, 
+    data = qualityTrain)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-2.06303  -0.63155  -0.50503  -0.09689   2.16686  
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  -2.64613    0.52357  -5.054 4.33e-07 ***
+OfficeVisits  0.08212    0.03055   2.688  0.00718 ** 
+Narcotics     0.07630    0.03205   2.381  0.01728 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 111.888  on 98  degrees of freedom
+Residual deviance:  89.127  on 96  degrees of freedom
+AIC: 95.127
+
+Number of Fisher Scoring iterations: 4
+
+> predictTrain = predict(QualitiyLog, type = "response")
+> summary(predictTrain)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.06623 0.11912 0.15967 0.25253 0.26765 0.98456 
+> tapply(predictTrain, qualityTrain$PoorCare, mean)
+        0         1 
+0.1894512 0.4392246 
+> Model = glm(PoorCare ~ StartedOnCombination + ProviderCount, data=qualityTrain, family=binomial)
+> summary(Model)
+
+Call:
+glm(formula = PoorCare ~ StartedOnCombination + ProviderCount, 
+    family = binomial, data = qualityTrain)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-1.61826  -0.72782  -0.64555  -0.08407   1.94662  
+
+Coefficients:
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -2.00097    0.55097  -3.632 0.000282 ***
+StartedOnCombinationTRUE  1.95230    1.22342   1.596 0.110541    
+ProviderCount             0.03366    0.01983   1.697 0.089706 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 111.89  on 98  degrees of freedom
+Residual deviance: 104.37  on 96  degrees of freedom
+AIC: 110.37
+
+Number of Fisher Scoring iterations: 4
+
+> table(qualityTrain$PoorCare, predictTrain > 0.5)
+   
+    FALSE TRUE
+  0    70    4
+  1    15   10
+> Sensitivity = 10/(15+10)
+> Sensitivity
+[1] 0.4
+> Specificity = 70/(70+4)
+> Specificity
+[1] 0.9459459
+> #install.packages('ROCR') in admin RGUI
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+> ROCRpred = predict(predictTrain, qualityTrain$PoorCare)
+Error in UseMethod("predict") : 
+  no applicable method for 'predict' applied to an object of class "c('double', 'numeric')"
+> ROCRpred = prediction(predictTrain, qualityTrain$PoorCare)
+> ROCRperf = performance(ROCRpred, "tpr","fpr")
+> ROCR(perf)
+Error in ROCR(perf) : could not find function "ROCR"
+> plot(ROCRperf)
+> plot(ROCRperf, colorize = TRUE)
+> plot(ROCRperf, colorize = TRUE, print.cutoffs.at = seq(0,1,0.1),text.adj=c(-0.2,1.7))
+> predictTest = predict(QualitiyLog, type = "response", newdata = qualityTest)
+> ROCRpredTest = prediction(predictTest, qualityTest$PoorCare)
+> auc = as.numeric(performance(ROCRpredTest,"auc")@y.values)
+> auc
+[1] 0.7994792
+> 

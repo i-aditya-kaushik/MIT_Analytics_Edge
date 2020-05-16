@@ -1,0 +1,812 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ste = read.csv('stevens.csv')
+> str(ste)
+'data.frame':   566 obs. of  9 variables:
+ $ Docket    : Factor w/ 566 levels "00-1011","00-1045",..: 63 69 70 145 97 181 242 289 334 436 ...
+ $ Term      : int  1994 1994 1994 1994 1995 1995 1996 1997 1997 1999 ...
+ $ Circuit   : Factor w/ 13 levels "10th","11th",..: 4 11 7 3 9 11 13 11 12 2 ...
+ $ Issue     : Factor w/ 11 levels "Attorneys","CivilRights",..: 5 5 5 5 9 5 5 5 5 3 ...
+ $ Petitioner: Factor w/ 12 levels "AMERICAN.INDIAN",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ Respondent: Factor w/ 12 levels "AMERICAN.INDIAN",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ LowerCourt: Factor w/ 2 levels "conser","liberal": 2 2 2 1 1 1 1 1 1 1 ...
+ $ Unconst   : int  0 0 0 0 0 1 0 1 0 0 ...
+ $ Reverse   : int  1 1 1 1 1 0 1 1 1 1 ...
+> library(caTools)
+Warning message:
+package ‘caTools’ was built under R version 3.6.3 
+> set.seed(3000)
+> spl = sample.split(ste$Reverse, splitRatio =0.7)
+Error in sample.split(ste$Reverse, splitRatio = 0.7) : 
+  unused argument (splitRatio = 0.7)
+> spl = sample.split(ste$Reverse, SplitRatio =0.7)
+> train = subset(ste, spl == TRUE)
+> test = subset(ste, spl == FALSE)
+> install.packages('rpart')
+--- Please select a CRAN mirror for use in this session ---
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/rpart_4.1-15.zip'
+Content type 'application/zip' length 769497 bytes (751 KB)
+downloaded 751 KB
+
+package ‘rpart’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\pc\AppData\Local\Temp\RtmpKm2txg\downloaded_packages
+> library(rpart)
+Warning message:
+package ‘rpart’ was built under R version 3.6.3 
+> install.packages('rpart.plot')
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/rpart.plot_3.0.8.zip'
+Content type 'application/zip' length 1077636 bytes (1.0 MB)
+downloaded 1.0 MB
+
+package ‘rpart.plot’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\pc\AppData\Local\Temp\RtmpKm2txg\downloaded_packages
+> library(rpart.plot)
+Warning message:
+package ‘rpart.plot’ was built under R version 3.6.3 
+> steTree = rpart(Reverse~ Circuit+Issue+Petitioner+Respondent+LowerCourt+Uncost,data = train , method = 'class',minbucket=25)
+Error in eval(predvars, data, env) : object 'Uncost' not found
+> steTree = rpart(Reverse~ Circuit+Issue+Petitioner+Respondent+LowerCourt+Unconst,data = train , method = 'class',minbucket=25)
+> prp(steTree)
+> predict = predict(steTree, newdata = test, type = 'class')
+> table(Test$Reverse,predict)
+Error in table(Test$Reverse, predict) : object 'Test' not found
+> table(test$Reverse,predict)
+   predict
+     0  1
+  0 41 36
+  1 22 71
+> (41+71)/nrow(test)
+[1] 0.6588235
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+Warning messages:
+1: package ‘ROCR’ was built under R version 3.6.3 
+2: package ‘gplots’ was built under R version 3.6.3 
+> predROC = predict(steTree,newdata=test)
+> predROC
+            0         1
+1   0.3035714 0.6964286
+3   0.3035714 0.6964286
+4   0.4000000 0.6000000
+6   0.4000000 0.6000000
+8   0.4000000 0.6000000
+21  0.3035714 0.6964286
+32  0.5517241 0.4482759
+36  0.5517241 0.4482759
+40  0.3035714 0.6964286
+42  0.5517241 0.4482759
+46  0.5517241 0.4482759
+47  0.4000000 0.6000000
+53  0.5517241 0.4482759
+55  0.3035714 0.6964286
+59  0.1842105 0.8157895
+60  0.4000000 0.6000000
+66  0.4000000 0.6000000
+67  0.4000000 0.6000000
+68  0.1842105 0.8157895
+72  0.3035714 0.6964286
+79  0.3035714 0.6964286
+80  0.5517241 0.4482759
+87  0.7600000 0.2400000
+88  0.1842105 0.8157895
+92  0.7910448 0.2089552
+95  0.7910448 0.2089552
+102 0.7910448 0.2089552
+106 0.7910448 0.2089552
+110 0.7910448 0.2089552
+112 0.7910448 0.2089552
+114 0.7910448 0.2089552
+125 0.7910448 0.2089552
+130 0.7910448 0.2089552
+134 0.7910448 0.2089552
+138 0.7910448 0.2089552
+145 0.7910448 0.2089552
+146 0.7910448 0.2089552
+148 0.3035714 0.6964286
+149 0.3035714 0.6964286
+152 0.3035714 0.6964286
+154 0.5517241 0.4482759
+161 0.7878788 0.2121212
+164 0.4000000 0.6000000
+167 0.7878788 0.2121212
+169 0.3035714 0.6964286
+171 0.7600000 0.2400000
+175 0.5517241 0.4482759
+176 0.0754717 0.9245283
+177 0.0754717 0.9245283
+178 0.0754717 0.9245283
+180 0.0754717 0.9245283
+187 0.0754717 0.9245283
+188 0.7878788 0.2121212
+190 0.0754717 0.9245283
+192 0.0754717 0.9245283
+196 0.0754717 0.9245283
+197 0.3035714 0.6964286
+208 0.3035714 0.6964286
+210 0.0754717 0.9245283
+216 0.7910448 0.2089552
+218 0.7910448 0.2089552
+220 0.0754717 0.9245283
+224 0.4000000 0.6000000
+226 0.7600000 0.2400000
+227 0.4000000 0.6000000
+228 0.7878788 0.2121212
+235 0.3035714 0.6964286
+239 0.7878788 0.2121212
+242 0.7600000 0.2400000
+244 0.7600000 0.2400000
+247 0.4000000 0.6000000
+255 0.3035714 0.6964286
+260 0.5517241 0.4482759
+261 0.7600000 0.2400000
+264 0.3035714 0.6964286
+265 0.3035714 0.6964286
+268 0.3035714 0.6964286
+272 0.5517241 0.4482759
+273 0.3035714 0.6964286
+274 0.5517241 0.4482759
+275 0.3035714 0.6964286
+282 0.4000000 0.6000000
+286 0.7878788 0.2121212
+291 0.4000000 0.6000000
+294 0.1842105 0.8157895
+305 0.4000000 0.6000000
+306 0.3035714 0.6964286
+308 0.7878788 0.2121212
+311 0.7878788 0.2121212
+313 0.7878788 0.2121212
+314 0.7878788 0.2121212
+315 0.7878788 0.2121212
+317 0.7878788 0.2121212
+320 0.7878788 0.2121212
+321 0.7878788 0.2121212
+323 0.4000000 0.6000000
+331 0.3035714 0.6964286
+335 0.3035714 0.6964286
+338 0.7600000 0.2400000
+341 0.5517241 0.4482759
+345 0.5517241 0.4482759
+346 0.3035714 0.6964286
+350 0.3035714 0.6964286
+352 0.3035714 0.6964286
+353 0.1842105 0.8157895
+355 0.3035714 0.6964286
+356 0.1842105 0.8157895
+358 0.3035714 0.6964286
+359 0.3035714 0.6964286
+360 0.4000000 0.6000000
+361 0.4000000 0.6000000
+362 0.5517241 0.4482759
+364 0.3035714 0.6964286
+368 0.3035714 0.6964286
+381 0.4000000 0.6000000
+382 0.1842105 0.8157895
+384 0.3035714 0.6964286
+387 0.1842105 0.8157895
+389 0.3035714 0.6964286
+390 0.4000000 0.6000000
+394 0.3035714 0.6964286
+400 0.7878788 0.2121212
+402 0.4000000 0.6000000
+405 0.7878788 0.2121212
+408 0.3035714 0.6964286
+410 0.3035714 0.6964286
+416 0.4000000 0.6000000
+422 0.7600000 0.2400000
+432 0.0754717 0.9245283
+434 0.7910448 0.2089552
+436 0.0754717 0.9245283
+441 0.7910448 0.2089552
+444 0.0754717 0.9245283
+448 0.0754717 0.9245283
+450 0.0754717 0.9245283
+451 0.0754717 0.9245283
+452 0.7910448 0.2089552
+454 0.0754717 0.9245283
+456 0.0754717 0.9245283
+459 0.0754717 0.9245283
+462 0.0754717 0.9245283
+464 0.0754717 0.9245283
+467 0.0754717 0.9245283
+468 0.0754717 0.9245283
+470 0.0754717 0.9245283
+473 0.0754717 0.9245283
+476 0.0754717 0.9245283
+478 0.0754717 0.9245283
+480 0.0754717 0.9245283
+482 0.0754717 0.9245283
+483 0.0754717 0.9245283
+484 0.0754717 0.9245283
+494 0.7910448 0.2089552
+498 0.1842105 0.8157895
+504 0.4000000 0.6000000
+509 0.4000000 0.6000000
+521 0.7600000 0.2400000
+527 0.4000000 0.6000000
+531 0.4000000 0.6000000
+535 0.4000000 0.6000000
+538 0.7600000 0.2400000
+539 0.1842105 0.8157895
+540 0.4000000 0.6000000
+543 0.7600000 0.2400000
+545 0.4000000 0.6000000
+546 0.7910448 0.2089552
+551 0.7910448 0.2089552
+552 0.7910448 0.2089552
+556 0.4000000 0.6000000
+558 0.1842105 0.8157895
+> pred = prediction(predROC[,2], test$Reverse)
+> perf = performance(pred,"tpr","fpr")
+> plot(perf)
+> as.numeric(performance(pred, "auc")@y.values)
+[1] 0.6927105
+> steTree2 = rpart(Reverse~ Circuit+Issue+Petitioner+Respondent+LowerCourt+Unconst,data = train , method = 'class',minbucket=5)
+> prp(steTree2)
+> steTree2 = rpart(Reverse~ Circuit+Issue+Petitioner+Respondent+LowerCourt+Unconst,data = train , method = 'class',minbucket=100)
+> prp(steTree3)
+Error in prp(steTree3) : object 'steTree3' not found
+> prp(steTree2)
+> steTree2 = rpart(Reverse~ Circuit+Issue+Petitioner+Respondent+LowerCourt+Unconst,data = train , method = 'class',minbucket=5)
+> prp(steTree2)
+> install.packages('randomForest')
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/randomForest_4.6-14.zip'
+Content type 'application/zip' length 250284 bytes (244 KB)
+downloaded 244 KB
+
+package ‘randomForest’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\pc\AppData\Local\Temp\RtmpKm2txg\downloaded_packages
+> steForest = randomForest(Reverse ~ Circuit + Issue + Petitioner + Respondent + LowerCourt + Unconst, data = train, nodesize = 25 , ntree = 200)
+Error in randomForest(Reverse ~ Circuit + Issue + Petitioner + Respondent +  : 
+  could not find function "randomForest"
+> library(randomForest)
+randomForest 4.6-14
+Type rfNews() to see new features/changes/bug fixes.
+Warning message:
+package ‘randomForest’ was built under R version 3.6.3 
+> steForest = randomForest(Reverse ~ Circuit + Issue + Petitioner + Respondent + LowerCourt + Unconst, data = train, nodesize = 25 , ntree = 200)
+Warning message:
+In randomForest.default(m, y, ...) :
+  The response has five or fewer unique values.  Are you sure you want to do regression?
+> table(train$Reverse)
+
+  0   1 
+180 216 
+> train$Reverse = as.factor(train$Reverse)
+> test$Reverse = as.factor(test$Reverse)
+> steForest = randomForest(Reverse ~ Circuit + Issue + Petitioner + Respondent + LowerCourt + Unconst, data = train, nodesize = 25 , ntree = 200)
+> predictFor = predict(steForest , newdata = test)
+> table(test$Reverse, predictFor)
+   predictFor
+     0  1
+  0 43 34
+  1 21 72
+> (43+72)/nrow(test)
+[1] 0.6764706
+> set.seed(100)
+> steForest = randomForest(Reverse ~ Circuit + Issue + Petitioner + Respondent + LowerCourt + Unconst, data = train, nodesize = 25 , ntree = 200)
+> predictFor = predict(steForest , newdata = test)
+> table(test$Reverse, predictFor)
+   predictFor
+     0  1
+  0 41 36
+  1 20 73
+> (41+73)/nrow(test)
+[1] 0.6705882
+> set.seed(200)
+> steForest = randomForest(Reverse ~ Circuit + Issue + Petitioner + Respondent + LowerCourt + Unconst, data = train, nodesize = 25 , ntree = 200)
+> predictFor = predict(steForest , newdata = test)
+> table(test$Reverse, predictFor)
+   predictFor
+     0  1
+  0 42 35
+  1 18 75
+> (42+75)/nrow(test)
+[1] 0.6882353
+> install.packages('caret')
+also installing the dependencies ‘ps’, ‘processx’, ‘callr’, ‘prettyunits’, ‘desc’, ‘pkgbuild’, ‘rprojroot’, ‘rstudioapi’, ‘numDeriv’, ‘SQUAREM’, ‘evaluate’, ‘pkgload’, ‘praise’, ‘colorspace’, ‘lava’, ‘testthat’, ‘farver’, ‘labeling’, ‘munsell’, ‘RColorBrewer’, ‘viridisLite’, ‘prodlim’, ‘gtable’, ‘isoband’, ‘scales’, ‘iterators’, ‘data.table’, ‘gower’, ‘ipred’, ‘lubridate’, ‘timeDate’, ‘ggplot2’, ‘foreach’, ‘ModelMetrics’, ‘recipes’, ‘withr’, ‘pROC’
+
+
+  There is a binary version available but the source version is later:
+        binary source needs_compilation
+recipes 0.1.10 0.1.12             FALSE
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/ps_1.3.2.zip'
+Content type 'application/zip' length 312236 bytes (304 KB)
+downloaded 304 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/processx_3.4.2.zip'
+Content type 'application/zip' length 428150 bytes (418 KB)
+downloaded 418 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/callr_3.4.3.zip'
+Content type 'application/zip' length 389926 bytes (380 KB)
+downloaded 380 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/prettyunits_1.1.1.zip'
+Content type 'application/zip' length 37895 bytes (37 KB)
+downloaded 37 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/desc_1.2.0.zip'
+Content type 'application/zip' length 288777 bytes (282 KB)
+downloaded 282 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/pkgbuild_1.0.7.zip'
+Content type 'application/zip' length 136004 bytes (132 KB)
+downloaded 132 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/rprojroot_1.3-2.zip'
+Content type 'application/zip' length 84816 bytes (82 KB)
+downloaded 82 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/rstudioapi_0.11.zip'
+Content type 'application/zip' length 280599 bytes (274 KB)
+downloaded 274 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/numDeriv_2016.8-1.1.zip'
+Content type 'application/zip' length 116384 bytes (113 KB)
+downloaded 113 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/SQUAREM_2020.2.zip'
+Content type 'application/zip' length 180550 bytes (176 KB)
+downloaded 176 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/evaluate_0.14.zip'
+Content type 'application/zip' length 76699 bytes (74 KB)
+downloaded 74 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/pkgload_1.0.2.zip'
+Content type 'application/zip' length 157029 bytes (153 KB)
+downloaded 153 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/praise_1.0.0.zip'
+Content type 'application/zip' length 19734 bytes (19 KB)
+downloaded 19 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/colorspace_1.4-1.zip'
+Content type 'application/zip' length 2550276 bytes (2.4 MB)
+downloaded 2.4 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/lava_1.6.7.zip'
+Content type 'application/zip' length 2201173 bytes (2.1 MB)
+downloaded 2.1 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/testthat_2.3.2.zip'
+Content type 'application/zip' length 1799381 bytes (1.7 MB)
+downloaded 1.7 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/farver_2.0.3.zip'
+Content type 'application/zip' length 1912203 bytes (1.8 MB)
+downloaded 1.8 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/labeling_0.3.zip'
+Content type 'application/zip' length 62937 bytes (61 KB)
+downloaded 61 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/munsell_0.5.0.zip'
+Content type 'application/zip' length 245976 bytes (240 KB)
+downloaded 240 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/RColorBrewer_1.1-2.zip'
+Content type 'application/zip' length 55569 bytes (54 KB)
+downloaded 54 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/viridisLite_0.3.0.zip'
+Content type 'application/zip' length 60737 bytes (59 KB)
+downloaded 59 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/prodlim_2019.11.13.zip'
+Content type 'application/zip' length 422515 bytes (412 KB)
+downloaded 412 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/gtable_0.3.0.zip'
+Content type 'application/zip' length 434129 bytes (423 KB)
+downloaded 423 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/isoband_0.2.1.zip'
+Content type 'application/zip' length 3304543 bytes (3.2 MB)
+downloaded 3.2 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/scales_1.1.0.zip'
+Content type 'application/zip' length 555011 bytes (542 KB)
+downloaded 542 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/iterators_1.0.12.zip'
+Content type 'application/zip' length 343759 bytes (335 KB)
+downloaded 335 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/data.table_1.12.8.zip'
+Content type 'application/zip' length 2276913 bytes (2.2 MB)
+downloaded 2.2 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/gower_0.2.1.zip'
+Content type 'application/zip' length 246732 bytes (240 KB)
+downloaded 240 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/ipred_0.9-9.zip'
+Content type 'application/zip' length 399244 bytes (389 KB)
+downloaded 389 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/lubridate_1.7.8.zip'
+Content type 'application/zip' length 1591310 bytes (1.5 MB)
+downloaded 1.5 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/timeDate_3043.102.zip'
+Content type 'application/zip' length 1552300 bytes (1.5 MB)
+downloaded 1.5 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/ggplot2_3.3.0.zip'
+Content type 'application/zip' length 4021298 bytes (3.8 MB)
+downloaded 3.8 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/foreach_1.5.0.zip'
+Content type 'application/zip' length 145932 bytes (142 KB)
+downloaded 142 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/ModelMetrics_1.2.2.2.zip'
+Content type 'application/zip' length 667246 bytes (651 KB)
+downloaded 651 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/withr_2.2.0.zip'
+Content type 'application/zip' length 206792 bytes (201 KB)
+downloaded 201 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/pROC_1.16.2.zip'
+Content type 'application/zip' length 1326481 bytes (1.3 MB)
+downloaded 1.3 MB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/caret_6.0-86.zip'
+Content type 'application/zip' length 6259639 bytes (6.0 MB)
+downloaded 6.0 MB
+
+package ‘ps’ successfully unpacked and MD5 sums checked
+package ‘processx’ successfully unpacked and MD5 sums checked
+package ‘callr’ successfully unpacked and MD5 sums checked
+package ‘prettyunits’ successfully unpacked and MD5 sums checked
+package ‘desc’ successfully unpacked and MD5 sums checked
+package ‘pkgbuild’ successfully unpacked and MD5 sums checked
+package ‘rprojroot’ successfully unpacked and MD5 sums checked
+package ‘rstudioapi’ successfully unpacked and MD5 sums checked
+package ‘numDeriv’ successfully unpacked and MD5 sums checked
+package ‘SQUAREM’ successfully unpacked and MD5 sums checked
+package ‘evaluate’ successfully unpacked and MD5 sums checked
+package ‘pkgload’ successfully unpacked and MD5 sums checked
+package ‘praise’ successfully unpacked and MD5 sums checked
+package ‘colorspace’ successfully unpacked and MD5 sums checked
+package ‘lava’ successfully unpacked and MD5 sums checked
+package ‘testthat’ successfully unpacked and MD5 sums checked
+package ‘farver’ successfully unpacked and MD5 sums checked
+package ‘labeling’ successfully unpacked and MD5 sums checked
+package ‘munsell’ successfully unpacked and MD5 sums checked
+package ‘RColorBrewer’ successfully unpacked and MD5 sums checked
+package ‘viridisLite’ successfully unpacked and MD5 sums checked
+package ‘prodlim’ successfully unpacked and MD5 sums checked
+package ‘gtable’ successfully unpacked and MD5 sums checked
+package ‘isoband’ successfully unpacked and MD5 sums checked
+package ‘scales’ successfully unpacked and MD5 sums checked
+package ‘iterators’ successfully unpacked and MD5 sums checked
+package ‘data.table’ successfully unpacked and MD5 sums checked
+package ‘gower’ successfully unpacked and MD5 sums checked
+package ‘ipred’ successfully unpacked and MD5 sums checked
+package ‘lubridate’ successfully unpacked and MD5 sums checked
+package ‘timeDate’ successfully unpacked and MD5 sums checked
+package ‘ggplot2’ successfully unpacked and MD5 sums checked
+package ‘foreach’ successfully unpacked and MD5 sums checked
+package ‘ModelMetrics’ successfully unpacked and MD5 sums checked
+package ‘withr’ successfully unpacked and MD5 sums checked
+package ‘pROC’ successfully unpacked and MD5 sums checked
+package ‘caret’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\pc\AppData\Local\Temp\RtmpKm2txg\downloaded_packages
+installing the source package ‘recipes’
+
+trying URL 'https://cloud.r-project.org/src/contrib/recipes_0.1.12.tar.gz'
+Content type 'application/x-gzip' length 484216 bytes (472 KB)
+downloaded 472 KB
+
+* installing *source* package 'recipes' ...
+** package 'recipes' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Warning message:
+package 'dplyr' was built under R version 3.6.3 
+** help
+*** installing help indices
+  converting help for package 'recipes'
+    finding HTML links ... done
+    add_step                                html  
+    bake                                    html  
+    finding level-2 HTML links ... done
+
+    check_class                             html  
+    check_cols                              html  
+    check_missing                           html  
+    check_name                              html  
+    check_new_values                        html  
+    check_range                             html  
+    check_type                              html  
+    detect_step                             html  
+    discretize                              html  
+    fixed                                   html  
+    format_ch_vec                           html  
+    formula.recipe                          html  
+    fully_trained                           html  
+    has_role                                html  
+    juice                                   html  
+    names0                                  html  
+    prep                                    html  
+    prepper                                 html  
+    print.recipe                            html  
+    rand_id                                 html  
+    recipe                                  html  
+    recipes-internal                        html  
+    recipes                                 html  
+    recipes_pkg_check                       html  
+    reexports                               html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/reexports.Rd:17: file link '%>%' in package 'magrittr' does not exist and so has been treated as a topic
+    roles                                   html  
+    selections                              html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:40: file link 'starts_with' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:40: file link 'ends_with' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:41: file link 'contains' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:41: file link 'matches' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:42: file link 'num_range' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:42: file link 'everything' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:94: file link 'starts_with' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:95: file link 'ends_with' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:95: file link 'contains' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:96: file link 'matches' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:96: file link 'num_range' in package 'tidyselect' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/selections.Rd:97: file link 'everything' in package 'tidyselect' does not exist and so has been treated as a topic
+    step                                    html  
+    step_BoxCox                             html  
+    step_YeoJohnson                         html  
+    step_arrange                            html  
+    step_bagimpute                          html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_bagimpute.Rd:50: file link 'ipredbagg' in package 'ipred' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_bagimpute.Rd:53: file link 'ipredbagg' in package 'ipred' does not exist and so has been treated as a topic
+    step_bin2factor                         html  
+    step_bs                                 html  
+    step_center                             html  
+    step_classdist                          html  
+    step_corr                               html  
+    step_count                              html  
+    step_cut                                html  
+    step_date                               html  
+    step_depth                              html  
+    step_discretize                         html  
+    step_downsample                         html  
+    step_dummy                              html  
+    step_factor2string                      html  
+    step_filter                             html  
+    step_geodist                            html  
+    step_holiday                            html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_holiday.Rd:41: file link 'listHolidays' in package 'timeDate' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_holiday.Rd:88: file link 'listHolidays' in package 'timeDate' does not exist and so has been treated as a topic
+    step_hyperbolic                         html  
+    step_ica                                html  
+    step_integer                            html  
+    step_interact                           html  
+    step_intercept                          html  
+    step_inverse                            html  
+    step_invlogit                           html  
+    step_isomap                             html  
+    step_knnimpute                          html  
+    step_kpca                               html  
+    step_kpca_poly                          html  
+    step_kpca_rbf                           html  
+    step_lag                                html  
+    step_lincomb                            html  
+    step_log                                html  
+    step_logit                              html  
+    step_lowerimpute                        html  
+    step_meanimpute                         html  
+    step_medianimpute                       html  
+    step_modeimpute                         html  
+    step_mutate                             html  
+    step_mutate_at                          html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_mutate_at.Rd:28: file link 'mutate_at' in package 'dplyr' does not exist and so has been treated as a topic
+    step_naomit                             html  
+    step_nnmf                               html  
+    step_normalize                          html  
+    step_novel                              html  
+    step_ns                                 html  
+    step_num2factor                         html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_num2factor.Rd:34: file link 'as.integer' in package 'base' does not exist and so has been treated as a topic
+    step_nzv                                html  
+    step_ordinalscore                       html  
+    step_other                              html  
+    step_pca                                html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_pca.Rd:57: file link 'prcomp.default' in package 'stats' does not exist and so has been treated as a topic
+    step_pls                                html  
+    step_poly                               html  
+    step_profile                            html  
+    step_range                              html  
+    step_ratio                              html  
+    step_regex                              html  
+    step_relevel                            html  
+    step_relu                               html  
+    step_rename                             html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_rename.Rd:59: file link 'rename' in package 'dplyr' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_rename.Rd:28: file link 'rename' in package 'dplyr' does not exist and so has been treated as a topic
+    step_rename_at                          html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_rename_at.Rd:28: file link 'rename_at' in package 'dplyr' does not exist and so has been treated as a topic
+    step_rm                                 html  
+    step_rollimpute                         html  
+    step_sample                             html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_sample.Rd:62: file link 'sample_n' in package 'dplyr' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_sample.Rd:63: file link 'sample_frac' in package 'dplyr' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_sample.Rd:36: file link 'sample_frac' in package 'dplyr' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_sample.Rd:37: file link 'sample_n' in package 'dplyr' does not exist and so has been treated as a topic
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/step_sample.Rd:38: file link 'sample_n' in package 'dplyr' does not exist and so has been treated as a topic
+    step_scale                              html  
+    step_shuffle                            html  
+    step_slice                              html  
+    step_spatialsign                        html  
+    step_sqrt                               html  
+    step_string2factor                      html  
+    step_unknown                            html  
+    step_unorder                            html  
+    step_upsample                           html  
+    step_window                             html  
+    step_zv                                 html  
+    summary.recipe                          html  
+    terms_select                            html  
+Rd warning: C:/Users/pc/AppData/Local/Temp/RtmpAjfAhF/R.INSTALLb9c1e581041/recipes/man/terms_select.Rd:11: file link 'quos' in package 'rlang' does not exist and so has been treated as a topic
+    tidy.recipe                             html  
+    tunable.step                            html  
+    update.step                             html  
+*** copying figures
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+*** arch - i386
+Warning: package 'dplyr' was built under R version 3.6.3
+*** arch - x64
+Warning: package 'dplyr' was built under R version 3.6.3
+** testing if installed package can be loaded from final location
+*** arch - i386
+Warning: package 'dplyr' was built under R version 3.6.3
+*** arch - x64
+Warning: package 'dplyr' was built under R version 3.6.3
+** testing if installed package keeps a record of temporary installation path
+* DONE (recipes)
+
+The downloaded source packages are in
+        ‘C:\Users\pc\AppData\Local\Temp\RtmpKm2txg\downloaded_packages’
+> library(caret)
+Loading required package: lattice
+Loading required package: ggplot2
+
+Attaching package: ‘ggplot2’
+
+The following object is masked from ‘package:randomForest’:
+
+    margin
+
+Warning messages:
+1: package ‘caret’ was built under R version 3.6.3 
+2: package ‘ggplot2’ was built under R version 3.6.3 
+> install.packages('e1071')
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/e1071_1.7-3.zip'
+Content type 'application/zip' length 1022674 bytes (998 KB)
+downloaded 998 KB
+
+package ‘e1071’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\pc\AppData\Local\Temp\RtmpKm2txg\downloaded_packages
+> library(e1071)
+Warning message:
+package ‘e1071’ was built under R version 3.6.3 
+> numFolds = trainControl(method = 'cv', number =10)
+> cpGrid = expand.grid(.cp = seq(0.01,0.5,0.01))
+> train(Reverse~ Circuit+Issue+Petitioner + Respondent+LowerCourt+Unconst, data= train,method = 'rpart', trControl = numFolds, tuneGrid = cpGrid)
+CART 
+
+396 samples
+  6 predictor
+  2 classes: '0', '1' 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 356, 356, 357, 356, 356, 357, ... 
+Resampling results across tuning parameters:
+
+  cp    Accuracy   Kappa      
+  0.01  0.6310256  0.239295375
+  0.02  0.6361538  0.247433716
+  0.03  0.6337179  0.250701897
+  0.04  0.6387821  0.270015731
+  0.05  0.6437821  0.282326337
+  0.06  0.6437821  0.282326337
+  0.07  0.6437821  0.282326337
+  0.08  0.6437821  0.282326337
+  0.09  0.6437821  0.282326337
+  0.10  0.6437821  0.282326337
+  0.11  0.6437821  0.282326337
+  0.12  0.6437821  0.282326337
+  0.13  0.6437821  0.282326337
+  0.14  0.6437821  0.282326337
+  0.15  0.6437821  0.282326337
+  0.16  0.6437821  0.282326337
+  0.17  0.6437821  0.282326337
+  0.18  0.6437821  0.282326337
+  0.19  0.6437821  0.282326337
+  0.20  0.6237821  0.232326337
+  0.21  0.5681410  0.085481417
+  0.22  0.5581410  0.057646366
+  0.23  0.5478846  0.022736130
+  0.24  0.5453846  0.008163265
+  0.25  0.5453846  0.000000000
+  0.26  0.5453846  0.000000000
+  0.27  0.5453846  0.000000000
+  0.28  0.5453846  0.000000000
+  0.29  0.5453846  0.000000000
+  0.30  0.5453846  0.000000000
+  0.31  0.5453846  0.000000000
+  0.32  0.5453846  0.000000000
+  0.33  0.5453846  0.000000000
+  0.34  0.5453846  0.000000000
+  0.35  0.5453846  0.000000000
+  0.36  0.5453846  0.000000000
+  0.37  0.5453846  0.000000000
+  0.38  0.5453846  0.000000000
+  0.39  0.5453846  0.000000000
+  0.40  0.5453846  0.000000000
+  0.41  0.5453846  0.000000000
+  0.42  0.5453846  0.000000000
+  0.43  0.5453846  0.000000000
+  0.44  0.5453846  0.000000000
+  0.45  0.5453846  0.000000000
+  0.46  0.5453846  0.000000000
+  0.47  0.5453846  0.000000000
+  0.48  0.5453846  0.000000000
+  0.49  0.5453846  0.000000000
+  0.50  0.5453846  0.000000000
+
+Accuracy was used to select the optimal model using the largest value.
+The final value used for the model was cp = 0.19.
+> steTreeCV = rpart(Reverse ~ Circuit+Issue+Petitioner + Respondent+LowerCourt+Unconst, data = train,method = 'class', cp=0.19)
+> predictCV = predict(steTreeCV, newdata = test,type='class')
+> table(test$Reverse,predictCV)
+   predictCV
+     0  1
+  0 59 18
+  1 29 64
+> (59+64)/nrow(test)
+[1] 0.7235294
+> prp(steTreeCV)
+> 

@@ -1,0 +1,25 @@
+CART MEthod was used.. Not glm cuz it is generally not interpretable 
+and Model Coefficients indicate importance and relative effect of variables
+
+CART: Justice Stevens: 1 if he reverses and 0 if he affirms
+Tree..
+Cart divides the data in splits
+How does CART see splitting?
+1. Minbucket: Smaller the minbucket, more the splits
+2. If too small, then overfitting.. if too big, then too simple
+3. rpart and rpart.plot is used for CART
+4. Random Forests: Improve the accuracy of CART but less interpretable
+5. nodesize similar to minbucket in random forests
+6. ntree parameter is used to define number of random trees built by the combina-
+   tions of variables. Usually ntree is around 100 to reduce overfitting and 
+   complexity
+7. install.packages('randomForest')
+8. Black Box models: Random Forest
+9. Optimal Trees:
+	OCT: trees with parallel splits(one var split at a time)
+	OCT-H: trres with hyperplane splits(can use multiple splits if beneficial)
+10. K fold cross validation: used for better models
+11. For implementation of cross validation, we use cp(complexity Parameter)
+12. Smaller cp leads to bigger tree(overfitting) and bigger ones are simpler.
+13. install.packages('caret') and install.packages('e1071') for implementation of cp
+14. Cross Validation ensures that we are using a smart cp value

@@ -1,0 +1,153 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> cd = read.csv('ClaimsData.csv')
+> str(cd)
+'data.frame':   458005 obs. of  16 variables:
+ $ age              : int  85 59 67 52 67 68 75 70 67 67 ...
+ $ alzheimers       : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ arthritis        : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ cancer           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ copd             : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ depression       : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ diabetes         : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ heart.failure    : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ ihd              : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ kidney           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ osteoporosis     : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ stroke           : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ reimbursement2008: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ bucket2008       : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ reimbursement2009: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ bucket2009       : int  1 1 1 1 1 1 1 1 1 1 ...
+> table(cd$heart.failure)
+
+     0      1 
+327591 130414 
+> table(cd$bucket2009)/nrow(cd)
+
+          1           2           3           4           5 
+0.671267781 0.190170413 0.089466272 0.043324855 0.005770679 
+> library(caTools)
+Warning message:
+package ‘caTools’ was built under R version 3.6.3 
+> set.seed(88)
+> spl = sample.split(cd$bucket2009, SplitRatio = 0.6)
+> train = subset(cd, spl == TRUE)
+> test = subset(cd, spl == FALSE)
+> summary(train$age)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  26.00   67.00   73.00   72.64   81.00  100.00 
+> table(train$diabetes)
+
+     0      1 
+170131 104672 
+> 104672/nrow(train)
+[1] 0.3808983
+> table(test$bucket2009,test$bucket2008)
+   
+         1      2      3      4      5
+  1 110138   7787   3427   1452    174
+  2  16000  10721   4629   2931    559
+  3   7006   4629   2774   1621    360
+  4   2688   1943   1415   1539    352
+  5    293    191    160    309    104
+> (110138+10721+2774+1539+104)/nrow(test)
+[1] 0.6838135
+> PenaltyMatrix = matrix(c(0,1,2,3,4,2,0,1,2,3,4,2,0,1,2,6,4,2,0,1,8,6,4,2,0),byrow=TRUE,nrow=5)
+> PenaltyMatrix
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    0    1    2    3    4
+[2,]    2    0    1    2    3
+[3,]    4    2    0    1    2
+[4,]    6    4    2    0    1
+[5,]    8    6    4    2    0
+> as.matrix(table(test$bucket2009,test$bucket2008))*PenaltyMatrix
+   
+        1     2     3     4     5
+  1     0  7787  6854  4356   696
+  2 32000     0  4629  5862  1677
+  3 28024  9258     0  1621   720
+  4 16128  7772  2830     0   352
+  5  2344  1146   640   618     0
+> sum(as.matrix(table(test$bucket2009,test$bucket2008))*PenaltyMatrix)/nrow(test)
+[1] 0.7386055
+> 110138/nrow(test)
+[1] 0.6011834
+> table(ClaimsTest$bucket2009)
+Error in table(ClaimsTest$bucket2009) : object 'ClaimsTest' not found
+> table(test$bucket2009)
+
+     1      2      3      4      5 
+122978  34840  16390   7937   1057 
+> library(rpart)
+Warning message:
+package ‘rpart’ was built under R version 3.6.3 
+> library(rpart.plot)
+Warning message:
+package ‘rpart.plot’ was built under R version 3.6.3 
+> cdTree = rpart(bucket2009 ~ age + arthritis + alzheimers + cancer + copd + depression + diabetes + heart.failure + ihd + kidney + osteoporosis + stroke + bucket2008 + reimbursement2008, data = train, method = 'class', cp =0.00005
++ )
+> prp(cdTree)
+Warning message:
+labs do not fit even at cex 0.15, there may be some overplotting 
+> pred = predict(cdTree, newdata = test , type = 'class')
+> table(test$bucket2009, pred)
+   pred
+         1      2      3      4      5
+  1 114141   8610    124    103      0
+  2  18409  16102    187    142      0
+  3   8027   8146    118     99      0
+  4   3099   4584     53    201      0
+  5    351    657      4     45      0
+> 114141+16102+118+201
+[1] 130562
+> 130562/nrow(test)
+[1] 0.7126669
+> as.matrix(table(test$bucket2009, pred)
++ )*PenaltyMatrix
+   pred
+        1     2     3     4     5
+  1     0  8610   248   309     0
+  2 36818     0   187   284     0
+  3 32108 16292     0    99     0
+  4 18594 18336   106     0     0
+  5  2808  3942    16    90     0
+> sum(as.matrix(table(test$bucket2009, pred))*PenaltyMatrix)/nrow(test)
+[1] 0.7578902
+> cdTree = rpart(bucket2009 ~ age + arthritis + alzheimers + cancer + copd + depression + diabetes + heart.failure + ihd + kidney + osteoporosis + stroke + bucket2008 + reimbursement2008, data = train, method = 'class', cp =0.00005, parms = list(PenaltyMatrix))
+Error in get(paste("rpart", method, sep = "."), envir = environment())(Y,  : 
+  The parms list must have names
+> cdTree = rpart(bucket2009 ~ age + arthritis + alzheimers + cancer + copd + depression + diabetes + heart.failure + ihd + kidney + osteoporosis + stroke + bucket2008 + reimbursement2008, data = train, method = 'class', cp =0.00005, parms = list(loss=PenaltyMatrix))
+> pred = predict(cdTree, newdata = test , type = 'class')
+> table(test$bucket2009, pred)
+   pred
+        1     2     3     4     5
+  1 94310 25295  3087   286     0
+  2  7176 18942  8079   643     0
+  3  3590  7706  4692   401     1
+  4  1304  3193  2803   636     1
+  5   135   356   408   156     2
+> 94310+18942+4692+636+2
+[1] 118582
+> 118582/nrow(test)
+[1] 0.6472746
+> sum(as.matrix(table(test$bucket2009, pred))*PenaltyMatrix)/nrow(test)
+[1] 0.6418161
+> 

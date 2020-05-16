@@ -1,0 +1,10 @@
+1. zoo is an essential package for time series model
+2. To install:
+install.packages("zoo")
+
+library(zoo)
+3. ILILag2 = lag(zoo(FluTrain$ILI), -2, na.pad=TRUE)
+
+FluTrain$ILILag2 = coredata(ILILag2)
+
+In these commands, the value of -2 passed to lag means to return 2 observations before the current one; a positive value would have returned future observations. The parameter na.pad=TRUE means to add missing values for the first two weeks of our dataset, where we can't compute the data from 2 weeks earlier.

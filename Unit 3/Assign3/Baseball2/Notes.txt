@@ -1,0 +1,2 @@
+bivariate = a model which has the predicting variable and one extra variable for
+training

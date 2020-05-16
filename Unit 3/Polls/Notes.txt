@@ -1,0 +1,15 @@
+1. Deal with missing data:
+	i) Delete obs
+	ii) Remove the entire variables completely
+	iii) Fill with average values
+	iv) Fill wrt one variable, for eg if one var is small, predict the other
+	    to be large
+2. Mice package is used for filling in the NA values
+3. To use a package, library('package_name')
+4. first make a subset of those values which have an implication of the NA variab
+-les. Then make those variables go with this command:
+imputed = complete(mice(simple)) in order to make those NA values fill themselves
+5. Smaller the AIC better the model
+6. Changing the Cutoff makes sense only when we need to correctly predict values
+   which are more than 2 in number. In this case, since we can only have the 
+   answer as Republican(1) or Democrat(0) it really does not matter

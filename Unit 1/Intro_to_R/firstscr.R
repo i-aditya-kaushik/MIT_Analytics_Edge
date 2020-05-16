@@ -1,0 +1,1013 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> q()
+> 8*6
+[1] 48
+> 2^3
+[1] 8
+> 2^4^3
+[1] 1.844674e+19
+> 2^4^2
+[1] 65536
+> 2*
++ 9
+[1] 18
+> 8*6
+[1] 48
+> 8*10
+[1] 80
+> x = 6
+> x*6
+[1] 36
+> x*7
+[1] 42
+> sqrt(2)
+[1] 1.414214
+> sqrt(3)
+[1] 1.732051
+> def sq:
+Error: unexpected symbol in "def sq"
+> define sq
+Error: unexpected symbol in "define sq"
+> abs(-8)
+[1] 8
+> abs(8)
+[1] 8
+> ?sq
+No documentation for ‘sq’ in specified packages and libraries:
+you could try ‘??sq’
+> ?sqrt
+starting httpd help server ... done
+> X
+Error: object 'X' not found
+> X = 98
+> char(X)
+Error in char(X) : could not find function "char"
+> xy <- 'a'
+> xy
+[1] "a"
+> ls()
+[1] "x"  "X"  "xy"
+> cd
+Error: object 'cd' not found
+> cd()
+Error in cd() : could not find function "cd"
+> c(2,3,5,8,13)
+[1]  2  3  5  8 13
+> c[0]
+Error in c[0] : object of type 'builtin' is not subsettable
+> c(1)
+[1] 1
+> c(4)
+[1] 4
+> c
+function (...)  .Primitive("c")
+> Country = c("India","USA", "China","Brazil")
+> LifeExpectency = c(60, 70, 55, 50)
+> seq(0,100,2)
+ [1]   0   2   4   6   8  10  12  14  16  18  20  22  24  26  28  30  32  34  36  38  40
+[22]  42  44  46  48  50  52  54  56  58  60  62  64  66  68  70  72  74  76  78  80  82
+[43]  84  86  88  90  92  94  96  98 100
+> DATA = data.frame(Country, LifeExpectency)
+> DATA
+  Country LifeExpectency
+1   India             60
+2     USA             70
+3   China             55
+4  Brazil             50
+> DATA$Population = c(19900000,1333000,20000000,300000)
+> DATA
+  Country LifeExpectency Population
+1   India             60   19900000
+2     USA             70    1333000
+3   China             55   20000000
+4  Brazil             50     300000
+> Country = c("Australia","Greece")
+> LifeExpectency = c(23050,11125)
+> Population = c(23050,11125)
+> NewDATA = data.frame(Country,LifeExpectency,Population)
+> AllData = rbind(DATA,NewDATA)
+> AllData
+    Country LifeExpectency Population
+1     India             60   19900000
+2       USA             70    1333000
+3     China             55   20000000
+4    Brazil             50     300000
+5 Australia          23050      23050
+6    Greece          11125      11125
+> getwd()
+[1] "E:/Summer Proj/Analytics edge"
+> who = read.csv("WHO.csv")
+> who
+                                      Country                Region Population Under15
+1                                 Afghanistan Eastern Mediterranean      29825   47.42
+2                                     Albania                Europe       3162   21.33
+3                                     Algeria                Africa      38482   27.42
+4                                     Andorra                Europe         78   15.20
+5                                      Angola                Africa      20821   47.58
+6                         Antigua and Barbuda              Americas         89   25.96
+7                                   Argentina              Americas      41087   24.42
+8                                     Armenia                Europe       2969   20.34
+9                                   Australia       Western Pacific      23050   18.95
+10                                    Austria                Europe       8464   14.51
+11                                 Azerbaijan                Europe       9309   22.25
+12                                    Bahamas              Americas        372   21.62
+13                                    Bahrain Eastern Mediterranean       1318   20.16
+14                                 Bangladesh       South-East Asia     155000   30.57
+15                                   Barbados              Americas        283   18.99
+16                                    Belarus                Europe       9405   15.10
+17                                    Belgium                Europe      11060   16.88
+18                                     Belize              Americas        324   34.40
+19                                      Benin                Africa      10051   42.95
+20                                     Bhutan       South-East Asia        742   28.53
+21           Bolivia (Plurinational State of)              Americas      10496   35.23
+22                     Bosnia and Herzegovina                Europe       3834   16.35
+23                                   Botswana                Africa       2004   33.75
+24                                     Brazil              Americas     199000   24.56
+25                          Brunei Darussalam       Western Pacific        412   25.75
+26                                   Bulgaria                Europe       7278   13.53
+27                               Burkina Faso                Africa      16460   45.66
+28                                    Burundi                Africa       9850   44.20
+29                                   Cambodia       Western Pacific      14865   31.23
+30                                   Cameroon                Africa      21700   43.08
+31                                     Canada              Americas      34838   16.37
+32                                 Cape Verde                Africa        494   30.17
+33                   Central African Republic                Africa       4525   40.07
+34                                       Chad                Africa      12448   48.52
+35                                      Chile              Americas      17465   21.38
+36                                      China       Western Pacific    1390000   17.95
+37                                   Colombia              Americas      47704   28.03
+38                                    Comoros                Africa        718   42.17
+39                                      Congo                Africa       4337   42.37
+40                               Cook Islands       Western Pacific         21   30.61
+41                                 Costa Rica              Americas       4805   23.94
+42                                Ivory Coast                Africa      19840   41.48
+43                                    Croatia                Europe       4307   14.98
+44                                       Cuba              Americas      11271   16.58
+45                                     Cyprus                Europe       1129   17.16
+46                             Czech Republic                Europe      10660   14.56
+47      Democratic People's Republic of Korea       South-East Asia      24763   21.98
+48           Democratic Republic of the Congo                Africa      65705   45.11
+49                                    Denmark                Europe       5598   17.66
+50                                   Djibouti Eastern Mediterranean        860   33.72
+51                                   Dominica              Americas         72   25.96
+52                         Dominican Republic              Americas      10277   30.53
+53                                    Ecuador              Americas      15492   30.29
+54                                      Egypt Eastern Mediterranean      80722   31.25
+55                                El Salvador              Americas       6297   30.62
+56                          Equatorial Guinea                Africa        736   38.95
+57                                    Eritrea                Africa       6131   43.10
+58                                    Estonia                Europe       1291   15.69
+59                                   Ethiopia                Africa      91729   43.29
+60                                       Fiji       Western Pacific        875   28.88
+61                                    Finland                Europe       5408   16.42
+62                                     France                Europe      63937   18.26
+63                                      Gabon                Africa       1633   38.49
+64                                     Gambia                Africa       1791   45.90
+65                                    Georgia                Europe       4358   17.62
+66                                    Germany                Europe      82800   13.17
+67                                      Ghana                Africa      25366   38.59
+68                                     Greece                Europe      11125   14.60
+69                                    Grenada              Americas        105   26.96
+70                                  Guatemala              Americas      15083   40.80
+71                                     Guinea                Africa      11451   42.46
+72                              Guinea-Bissau                Africa       1664   41.55
+73                                     Guyana              Americas        795   36.77
+74                                      Haiti              Americas      10174   35.35
+75                                   Honduras              Americas       7936   35.72
+76                                    Hungary                Europe       9976   14.62
+77                                    Iceland                Europe        326   20.71
+78                                      India       South-East Asia    1240000   29.43
+79                                  Indonesia       South-East Asia     247000   29.27
+80                 Iran (Islamic Republic of) Eastern Mediterranean      76424   23.68
+81                                       Iraq Eastern Mediterranean      32778   40.51
+82                                    Ireland                Europe       4576   21.54
+83                                     Israel                Europe       7644   27.53
+84                                      Italy                Europe      60885   14.04
+85                                    Jamaica              Americas       2769   27.78
+86                                      Japan       Western Pacific     127000   13.12
+87                                     Jordan Eastern Mediterranean       7009   34.13
+88                                 Kazakhstan                Europe      16271   25.46
+89                                      Kenya                Africa      43178   42.37
+90                                   Kiribati       Western Pacific        101   30.10
+91                                     Kuwait Eastern Mediterranean       3250   24.90
+92                                 Kyrgyzstan                Europe       5474   30.21
+93           Lao People's Democratic Republic       Western Pacific       6646   35.61
+94                                     Latvia                Europe       2060   14.57
+95                                    Lebanon Eastern Mediterranean       4647   21.64
+96                                    Lesotho                Africa       2052   36.75
+97                                    Liberia                Africa       4190   43.06
+98                                      Libya Eastern Mediterranean       6155   29.45
+99                                  Lithuania                Europe       3028   15.13
+100                                Luxembourg                Europe        524   17.46
+101                                Madagascar                Africa      22294   42.72
+102                                    Malawi                Africa      15906   45.44
+103                                  Malaysia       Western Pacific      29240   26.65
+104                                  Maldives       South-East Asia        338   29.03
+105                                      Mali                Africa      14854   47.14
+106                                     Malta                Europe        428   14.98
+107                          Marshall Islands       Western Pacific         53   30.10
+108                                Mauritania                Africa       3796   40.22
+109                                 Mauritius                Africa       1240   20.17
+110                                    Mexico              Americas     121000   29.02
+111          Micronesia (Federated States of)       Western Pacific        103   35.81
+112                                    Monaco                Europe         38   18.26
+113                                  Mongolia       Western Pacific       2796   27.05
+114                                Montenegro                Europe        621   19.01
+115                                   Morocco Eastern Mediterranean      32521   27.85
+116                                Mozambique                Africa      25203   45.38
+117                                   Myanmar       South-East Asia      52797   25.28
+118                                   Namibia                Africa       2259   36.59
+119                                     Nauru       Western Pacific         10   30.10
+120                                     Nepal       South-East Asia      27474   35.58
+121                               Netherlands                Europe      16714   17.21
+122                               New Zealand       Western Pacific       4460   20.26
+123                                 Nicaragua              Americas       5992   33.37
+124                                     Niger                Africa      17157   49.99
+125                                   Nigeria                Africa     169000   44.23
+126                                      Niue       Western Pacific          1   30.61
+127                                    Norway                Europe       4994   18.64
+128                                      Oman Eastern Mediterranean       3314   24.19
+129                                  Pakistan Eastern Mediterranean     179000   34.31
+130                                     Palau       Western Pacific         21   30.10
+131                                    Panama              Americas       3802   28.65
+132                          Papua New Guinea       Western Pacific       7167   38.37
+133                                  Paraguay              Americas       6687   32.78
+134                                      Peru              Americas      29988   29.18
+135                               Philippines       Western Pacific      96707   34.53
+136                                    Poland                Europe      38211   14.91
+137                                  Portugal                Europe      10604   14.92
+138                                     Qatar Eastern Mediterranean       2051   13.28
+139                         Republic of Korea       Western Pacific      49003   15.25
+140                       Republic of Moldova                Europe       3514   16.52
+141                                   Romania                Europe      21755   15.05
+142                        Russian Federation                Europe     143000   15.45
+143                                    Rwanda                Africa      11458   43.56
+144                     Saint Kitts and Nevis              Americas         54   25.96
+145                               Saint Lucia              Americas        181   24.31
+146          Saint Vincent and the Grenadines              Americas        109   25.70
+147                                     Samoa       Western Pacific        189   37.88
+148                                San Marino                Europe         31   14.04
+149                     Sao Tome and Principe                Africa        188   41.60
+150                              Saudi Arabia Eastern Mediterranean      28288   29.69
+151                                   Senegal                Africa      13726   43.54
+152                                    Serbia                Europe       9553   16.45
+153                                Seychelles                Africa         92   21.95
+154                              Sierra Leone                Africa       5979   41.74
+155                                 Singapore       Western Pacific       5303   16.48
+156                                  Slovakia                Europe       5446   15.00
+157                                  Slovenia                Europe       2068   14.16
+158                           Solomon Islands       Western Pacific        550   40.37
+159                                   Somalia Eastern Mediterranean      10195   47.35
+160                              South Africa                Africa      52386   29.53
+161                               South Sudan Eastern Mediterranean      10838   42.28
+162                                     Spain                Europe      46755   15.20
+163                                 Sri Lanka       South-East Asia      21098   25.15
+164                                     Sudan Eastern Mediterranean      37195   41.48
+165                                  Suriname              Americas        535   27.83
+166                                 Swaziland                Africa       1231   38.05
+167                                    Sweden                Europe       9511   16.71
+168                               Switzerland                Europe       7997   14.79
+169                      Syrian Arab Republic Eastern Mediterranean      21890   35.35
+170                                Tajikistan                Europe       8009   35.75
+171                                  Thailand       South-East Asia      66785   18.47
+172 The former Yugoslav Republic of Macedonia                Europe       2106   16.89
+173                               Timor-Leste       South-East Asia       1114   46.33
+174                                      Togo                Africa       6643   41.89
+175                                     Tonga       Western Pacific        105   37.33
+176                       Trinidad and Tobago              Americas       1337   20.73
+177                                   Tunisia Eastern Mediterranean      10875   23.22
+178                                    Turkey                Europe      73997   26.00
+179                              Turkmenistan                Europe       5173   28.65
+180                                    Tuvalu       Western Pacific         10   30.61
+181                                    Uganda                Africa      36346   48.54
+182                                   Ukraine                Europe      45530   14.18
+183                      United Arab Emirates Eastern Mediterranean       9206   14.41
+184                            United Kingdom                Europe      62783   17.54
+185               United Republic of Tanzania                Africa      47783   44.85
+186                  United States of America              Americas     318000   19.63
+187                                   Uruguay              Americas       3395   22.05
+188                                Uzbekistan                Europe      28541   28.90
+189                                   Vanuatu       Western Pacific        247   37.37
+190        Venezuela (Bolivarian Republic of)              Americas      29955   28.84
+191                                  Viet Nam       Western Pacific      90796   22.87
+192                                     Yemen Eastern Mediterranean      23852   40.72
+193                                    Zambia                Africa      14075   46.73
+194                                  Zimbabwe                Africa      13724   40.24
+    Over60 FertilityRate LifeExpectancy ChildMortality CellularSubscribers LiteracyRate
+1     3.82          5.40             60           98.5               54.26           NA
+2    14.93          1.75             74           16.7               96.39           NA
+3     7.17          2.83             73           20.0               98.99           NA
+4    22.86            NA             82            3.2               75.49           NA
+5     3.84          6.10             51          163.5               48.38         70.1
+6    12.35          2.12             75            9.9              196.41         99.0
+7    14.97          2.20             76           14.2              134.92         97.8
+8    14.06          1.74             71           16.4              103.57         99.6
+9    19.46          1.89             82            4.9              108.34           NA
+10   23.52          1.44             81            4.0              154.78           NA
+11    8.24          1.96             71           35.2              108.75           NA
+12   11.24          1.90             75           16.9               86.06           NA
+13    3.38          2.12             79            9.6              127.96         91.9
+14    6.89          2.24             70           40.9               56.06         56.8
+15   15.78          1.84             78           18.4              127.01           NA
+16   19.31          1.47             71            5.2              111.88           NA
+17   23.81          1.85             80            4.2              116.61           NA
+18    5.74          2.76             74           18.3               69.96           NA
+19    4.54          5.01             57           89.5               85.33         42.4
+20    6.90          2.32             67           44.6               65.58           NA
+21    7.28          3.31             67           41.4               82.82           NA
+22   20.52          1.26             76            6.7               84.52         97.9
+23    5.63          2.71             66           53.3              142.82         84.5
+24   10.81          1.82             74           14.4              124.26           NA
+25    7.03          2.03             77            8.0              109.17         95.2
+26   26.11          1.51             74           12.1              140.68           NA
+27    3.88          5.78             56          102.4               45.27           NA
+28    3.87          6.21             53          104.3               22.33         67.2
+29    7.67          2.93             65           39.7               96.17           NA
+30    4.89          4.94             53           94.9               52.35           NA
+31   20.82          1.66             82            5.3               79.73           NA
+32    7.05          2.38             72           22.2               79.19         84.3
+33    5.74          4.54             48          128.6               40.65         56.0
+34    3.80          6.49             51          149.8               31.80         34.5
+35   13.80          1.84             79            9.1              129.71           NA
+36   13.42          1.66             76           14.0               73.19         94.3
+37    9.19          2.35             78           17.6               98.45         93.4
+38    4.50          4.85             62           77.6               28.71         74.9
+39    5.13          5.05             58           96.0               93.84           NA
+40    9.07            NA             77           10.6                  NA           NA
+41   10.15          1.83             79            9.9               92.20         96.2
+42    5.10          4.91             56          107.6               86.06         56.2
+43   24.69          1.48             77            4.7              116.37         98.8
+44   17.95          1.46             78            5.5               11.69         99.8
+45   16.92          1.47             81            3.2               97.71         98.3
+46   23.23          1.53             78            3.8              123.44           NA
+47   12.74          2.00             69           28.8                4.09           NA
+48    4.51          6.15             49          145.7               23.09         66.8
+49   23.90          1.88             79            3.7              128.47           NA
+50    5.96          3.53             58           80.9               21.32           NA
+51   12.35            NA             74           12.6              164.02           NA
+52    8.97          2.55             73           27.1               87.22         89.5
+53    9.21          2.62             76           23.3              104.55         91.9
+54    8.62          2.85             73           21.0              101.08         72.0
+55    9.64          2.24             72           15.9              133.54         84.5
+56    4.53          5.04             54          100.3               59.15         93.9
+57    3.73          4.88             61           51.8                4.47         67.8
+58   23.92          1.62             76            3.6              138.98         99.8
+59    5.17          4.77             60           68.3               16.67           NA
+60    8.38          2.64             70           22.4               83.72           NA
+61   25.90          1.85             81            2.9              166.02           NA
+62   23.82          1.98             82            4.1               94.79           NA
+63    7.38          4.18             62           62.0              117.32         88.4
+64    3.72          5.79             58           72.9               78.89         50.0
+65   19.47          1.82             72           19.9              102.31         99.7
+66   26.72          1.40             81            4.1              132.30           NA
+67    5.40          3.99             64           72.0               84.78         67.3
+68   25.41          1.51             81            4.8              106.48         97.2
+69    9.72          2.22             74           13.5                  NA           NA
+70    6.56          3.91             69           32.0              140.38         75.2
+71    5.03          5.09             55          101.2               44.02         41.0
+72    5.06          5.05             50          129.1               56.18         54.2
+73    5.18          2.64             63           35.2               69.94           NA
+74    6.70          3.28             63           75.6               41.49           NA
+75    6.41          3.10             74           22.9              103.97         84.8
+76   23.41          1.38             75            6.2              117.30         99.0
+77   17.62          2.11             82            2.3              106.08           NA
+78    8.10          2.53             65           56.3               72.00           NA
+79    7.86          2.40             69           31.0              103.09           NA
+80    7.82          1.91             73           17.6               74.93           NA
+81    4.95          4.15             69           34.4               78.12         78.2
+82   16.59          2.00             81            4.0              108.41           NA
+83   15.15          2.92             82            4.2              121.66           NA
+84   26.97          1.45             82            3.8              157.93         98.9
+85   10.98          2.31             75           16.8              108.12         86.6
+86   31.92          1.39             83            3.0              104.95           NA
+87    5.30          3.39             74           19.1              118.20         92.6
+88   10.04          2.52             67           18.7              155.74         99.7
+89    4.25          4.54             60           72.9               67.49         87.4
+90    8.84          3.01             67           59.9               13.64           NA
+91    3.80          2.65             80           11.0              175.09           NA
+92    6.34          3.03             69           26.6              116.40           NA
+93    5.76          3.20             68           71.8               87.16           NA
+94   24.24          1.57             74            8.7              102.94         99.8
+95   12.03          1.50             74            9.3               78.65           NA
+96    6.31          3.15             50           99.6               56.17         89.6
+97    4.76          4.95             59           74.8               49.17         60.8
+98    6.96          2.47             65           15.4              155.70         89.2
+99   20.57          1.49             74            5.4              151.30         99.7
+100  19.15          1.65             82            2.2              148.27           NA
+101   4.45          4.59             66           58.2               40.65           NA
+102   4.92          5.55             58           71.0               25.69         74.8
+103   8.21          1.99             74            8.5              127.04         93.1
+104   6.65          2.31             77           10.5              165.72           NA
+105   4.29          6.85             51          128.0               68.32         31.1
+106  22.87          1.37             80            6.8              124.86           NA
+107   8.84            NA             60           37.9                  NA           NA
+108   4.94          4.78             59           84.0               93.60         58.0
+109  13.23          1.51             74           15.1               99.04         88.5
+110   9.18          2.25             75           16.2               82.38         93.1
+111   6.67          3.40             69           38.5                  NA           NA
+112  23.82            NA             82            3.8               89.73           NA
+113   5.80          2.45             68           27.5              105.08         97.4
+114  18.58          1.69             76            5.9                  NA         98.4
+115   7.61          2.65             72           31.1              113.26           NA
+116   5.01          5.34             53           89.7               32.83         56.1
+117   8.15          1.98             65           52.3                2.57         92.3
+118   5.38          3.17             65           38.7               96.39         88.8
+119   8.84            NA             71           37.1               65.00           NA
+120   7.65          2.50             68           41.6               43.81         60.3
+121  23.02          1.76             81            4.1                  NA           NA
+122  19.01          2.10             81            5.7              109.19           NA
+123   6.59          2.59             73           24.4               82.15           NA
+124   4.26          7.58             56          113.5               29.52           NA
+125   4.49          6.02             53          123.7               58.58         61.3
+126   9.07            NA             72           25.1                  NA           NA
+127  21.41          1.93             81            2.8              115.62           NA
+128   3.99          2.90             72           11.6              168.97           NA
+129   6.44          3.35             67           85.9               61.61           NA
+130   8.84            NA             72           20.8               74.94           NA
+131  10.13          2.52             77           18.5              188.60         94.1
+132   4.79          3.90             63           63.0               34.22         60.6
+133   8.01          2.93             75           22.0               99.40         93.9
+134   9.12          2.48             77           18.2              110.41           NA
+135   6.21          3.11             69           29.8               99.30           NA
+136  20.48          1.39             76            5.0              130.97         99.5
+137  24.39          1.33             80            3.6              115.39         95.2
+138   1.73          2.06             82            7.4              123.11         96.3
+139  16.58          1.29             81            3.8              108.50           NA
+140  16.72          1.47             71           17.6              104.80         98.5
+141  20.66          1.39             74           12.2              109.16         97.7
+142  18.60          1.51             69           10.3              179.31         99.6
+143   3.94          4.73             60           55.0               40.63         71.1
+144  12.35            NA             74            9.2                  NA           NA
+145  12.13          1.96             75           17.5              123.00           NA
+146   9.92          2.05             74           23.4              120.52           NA
+147   7.39          4.28             73           17.8                  NA         98.8
+148  26.97            NA             83            3.3              111.75           NA
+149   4.76          4.22             63           53.2               68.26         89.2
+150   4.59          2.76             76            8.6              191.24         86.6
+151   4.57          5.02             61           59.6               73.25           NA
+152  20.52          1.37             74            6.6              125.39         97.9
+153  10.05          2.23             74           13.1              145.71         91.8
+154   4.41          4.86             47          181.6               35.63         42.1
+155  15.13          1.27             82            2.9              150.24         95.9
+156  18.60          1.37             76            7.5              109.35           NA
+157  23.16          1.49             80            3.1              106.56         99.7
+158   5.10          4.17             70           31.1               49.77           NA
+159   4.46          6.77             50          147.4                6.85           NA
+160   8.44          2.44             58           44.6              126.83           NA
+161   5.26          5.10             54          104.0                  NA           NA
+162  22.86          1.47             82            4.5              113.22         97.7
+163  12.40          2.35             75            9.6               87.05         91.2
+164   4.99          4.56             62           73.1               56.14         71.1
+165   9.55          2.32             72           20.8              178.88         94.7
+166   5.34          3.48             50           79.7               63.70         87.4
+167  25.32          1.93             82            2.9              118.57           NA
+168  23.25          1.51             83            4.3              131.43           NA
+169   6.09          3.04             75           15.1               63.17         83.4
+170   4.80          3.81             68           58.3               90.64         99.7
+171  13.96          1.43             74           13.2              111.63           NA
+172  17.56          1.44             75            7.4              107.24         97.3
+173   5.16          6.11             64           56.7               53.23         58.3
+174   4.44          4.75             56           95.5               50.45           NA
+175   7.96          3.86             72           12.8               52.63           NA
+176  13.18          1.80             71           20.7              135.64         98.8
+177  10.49          2.04             76           16.1              116.93           NA
+178  10.56          2.08             76           14.2               88.70           NA
+179   6.30          2.38             63           52.8               68.77         99.6
+180   9.07            NA             64           29.7               21.63           NA
+181   3.72          6.06             56           68.9               48.38         73.2
+182  20.76          1.45             71           10.7              122.98         99.7
+183   0.81          1.84             76            8.4              148.62           NA
+184  23.06          1.90             80            4.8              130.75           NA
+185   4.89          5.36             59           54.0               55.53         73.2
+186  19.31          2.00             79            7.1               92.72           NA
+187  18.59          2.07             77            7.2              140.75         98.1
+188   6.38          2.38             68           39.6               91.65         99.4
+189   6.02          3.46             72           17.9               55.76         82.6
+190   9.17          2.44             75           15.3               97.78           NA
+191   9.32          1.79             75           23.0              143.39         93.2
+192   4.54          4.35             64           60.0               47.05         63.9
+193   3.95          5.77             55           88.5               60.59         71.2
+194   5.68          3.64             54           89.8               72.13         92.2
+      GNI PrimarySchoolEnrollmentMale PrimarySchoolEnrollmentFemale
+1    1140                          NA                            NA
+2    8820                          NA                            NA
+3    8310                        98.2                          96.4
+4      NA                        78.4                          79.4
+5    5230                        93.1                          78.2
+6   17900                        91.1                          84.5
+7   17130                          NA                            NA
+8    6100                          NA                            NA
+9   38110                        96.9                          97.5
+10  42050                          NA                            NA
+11   8960                        85.3                          84.1
+12     NA                          NA                            NA
+13     NA                          NA                            NA
+14   1940                          NA                            NA
+15     NA                          NA                            NA
+16  14460                          NA                            NA
+17  39190                        98.9                          99.2
+18   6090                          NA                            NA
+19   1620                          NA                            NA
+20   5570                        88.3                          91.5
+21   4890                        91.2                          91.5
+22   9190                        86.5                          88.4
+23  14550                          NA                            NA
+24  11420                          NA                            NA
+25     NA                          NA                            NA
+26  14160                        99.3                          99.7
+27   1300                        60.7                          55.9
+28    610                          NA                            NA
+29   2230                        96.4                          95.4
+30   2330                        99.6                          87.4
+31  39660                          NA                            NA
+32   3980                        94.6                          92.4
+33    810                        81.3                          60.6
+34   1360                          NA                            NA
+35  16330                        94.3                          94.4
+36   8390                          NA                            NA
+37   9560                        91.7                          91.3
+38   1110                          NA                            NA
+39   3240                        92.3                          89.3
+40     NA                        97.6                          99.3
+41  11860                          NA                            NA
+42   1710                          NA                            NA
+43  18760                        94.8                          97.0
+44     NA                       100.0                          99.7
+45     NA                        99.1                          99.5
+46  24370                          NA                            NA
+47     NA                          NA                            NA
+48    340                          NA                            NA
+49  41900                        94.8                          96.9
+50     NA                          NA                            NA
+51  13000                          NA                            NA
+52   9420                        95.5                          90.4
+53   8510                          NA                            NA
+54   6120                          NA                            NA
+55   6640                        95.2                          95.5
+56  25620                        56.5                          56.0
+57    580                        37.2                          32.5
+58  20850                        97.7                          97.0
+59   1110                        84.8                          79.5
+60   4610                          NA                            NA
+61  37670                        97.7                          97.9
+62  35910                        99.1                          99.3
+63  13740                          NA                            NA
+64   1750                        68.2                          70.4
+65   5350                          NA                            NA
+66  40230                          NA                            NA
+67   1810                          NA                            NA
+68  25100                        98.8                          99.3
+69  10350                          NA                            NA
+70   4760                        98.6                          97.5
+71   1020                        85.2                          72.1
+72   1240                        76.7                          73.3
+73     NA                        82.4                          85.9
+74   1180                          NA                            NA
+75   3820                        94.8                          97.0
+76  20310                        97.8                          98.3
+77  31020                        98.8                          99.2
+78   3590                          NA                            NA
+79   4500                          NA                            NA
+80     NA                          NA                            NA
+81   3750                          NA                            NA
+82  34180                        99.4                         100.0
+83  27110                        97.0                          97.8
+84  32400                        99.6                          98.5
+85     NA                        83.4                          81.4
+86  35330                          NA                            NA
+87   5930                        90.8                          90.7
+88  11250                          NA                            NA
+89   1710                          NA                            NA
+90   3300                          NA                            NA
+91     NA                          NA                            NA
+92   2180                        95.5                          95.1
+93   2580                        98.1                          95.4
+94  17700                        95.0                          96.8
+95  14470                        93.5                          92.9
+96   2050                        72.2                          75.3
+97    540                          NA                            NA
+98     NA                          NA                            NA
+99  19640                        95.6                          95.8
+100 64260                        93.6                          95.7
+101   950                          NA                            NA
+102   870                          NA                            NA
+103 15650                          NA                            NA
+104  7430                        96.5                          96.5
+105  1040                        70.6                          60.8
+106    NA                        93.3                          94.3
+107    NA                          NA                            NA
+108  2400                        72.8                          76.0
+109 14330                          NA                            NA
+110 15390                        99.2                          99.9
+111  3580                          NA                            NA
+112    NA                          NA                            NA
+113  4290                        99.6                          98.5
+114 13700                          NA                            NA
+115  4880                          NA                            NA
+116   970                        94.6                          89.4
+117    NA                          NA                            NA
+118  6560                        83.8                          88.5
+119    NA                          NA                            NA
+120  1260                          NA                            NA
+121 43140                          NA                            NA
+122    NA                        99.3                          99.6
+123  3730                        93.2                          94.5
+124   720                        64.2                          52.0
+125  2290                        60.1                          54.8
+126    NA                          NA                            NA
+127 61460                        99.1                          99.2
+128    NA                          NA                            NA
+129  2870                        81.3                          66.5
+130 11080                          NA                            NA
+131 14510                        99.1                          98.2
+132  2570                          NA                            NA
+133  5390                        84.4                          83.9
+134  9440                        97.8                          98.5
+135  4140                          NA                            NA
+136 20430                        96.9                          96.7
+137 24440                        99.1                          99.7
+138 86440                        95.7                          96.6
+139 30370                        99.3                          98.4
+140  3640                        90.1                          90.1
+141 15120                        87.9                          87.3
+142 20560                          NA                            NA
+143  1270                          NA                            NA
+144 16470                        85.8                          86.2
+145 11220                        90.2                          89.2
+146 10440                          NA                            NA
+147  4270                        93.2                          97.1
+148    NA                          NA                            NA
+149  2080                          NA                            NA
+150 24700                        96.7                          96.5
+151  1940                        75.9                          80.2
+152 11540                        94.7                          94.4
+153 25140                          NA                            NA
+154   840                          NA                            NA
+155 59380                          NA                            NA
+156 22130                          NA                            NA
+157 26510                        97.7                          97.3
+158  2350                        87.7                          87.3
+159    NA                          NA                            NA
+160 10710                          NA                            NA
+161    NA                          NA                            NA
+162 31400                        99.7                          99.8
+163  5520                        93.9                          94.4
+164  2120                          NA                            NA
+165    NA                          NA                            NA
+166  5930                          NA                            NA
+167 42200                        99.7                          99.0
+168 52570                        98.9                          99.5
+169    NA                          NA                            NA
+170  2300                        99.5                          96.0
+171  8360                          NA                            NA
+172 11090                        97.3                          99.2
+173    NA                        86.2                          85.6
+174  1040                          NA                            NA
+175  5000                          NA                            NA
+176    NA                        97.7                          97.0
+177  9030                          NA                            NA
+178 16940                        99.5                          98.3
+179  8690                          NA                            NA
+180    NA                          NA                            NA
+181  1310                        89.7                          92.3
+182  7040                        90.8                          91.5
+183 47890                          NA                            NA
+184 36010                        99.8                          99.6
+185  1500                          NA                            NA
+186 48820                        95.4                          96.1
+187 14640                          NA                            NA
+188  3420                        93.3                          91.0
+189  4330                          NA                            NA
+190 12430                        94.7                          95.1
+191  3250                          NA                            NA
+192  2170                        85.5                          70.5
+193  1490                        91.4                          93.9
+194    NA                          NA                            NA
+> str(who)
+'data.frame':   194 obs. of  13 variables:
+ $ Country                      : Factor w/ 194 levels "Afghanistan",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Region                       : Factor w/ 6 levels "Africa","Americas",..: 3 4 1 4 1 2 2 4 6 4 ...
+ $ Population                   : int  29825 3162 38482 78 20821 89 41087 2969 23050 8464 ...
+ $ Under15                      : num  47.4 21.3 27.4 15.2 47.6 ...
+ $ Over60                       : num  3.82 14.93 7.17 22.86 3.84 ...
+ $ FertilityRate                : num  5.4 1.75 2.83 NA 6.1 2.12 2.2 1.74 1.89 1.44 ...
+ $ LifeExpectancy               : int  60 74 73 82 51 75 76 71 82 81 ...
+ $ ChildMortality               : num  98.5 16.7 20 3.2 163.5 ...
+ $ CellularSubscribers          : num  54.3 96.4 99 75.5 48.4 ...
+ $ LiteracyRate                 : num  NA NA NA NA 70.1 99 97.8 99.6 NA NA ...
+ $ GNI                          : num  1140 8820 8310 NA 5230 ...
+ $ PrimarySchoolEnrollmentMale  : num  NA NA 98.2 78.4 93.1 91.1 NA NA 96.9 NA ...
+ $ PrimarySchoolEnrollmentFemale: num  NA NA 96.4 79.4 78.2 84.5 NA NA 97.5 NA ...
+> summary(who)
+                Country                      Region     Population         Under15     
+ Afghanistan        :  1   Africa               :46   Min.   :      1   Min.   :13.12  
+ Albania            :  1   Americas             :35   1st Qu.:   1696   1st Qu.:18.72  
+ Algeria            :  1   Eastern Mediterranean:22   Median :   7790   Median :28.65  
+ Andorra            :  1   Europe               :53   Mean   :  36360   Mean   :28.73  
+ Angola             :  1   South-East Asia      :11   3rd Qu.:  24535   3rd Qu.:37.75  
+ Antigua and Barbuda:  1   Western Pacific      :27   Max.   :1390000   Max.   :49.99  
+ (Other)            :188                                                               
+     Over60      FertilityRate   LifeExpectancy  ChildMortality    CellularSubscribers
+ Min.   : 0.81   Min.   :1.260   Min.   :47.00   Min.   :  2.200   Min.   :  2.57     
+ 1st Qu.: 5.20   1st Qu.:1.835   1st Qu.:64.00   1st Qu.:  8.425   1st Qu.: 63.57     
+ Median : 8.53   Median :2.400   Median :72.50   Median : 18.600   Median : 97.75     
+ Mean   :11.16   Mean   :2.941   Mean   :70.01   Mean   : 36.149   Mean   : 93.64     
+ 3rd Qu.:16.69   3rd Qu.:3.905   3rd Qu.:76.00   3rd Qu.: 55.975   3rd Qu.:120.81     
+ Max.   :31.92   Max.   :7.580   Max.   :83.00   Max.   :181.600   Max.   :196.41     
+                 NA's   :11                                        NA's   :10         
+  LiteracyRate        GNI        PrimarySchoolEnrollmentMale
+ Min.   :31.10   Min.   :  340   Min.   : 37.20             
+ 1st Qu.:71.60   1st Qu.: 2335   1st Qu.: 87.70             
+ Median :91.80   Median : 7870   Median : 94.70             
+ Mean   :83.71   Mean   :13321   Mean   : 90.85             
+ 3rd Qu.:97.85   3rd Qu.:17558   3rd Qu.: 98.10             
+ Max.   :99.80   Max.   :86440   Max.   :100.00             
+ NA's   :91      NA's   :32      NA's   :93                 
+ PrimarySchoolEnrollmentFemale
+ Min.   : 32.50               
+ 1st Qu.: 87.30               
+ Median : 95.10               
+ Mean   : 89.63               
+ 3rd Qu.: 97.90               
+ Max.   :100.00               
+ NA's   :93                   
+> who_India = subset(who, Region == 'South-East Asia')
+> str(who_India)
+'data.frame':   11 obs. of  13 variables:
+ $ Country                      : Factor w/ 194 levels "Afghanistan",..: 14 20 46 77 78 104 117 120 163 171 ...
+ $ Region                       : Factor w/ 6 levels "Africa","Americas",..: 5 5 5 5 5 5 5 5 5 5 ...
+ $ Population                   : int  155000 742 24763 1240000 247000 338 52797 27474 21098 66785 ...
+ $ Under15                      : num  30.6 28.5 22 29.4 29.3 ...
+ $ Over60                       : num  6.89 6.9 12.74 8.1 7.86 ...
+ $ FertilityRate                : num  2.24 2.32 2 2.53 2.4 2.31 1.98 2.5 2.35 1.43 ...
+ $ LifeExpectancy               : int  70 67 69 65 69 77 65 68 75 74 ...
+ $ ChildMortality               : num  40.9 44.6 28.8 56.3 31 10.5 52.3 41.6 9.6 13.2 ...
+ $ CellularSubscribers          : num  56.06 65.58 4.09 72 103.09 ...
+ $ LiteracyRate                 : num  56.8 NA NA NA NA NA 92.3 60.3 91.2 NA ...
+ $ GNI                          : num  1940 5570 NA 3590 4500 7430 NA 1260 5520 8360 ...
+ $ PrimarySchoolEnrollmentMale  : num  NA 88.3 NA NA NA 96.5 NA NA 93.9 NA ...
+ $ PrimarySchoolEnrollmentFemale: num  NA 91.5 NA NA NA 96.5 NA NA 94.4 NA ...
+> summary(who_India)
+                                  Country                    Region     Population     
+ Bangladesh                           :1   Africa               : 0   Min.   :    338  
+ Bhutan                               :1   Americas             : 0   1st Qu.:  11106  
+ Democratic People's Republic of Korea:1   Eastern Mediterranean: 0   Median :  27474  
+ India                                :1   Europe               : 0   Mean   : 167010  
+ Indonesia                            :1   South-East Asia      :11   3rd Qu.: 110893  
+ Maldives                             :1   Western Pacific      : 0   Max.   :1240000  
+ (Other)                              :5                                               
+    Under15          Over60       FertilityRate   LifeExpectancy  ChildMortality 
+ Min.   :18.47   Min.   : 5.160   Min.   :1.430   Min.   :64.00   Min.   : 9.60  
+ 1st Qu.:25.21   1st Qu.: 6.895   1st Qu.:2.120   1st Qu.:66.00   1st Qu.:21.00  
+ Median :29.03   Median : 7.860   Median :2.320   Median :69.00   Median :40.90  
+ Mean   :29.06   Mean   : 8.769   Mean   :2.561   Mean   :69.36   Mean   :35.05  
+ 3rd Qu.:30.00   3rd Qu.:10.275   3rd Qu.:2.450   3rd Qu.:72.00   3rd Qu.:48.45  
+ Max.   :46.33   Max.   :13.960   Max.   :6.110   Max.   :77.00   Max.   :56.70  
+                                                                                 
+ CellularSubscribers  LiteracyRate        GNI       PrimarySchoolEnrollmentMale
+ Min.   :  2.57      Min.   :56.80   Min.   :1260   Min.   :86.20              
+ 1st Qu.: 48.52      1st Qu.:58.30   1st Qu.:3178   1st Qu.:87.78              
+ Median : 65.58      Median :60.30   Median :5010   Median :91.10              
+ Mean   : 69.53      Mean   :71.78   Mean   :4771   Mean   :91.22              
+ 3rd Qu.: 95.07      3rd Qu.:91.20   3rd Qu.:6035   3rd Qu.:94.55              
+ Max.   :165.72      Max.   :92.30   Max.   :8360   Max.   :96.50              
+                     NA's   :6       NA's   :3      NA's   :7                  
+ PrimarySchoolEnrollmentFemale
+ Min.   :85.60                
+ 1st Qu.:90.03                
+ Median :92.95                
+ Mean   :92.00                
+ 3rd Qu.:94.92                
+ Max.   :96.50                
+ NA's   :7                    
+> write.csv(who_India, "Who_SouthEastAsia")
+> ls()
+ [1] "AllData"        "Country"        "DATA"           "LifeExpectency"
+ [5] "NewDATA"        "Population"     "who"            "who_India"     
+ [9] "x"              "X"              "xy"            
+> rm(who_India)
+> ls()
+ [1] "AllData"        "Country"        "DATA"           "LifeExpectency"
+ [5] "NewDATA"        "Population"     "who"            "x"             
+ [9] "X"              "xy"            
+> who$Under15
+  [1] 47.42 21.33 27.42 15.20 47.58 25.96 24.42 20.34 18.95 14.51 22.25 21.62 20.16
+ [14] 30.57 18.99 15.10 16.88 34.40 42.95 28.53 35.23 16.35 33.75 24.56 25.75 13.53
+ [27] 45.66 44.20 31.23 43.08 16.37 30.17 40.07 48.52 21.38 17.95 28.03 42.17 42.37
+ [40] 30.61 23.94 41.48 14.98 16.58 17.16 14.56 21.98 45.11 17.66 33.72 25.96 30.53
+ [53] 30.29 31.25 30.62 38.95 43.10 15.69 43.29 28.88 16.42 18.26 38.49 45.90 17.62
+ [66] 13.17 38.59 14.60 26.96 40.80 42.46 41.55 36.77 35.35 35.72 14.62 20.71 29.43
+ [79] 29.27 23.68 40.51 21.54 27.53 14.04 27.78 13.12 34.13 25.46 42.37 30.10 24.90
+ [92] 30.21 35.61 14.57 21.64 36.75 43.06 29.45 15.13 17.46 42.72 45.44 26.65 29.03
+[105] 47.14 14.98 30.10 40.22 20.17 29.02 35.81 18.26 27.05 19.01 27.85 45.38 25.28
+[118] 36.59 30.10 35.58 17.21 20.26 33.37 49.99 44.23 30.61 18.64 24.19 34.31 30.10
+[131] 28.65 38.37 32.78 29.18 34.53 14.91 14.92 13.28 15.25 16.52 15.05 15.45 43.56
+[144] 25.96 24.31 25.70 37.88 14.04 41.60 29.69 43.54 16.45 21.95 41.74 16.48 15.00
+[157] 14.16 40.37 47.35 29.53 42.28 15.20 25.15 41.48 27.83 38.05 16.71 14.79 35.35
+[170] 35.75 18.47 16.89 46.33 41.89 37.33 20.73 23.22 26.00 28.65 30.61 48.54 14.18
+[183] 14.41 17.54 44.85 19.63 22.05 28.90 37.37 28.84 22.87 40.72 46.73 40.24
+> mean(who$Under15)
+[1] 28.73242
+> sd(who$Under15)
+[1] 10.53457
+> summary(who$Under15)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  13.12   18.72   28.65   28.73   37.75   49.99 
+> which.min(who$Under15)
+[1] 86
+> who$Country[86]
+[1] Japan
+194 Levels: Afghanistan Albania Algeria Andorra Angola Antigua and Barbuda ... Zimbabwe
+> which.max(who$Under15)
+[1] 124
+> who$Country[124]
+[1] Niger
+194 Levels: Afghanistan Albania Algeria Andorra Angola Antigua and Barbuda ... Zimbabwe
+> plot(who$GNI,who$FertilityRate)
+> outliers = subset(who, GNI > 10000 & FertilityRate> 2.5)
+> summary(outliers)
+              Country                    Region    Population   
+ Botswana         :1   Africa               :3   Min.   :  736  
+ Equatorial Guinea:1   Americas             :1   1st Qu.: 1818  
+ Gabon            :1   Eastern Mediterranean:1   Median : 3802  
+ Israel           :1   Europe               :2   Mean   : 8625  
+ Kazakhstan       :1   South-East Asia      :0   3rd Qu.:11958  
+ Panama           :1   Western Pacific      :0   Max.   :28288  
+ (Other)          :1                                            
+    Under15          Over60       FertilityRate   LifeExpectancy 
+ Min.   :25.46   Min.   : 4.530   Min.   :2.520   Min.   :54.00  
+ 1st Qu.:28.09   1st Qu.: 5.110   1st Qu.:2.615   1st Qu.:64.00  
+ Median :29.69   Median : 7.380   Median :2.760   Median :67.00  
+ Mean   :31.79   Mean   : 8.207   Mean   :3.236   Mean   :69.14  
+ 3rd Qu.:36.12   3rd Qu.:10.085   3rd Qu.:3.550   3rd Qu.:76.50  
+ Max.   :38.95   Max.   :15.150   Max.   :5.040   Max.   :82.00  
+                                                                 
+ ChildMortality   CellularSubscribers  LiteracyRate        GNI       
+ Min.   :  4.20   Min.   : 59.15      Min.   :84.50   Min.   :11250  
+ 1st Qu.: 13.55   1st Qu.:119.49      1st Qu.:87.05   1st Qu.:14125  
+ Median : 18.70   Median :142.82      Median :91.15   Median :14550  
+ Mean   : 37.94   Mean   :139.50      Mean   :91.20   Mean   :18783  
+ 3rd Qu.: 57.65   3rd Qu.:172.17      3rd Qu.:94.05   3rd Qu.:25160  
+ Max.   :100.30   Max.   :191.24      Max.   :99.70   Max.   :27110  
+                                      NA's   :1                      
+ PrimarySchoolEnrollmentMale PrimarySchoolEnrollmentFemale
+ Min.   :56.50               Min.   :56.00                
+ 1st Qu.:86.65               1st Qu.:86.38                
+ Median :96.85               Median :97.15                
+ Mean   :87.33               Mean   :87.12                
+ 3rd Qu.:97.53               3rd Qu.:97.90                
+ Max.   :99.10               Max.   :98.20                
+ NA's   :3                   NA's   :3                    
+> nrow(outliers)
+[1] 7
+> outliers[c("Country","GNI","FertilityRate")]
+              Country   GNI FertilityRate
+23           Botswana 14550          2.71
+56  Equatorial Guinea 25620          5.04
+63              Gabon 13740          4.18
+83             Israel 27110          2.92
+88         Kazakhstan 11250          2.52
+131            Panama 14510          2.52
+150      Saudi Arabia 24700          2.76
+> mean(who$Over60)
+[1] 11.16366
+> which.min(who$Under60/who$Population)
+integer(0)
+> which.min(who$Population)
+[1] 126
+> who$Country[126]
+[1] Niue
+194 Levels: Afghanistan Albania Algeria Andorra Angola ... Zimbabwe
+> which.min((who$Under60)/(who$Population))
+integer(0)
+> which.min((who$Under60)/(who$Population)*100)
+integer(0)
+> which.min((who$Under60))
+integer(0)
+> which.min(who$Under60)
+integer(0)
+> which.min((who$Over60)/(who$Population)*100)
+[1] 78
+> who$Country[78]
+[1] India
+194 Levels: Afghanistan Albania Algeria Andorra Angola ... Zimbabwe
+> which.min((who$Over60))
+[1] 183
+> who$Country[183]
+[1] United Arab Emirates
+194 Levels: Afghanistan Albania Algeria Andorra Angola ... Zimbabwe
+> summary(who)
+                Country                      Region     Population     
+ Afghanistan        :  1   Africa               :46   Min.   :      1  
+ Albania            :  1   Americas             :35   1st Qu.:   1696  
+ Algeria            :  1   Eastern Mediterranean:22   Median :   7790  
+ Andorra            :  1   Europe               :53   Mean   :  36360  
+ Angola             :  1   South-East Asia      :11   3rd Qu.:  24535  
+ Antigua and Barbuda:  1   Western Pacific      :27   Max.   :1390000  
+ (Other)            :188                                               
+    Under15          Over60      FertilityRate   LifeExpectancy 
+ Min.   :13.12   Min.   : 0.81   Min.   :1.260   Min.   :47.00  
+ 1st Qu.:18.72   1st Qu.: 5.20   1st Qu.:1.835   1st Qu.:64.00  
+ Median :28.65   Median : 8.53   Median :2.400   Median :72.50  
+ Mean   :28.73   Mean   :11.16   Mean   :2.941   Mean   :70.01  
+ 3rd Qu.:37.75   3rd Qu.:16.69   3rd Qu.:3.905   3rd Qu.:76.00  
+ Max.   :49.99   Max.   :31.92   Max.   :7.580   Max.   :83.00  
+                                 NA's   :11                     
+ ChildMortality    CellularSubscribers  LiteracyRate        GNI       
+ Min.   :  2.200   Min.   :  2.57      Min.   :31.10   Min.   :  340  
+ 1st Qu.:  8.425   1st Qu.: 63.57      1st Qu.:71.60   1st Qu.: 2335  
+ Median : 18.600   Median : 97.75      Median :91.80   Median : 7870  
+ Mean   : 36.149   Mean   : 93.64      Mean   :83.71   Mean   :13321  
+ 3rd Qu.: 55.975   3rd Qu.:120.81      3rd Qu.:97.85   3rd Qu.:17558  
+ Max.   :181.600   Max.   :196.41      Max.   :99.80   Max.   :86440  
+                   NA's   :10          NA's   :91      NA's   :32     
+ PrimarySchoolEnrollmentMale PrimarySchoolEnrollmentFemale
+ Min.   : 37.20              Min.   : 32.50               
+ 1st Qu.: 87.70              1st Qu.: 87.30               
+ Median : 94.70              Median : 95.10               
+ Mean   : 90.85              Mean   : 89.63               
+ 3rd Qu.: 98.10              3rd Qu.: 97.90               
+ Max.   :100.00              Max.   :100.00               
+ NA's   :93                  NA's   :93                   
+> str(who)
+'data.frame':   194 obs. of  13 variables:
+ $ Country                      : Factor w/ 194 levels "Afghanistan",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Region                       : Factor w/ 6 levels "Africa","Americas",..: 3 4 1 4 1 2 2 4 6 4 ...
+ $ Population                   : int  29825 3162 38482 78 20821 89 41087 2969 23050 8464 ...
+ $ Under15                      : num  47.4 21.3 27.4 15.2 47.6 ...
+ $ Over60                       : num  3.82 14.93 7.17 22.86 3.84 ...
+ $ FertilityRate                : num  5.4 1.75 2.83 NA 6.1 2.12 2.2 1.74 1.89 1.44 ...
+ $ LifeExpectancy               : int  60 74 73 82 51 75 76 71 82 81 ...
+ $ ChildMortality               : num  98.5 16.7 20 3.2 163.5 ...
+ $ CellularSubscribers          : num  54.3 96.4 99 75.5 48.4 ...
+ $ LiteracyRate                 : num  NA NA NA NA 70.1 99 97.8 99.6 NA NA ...
+ $ GNI                          : num  1140 8820 8310 NA 5230 ...
+ $ PrimarySchoolEnrollmentMale  : num  NA NA 98.2 78.4 93.1 91.1 NA NA 96.9 NA ...
+ $ PrimarySchoolEnrollmentFemale: num  NA NA 96.4 79.4 78.2 84.5 NA NA 97.5 NA ...
+> which.max(who$LiteracyRate)
+[1] 44
+> who$Country[44]
+[1] Cuba
+194 Levels: Afghanistan Albania Algeria Andorra Angola ... Zimbabwe
+> hist(who$CellularSubscribers)
+> boxplot(who$LifeExpectancy ~ who$Region)
+> boxplot(who$LifeExpectancy ~ who$Region, xlab="Region", ylab="Life Expectency", main="Life Expectency wrt Region of the world")
+> table(who$Region)
+
+               Africa              Americas Eastern Mediterranean 
+                   46                    35                    22 
+               Europe       South-East Asia       Western Pacific 
+                   53                    11                    27 
+> tapply(who$Over60,who$Region,mean)
+               Africa              Americas Eastern Mediterranean 
+             5.220652             10.943714              5.620000 
+               Europe       South-East Asia       Western Pacific 
+            19.774906              8.769091             10.162963 
+> tapply(who$LiteracyRate, who$Region, min)
+               Africa              Americas Eastern Mediterranean 
+                   NA                    NA                    NA 
+               Europe       South-East Asia       Western Pacific 
+                   NA                    NA                    NA 
+> tapply(who$LiteracyRate, who$Region, min, na.rm = TRUE)
+               Africa              Americas Eastern Mediterranean 
+                 31.1                  75.2                  63.9 
+               Europe       South-East Asia       Western Pacific 
+                 95.2                  56.8                  60.6 
+> str(who)
+'data.frame':   194 obs. of  13 variables:
+ $ Country                      : Factor w/ 194 levels "Afghanistan",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Region                       : Factor w/ 6 levels "Africa","Americas",..: 3 4 1 4 1 2 2 4 6 4 ...
+ $ Population                   : int  29825 3162 38482 78 20821 89 41087 2969 23050 8464 ...
+ $ Under15                      : num  47.4 21.3 27.4 15.2 47.6 ...
+ $ Over60                       : num  3.82 14.93 7.17 22.86 3.84 ...
+ $ FertilityRate                : num  5.4 1.75 2.83 NA 6.1 2.12 2.2 1.74 1.89 1.44 ...
+ $ LifeExpectancy               : int  60 74 73 82 51 75 76 71 82 81 ...
+ $ ChildMortality               : num  98.5 16.7 20 3.2 163.5 ...
+ $ CellularSubscribers          : num  54.3 96.4 99 75.5 48.4 ...
+ $ LiteracyRate                 : num  NA NA NA NA 70.1 99 97.8 99.6 NA NA ...
+ $ GNI                          : num  1140 8820 8310 NA 5230 ...
+ $ PrimarySchoolEnrollmentMale  : num  NA NA 98.2 78.4 93.1 91.1 NA NA 96.9 NA ...
+ $ PrimarySchoolEnrollmentFemale: num  NA NA 96.4 79.4 78.2 84.5 NA NA 97.5 NA ...
+> tapply(who$ChildMortality, who$Region, mean, na.rm = TRUE)
+               Africa              Americas Eastern Mediterranean 
+             84.03696              19.32286              40.25000 
+               Europe       South-East Asia       Western Pacific 
+             10.05094              35.04545              24.71111

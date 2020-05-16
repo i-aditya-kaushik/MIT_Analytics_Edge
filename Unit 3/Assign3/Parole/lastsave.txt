@@ -1,0 +1,129 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> parole = read.csv('parole.csv')
+> str(parole)
+'data.frame':   675 obs. of  9 variables:
+ $ male             : int  1 0 1 1 1 1 1 0 0 1 ...
+ $ race             : int  1 1 2 1 2 2 1 1 1 2 ...
+ $ age              : num  33.2 39.7 29.5 22.4 21.6 46.7 31 24.6 32.6 29.1 ...
+ $ state            : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ time.served      : num  5.5 5.4 5.6 5.7 5.4 6 6 4.8 4.5 4.7 ...
+ $ max.sentence     : int  18 12 12 18 12 18 18 12 13 12 ...
+ $ multiple.offenses: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ crime            : int  4 3 3 1 1 4 3 1 3 2 ...
+ $ violator         : int  0 0 0 0 0 0 0 0 0 0 ...
+> table(parole$violator)
+
+  0   1 
+597  78 
+> parole$state = as.factor(parole$state)
+> 
+> parole$crime = as.factor(parole$crime)
+> summary(parole$state) 
+  1   2   3   4 
+143 120  82 330 
+> summary(parole$crime)
+  1   2   3   4 
+315 106 153 101 
+> set.seed(144)
+> library(caTools)
+Warning message:
+package ‘caTools’ was built under R version 3.6.3 
+> split = sample.split(parole$violator, SplitRatio = 0.7)
+> train = subset(parole, split == TRUE)
+> test = subset(parole, split == FALSE)
+> model = glm(violator~.,data='train',family='binomial')
+Error in terms.formula(formula, data = data) : 
+  '.' in formula and no 'data' argument
+> model = glm(violator~.,data=train,family=binomial)
+> summary(model)
+
+Call:
+glm(formula = violator ~ ., family = binomial, data = train)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7041  -0.4236  -0.2719  -0.1690   2.8375  
+
+Coefficients:
+                    Estimate Std. Error z value Pr(>|z|)    
+(Intercept)       -4.2411574  1.2938852  -3.278  0.00105 ** 
+male               0.3869904  0.4379613   0.884  0.37690    
+race               0.8867192  0.3950660   2.244  0.02480 *  
+age               -0.0001756  0.0160852  -0.011  0.99129    
+state2             0.4433007  0.4816619   0.920  0.35739    
+state3             0.8349797  0.5562704   1.501  0.13335    
+state4            -3.3967878  0.6115860  -5.554 2.79e-08 ***
+time.served       -0.1238867  0.1204230  -1.029  0.30359    
+max.sentence       0.0802954  0.0553747   1.450  0.14705    
+multiple.offenses  1.6119919  0.3853050   4.184 2.87e-05 ***
+crime2             0.6837143  0.5003550   1.366  0.17180    
+crime3            -0.2781054  0.4328356  -0.643  0.52054    
+crime4            -0.0117627  0.5713035  -0.021  0.98357    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 340.04  on 472  degrees of freedom
+Residual deviance: 251.48  on 460  degrees of freedom
+AIC: 277.48
+
+Number of Fisher Scoring iterations: 6
+
+> #From the logistic regression equation, we have log(odds) = -4.2411574 + 0.3869904*male + 0.8867192*race - 0.0001756*age + 0.4433007*state2 + 0.8349797*state3 - 3.3967878*state4 - 0.1238867*time.served + 0.0802954*max.sentence + 1.6119919*multiple.offenses + 0.6837143*crime2 - 0.2781054*crime3 - 0.0117627*crime4. This parolee has male=1, race=1, age=50, state2=0, state3=0, state4=0, time.served=3, max.sentence=12, multiple.offenses=0, crime2=1, crime3=0, crime4=0. We conclude that log(odds) = -1.700629.
+> 
+> #Therefore, the odds ratio is exp(-1.700629) = 0.183, and the predicted probability of violation is 1/(1+exp(1.700629)) = 0.154.
+> predictions = predict(model, newdata=test, type="response")
+> summary(predictions)
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+0.002334 0.023777 0.057905 0.146576 0.147452 0.907279 
+> table(test$violator, predictions>=0.5)
+   
+    FALSE TRUE
+  0   167   12
+  1    11   12
+> (167+12)/(167+12+11+12)
+[1] 0.8861386
+> 167/(167+12)
+[1] 0.9329609
+> 11/23
+[1] 0.4782609
+> 12/23
+[1] 0.5217391
+> # What is the accuracy of a simple model that predicts that every parolee is a non-violator?
+> (167+12)/nrow(test)
+[1] 0.8861386
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+Warning messages:
+1: package ‘ROCR’ was built under R version 3.6.3 
+2: package ‘gplots’ was built under R version 3.6.3 
+> pred = prediction(predictions, test$violator)
+> as.numeric(performance(pred, "auc")@y.values)
+[1] 0.8945834
+> 

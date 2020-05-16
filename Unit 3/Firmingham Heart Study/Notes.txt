@@ -1,0 +1,5 @@
+1. Framingham was chosen for heart study.
+2. 5209 patients.
+3. CHD: disease blood vessels supplying the heart
+4. When we have a large dataset, we can give the test set some weigtage as well,
+   say 35% instead of the usual lesser percentage to reinstate the confidence.

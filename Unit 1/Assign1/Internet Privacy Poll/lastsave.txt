@@ -1,0 +1,1081 @@
+> poll = read.csv('AnonymityPoll.csv')
+> str(poll)
+'data.frame':   1002 obs. of  13 variables:
+ $ Internet.Use          : int  1 1 0 1 0 1 1 0 0 1 ...
+ $ Smartphone            : int  0 0 1 0 NA 1 0 0 NA 0 ...
+ $ Sex                   : Factor w/ 2 levels "Female","Male": 2 2 1 2 1 2 1 1 2 1 ...
+ $ Age                   : int  62 45 70 70 80 49 52 76 75 76 ...
+ $ State                 : Factor w/ 49 levels "Alabama","Arizona",..: 20 39 29 10 10 41 21 31 32 32 ...
+ $ Region                : Factor w/ 4 levels "Midwest","Northeast",..: 2 3 2 3 3 3 1 2 3 3 ...
+ $ Conservativeness      : int  4 1 4 4 4 4 3 3 4 4 ...
+ $ Info.On.Internet      : int  0 1 0 3 NA 6 3 NA NA 0 ...
+ $ Worry.About.Info      : int  1 0 0 1 NA 0 1 NA NA 0 ...
+ $ Privacy.Importance    : num  100 0 NA 88.9 NA ...
+ $ Anonymity.Possible    : int  0 1 0 1 NA 1 0 NA NA 1 ...
+ $ Tried.Masking.Identity: int  0 0 0 0 NA 1 0 NA NA 0 ...
+ $ Privacy.Laws.Effective: int  0 1 NA 0 NA 0 1 NA 0 1 ...
+> summary(poll)
+  Internet.Use      Smartphone         Sex           Age                 State    
+ Min.   :0.0000   Min.   :0.0000   Female:505   Min.   :18.00   California  :103  
+ 1st Qu.:1.0000   1st Qu.:0.0000   Male  :497   1st Qu.:37.00   Texas       : 72  
+ Median :1.0000   Median :1.0000                Median :55.00   New York    : 60  
+ Mean   :0.7742   Mean   :0.5078                Mean   :52.37   Pennsylvania: 45  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000                3rd Qu.:66.00   Florida     : 42  
+ Max.   :1.0000   Max.   :1.0000                Max.   :96.00   Ohio        : 38  
+ NA's   :1        NA's   :43                    NA's   :27      (Other)     :642  
+       Region    Conservativeness Info.On.Internet Worry.About.Info
+ Midwest  :239   Min.   :1.000    Min.   : 0.000   Min.   :0.0000  
+ Northeast:166   1st Qu.:3.000    1st Qu.: 2.000   1st Qu.:0.0000  
+ South    :359   Median :3.000    Median : 4.000   Median :0.0000  
+ West     :238   Mean   :3.277    Mean   : 3.795   Mean   :0.4886  
+                 3rd Qu.:4.000    3rd Qu.: 6.000   3rd Qu.:1.0000  
+                 Max.   :5.000    Max.   :11.000   Max.   :1.0000  
+                 NA's   :62       NA's   :210      NA's   :212     
+ Privacy.Importance Anonymity.Possible Tried.Masking.Identity Privacy.Laws.Effective
+ Min.   :  0.00     Min.   :0.0000     Min.   :0.0000         Min.   :0.0000        
+ 1st Qu.: 41.43     1st Qu.:0.0000     1st Qu.:0.0000         1st Qu.:0.0000        
+ Median : 68.75     Median :0.0000     Median :0.0000         Median :0.0000        
+ Mean   : 62.85     Mean   :0.3692     Mean   :0.1633         Mean   :0.2617        
+ 3rd Qu.: 88.89     3rd Qu.:1.0000     3rd Qu.:0.0000         3rd Qu.:1.0000        
+ Max.   :100.00     Max.   :1.0000     Max.   :1.0000         Max.   :1.0000        
+ NA's   :215        NA's   :249        NA's   :218            NA's   :108           
+> table(poll$Smartphone)
+
+  0   1 
+472 487 
+> 1002-472-487
+[1] 43
+> table(poll$Region=='Midwest',poll$State)
+       
+        Alabama Arizona Arkansas California Colorado Connecticut Delaware
+  FALSE      11      24       10        103       19           8        6
+  TRUE        0       0        0          0        0           0        0
+       
+        District of Columbia Florida Georgia Idaho Illinois Indiana Iowa Kansas
+  FALSE                    2      42      34     8        0       0    0      0
+  TRUE                     0       0       0     0       32      27   14     14
+       
+        Kentucky Louisiana Maine Maryland Massachusetts Michigan Minnesota
+  FALSE       25        17     4       18            19        0         0
+  TRUE         0         0     0        0             0       31        15
+       
+        Mississippi Missouri Montana Nebraska Nevada New Hampshire New Jersey
+  FALSE          11        0       5        0      8             7         16
+  TRUE            0       26       0       11      0             0          0
+       
+        New Mexico New York North Carolina North Dakota Ohio Oklahoma Oregon
+  FALSE          5       60             32            0    0       14     20
+  TRUE           0        0              0            5   38        0      0
+       
+        Pennsylvania Rhode Island South Carolina South Dakota Tennessee Texas Utah
+  FALSE           45            4             12            0        17    72   11
+  TRUE             0            0              0            3         0     0    0
+       
+        Vermont Virginia Washington West Virginia Wisconsin Wyoming
+  FALSE       3       31         28             5         0       7
+  TRUE        0        0          0             0        23       0
+> table(poll$Region=='South',poll$State)
+       
+        Alabama Arizona Arkansas California Colorado Connecticut Delaware
+  FALSE       0      24        0        103       19           8        0
+  TRUE       11       0       10          0        0           0        6
+       
+        District of Columbia Florida Georgia Idaho Illinois Indiana Iowa Kansas
+  FALSE                    0       0       0     8       32      27   14     14
+  TRUE                     2      42      34     0        0       0    0      0
+       
+        Kentucky Louisiana Maine Maryland Massachusetts Michigan Minnesota
+  FALSE        0         0     4        0            19       31        15
+  TRUE        25        17     0       18             0        0         0
+       
+        Mississippi Missouri Montana Nebraska Nevada New Hampshire New Jersey
+  FALSE           0       26       5       11      8             7         16
+  TRUE           11        0       0        0      0             0          0
+       
+        New Mexico New York North Carolina North Dakota Ohio Oklahoma Oregon
+  FALSE          5       60              0            5   38        0     20
+  TRUE           0        0             32            0    0       14      0
+       
+        Pennsylvania Rhode Island South Carolina South Dakota Tennessee Texas Utah
+  FALSE           45            4              0            3         0     0   11
+  TRUE             0            0             12            0        17    72    0
+       
+        Vermont Virginia Washington West Virginia Wisconsin Wyoming
+  FALSE       3        0         28             0        23       7
+  TRUE        0       31          0             5         0       0
+> MidwestInterviewees = subset(poll, Region=="Midwest")
+> 
+> MidwestInterviewees
+    Internet.Use Smartphone    Sex Age        State  Region Conservativeness
+7              1          0 Female  52     Michigan Midwest                3
+11             0          0   Male  69         Ohio Midwest                4
+16             0          0   Male  63         Ohio Midwest                3
+19             1          0 Female  91      Indiana Midwest                5
+20             0         NA Female  80    Minnesota Midwest                5
+24             1          0 Female  36 North Dakota Midwest                5
+25             0          0 Female  73    Wisconsin Midwest               NA
+26             0          0 Female  78     Michigan Midwest                3
+28             0          0   Male  64     Missouri Midwest                2
+29             1          0   Male  53     Illinois Midwest                4
+30             0          0 Female  80     Nebraska Midwest                2
+32             1          0 Female  78    Wisconsin Midwest                2
+33             0          0   Male  67      Indiana Midwest                3
+34             1          1 Female  41    Wisconsin Midwest                5
+42             0          0 Female  73    Minnesota Midwest                4
+44             1          0   Male  66    Minnesota Midwest                2
+49             1          1   Male  68 South Dakota Midwest                4
+51             0          0 Female  54         Ohio Midwest                3
+52             1          0 Female  78       Kansas Midwest                3
+55             1          0 Female  57     Missouri Midwest                4
+57             1          1   Male  76         Ohio Midwest                1
+63             1          0   Male  45    Wisconsin Midwest                4
+74             0          0 Female  NA     Michigan Midwest                5
+81             1          1   Male  50       Kansas Midwest                4
+83             1          0 Female  60         Iowa Midwest               NA
+84             0          0 Female  63    Wisconsin Midwest                1
+85             1          0   Male  52    Minnesota Midwest                4
+89             1          0 Female  81     Michigan Midwest                4
+91             1          1   Male  78      Indiana Midwest                5
+93             1          1 Female  74    Wisconsin Midwest                4
+106            1          0 Female  60     Michigan Midwest                4
+109            1          1   Male  67      Indiana Midwest                3
+116            1          1 Female  50      Indiana Midwest                3
+133            1          1 Female  38       Kansas Midwest                2
+135            1          1   Male  30    Wisconsin Midwest                5
+137            0          0   Male  66     Missouri Midwest                5
+138            0          0   Male  70    Wisconsin Midwest                4
+139            1          1 Female  52         Iowa Midwest                2
+141            0          0   Male  53    Wisconsin Midwest                4
+142            1          1 Female  36     Missouri Midwest                1
+143            0          0 Female  75     Illinois Midwest                3
+148            1          0 Female  80     Missouri Midwest                2
+157            1          1   Male  64         Ohio Midwest                1
+162            1          1 Female  46         Ohio Midwest                4
+167            0          0   Male  83         Ohio Midwest                3
+169            1          0 Female  46     Michigan Midwest                4
+174            0          0 Female  82      Indiana Midwest                3
+179            0          0 Female  90     Michigan Midwest                4
+195            0          0 Female  72     Michigan Midwest                4
+199            0          0   Male  81     Missouri Midwest                3
+202            0          0 Female  77     Illinois Midwest                2
+203            0          0 Female  74     Illinois Midwest                2
+207            0          0 Female  82     Illinois Midwest                1
+213            0          0 Female  59         Ohio Midwest                3
+214            0          0 Female  77      Indiana Midwest                4
+215            0          0 Female  78    Minnesota Midwest                4
+221            0          0   Male  73     Illinois Midwest                5
+222            1          0   Male  42      Indiana Midwest                3
+224            0          0   Male  36      Indiana Midwest                5
+225            1          0 Female  72         Ohio Midwest                4
+231            0          0   Male  60     Missouri Midwest                2
+232            1          1   Male  82     Illinois Midwest                4
+233            1          0   Male  64      Indiana Midwest                3
+237            1          0 Female  73     Missouri Midwest                5
+239            1          0 Female  34     Michigan Midwest                2
+240            1          0 Female  69         Ohio Midwest                3
+242            1          0 Female  56         Iowa Midwest                4
+249            0         NA Female  81    Wisconsin Midwest               NA
+259            1          0   Male  45         Ohio Midwest                2
+286            0          0   Male  81     Illinois Midwest                1
+289            0          0 Female  78     Illinois Midwest                3
+292            1          0   Male  66     Nebraska Midwest                3
+297            0          0 Female  78         Iowa Midwest                3
+299            0          0 Female  94    Wisconsin Midwest                3
+304            1          0 Female  91    Wisconsin Midwest                4
+306            1          1 Female  28     Missouri Midwest                4
+320            0         NA Female  86     Michigan Midwest                4
+322            1          1 Female  43     Michigan Midwest                3
+328            0          0   Male  63         Ohio Midwest                4
+334            1          1 Female  53         Ohio Midwest                3
+338            1          1 Female  59      Indiana Midwest                4
+348            1          1   Male  21     Michigan Midwest                4
+356            1          1   Male  48     Michigan Midwest                2
+360            1          0   Male  62         Iowa Midwest                4
+365            1          0 Female  50     Illinois Midwest                5
+366            1          1 Female  62         Ohio Midwest                3
+374            1          0   Male  56    Minnesota Midwest               NA
+381            1          1 Female  67    Minnesota Midwest                5
+384            1          1   Male  64    Wisconsin Midwest                3
+385            1          0   Male  20     Illinois Midwest                3
+389            0          0 Female  81     Missouri Midwest                5
+395            0          0 Female  84         Ohio Midwest                2
+399            0          0   Male  62    Wisconsin Midwest                3
+404            1          0   Male  61         Iowa Midwest                2
+421            1          0 Female  44     Illinois Midwest                3
+428            1          1   Male  49         Ohio Midwest                4
+429            1          0   Male  67     Nebraska Midwest                3
+433            0         NA   Male  66         Ohio Midwest                3
+439            1         NA Female  67       Kansas Midwest                4
+440            0          0   Male  60     Illinois Midwest                3
+450            1          0 Female  51      Indiana Midwest                3
+453            1          1   Male  70         Ohio Midwest                4
+454            1          0 Female  52     Michigan Midwest                3
+457            0          0 Female  75         Ohio Midwest                5
+468            1          0 Female  50     Michigan Midwest                3
+469            1          0   Male  59     Illinois Midwest               NA
+470            0          0 Female  NA         Ohio Midwest                4
+471            1          1 Female  58      Indiana Midwest                4
+472            1          1   Male  36     Missouri Midwest                4
+475            1         NA Female  81         Ohio Midwest                1
+478            1          0 Female  77    Minnesota Midwest                3
+480            1          0 Female  58     Nebraska Midwest                3
+481            0          1   Male  62       Kansas Midwest                1
+485            1          0 Female  43         Iowa Midwest                3
+488            1          1 Female  41      Indiana Midwest                3
+490            0         NA   Male  80     Illinois Midwest                4
+494            0          0 Female  62    Minnesota Midwest                2
+502            0          1 Female  49     Missouri Midwest                2
+505            0          0   Male  19         Ohio Midwest                3
+507            1          0 Female  45         Ohio Midwest                3
+514            0         NA   Male  56     Michigan Midwest                3
+515            1          0   Male  54     Missouri Midwest                3
+516            1          1 Female  35     Illinois Midwest                3
+517            1          0 Female  59     Illinois Midwest                5
+519            1          1   Male  39         Iowa Midwest                3
+521            1          1   Male  34    Minnesota Midwest                4
+522            1          0 Female  79     Michigan Midwest                4
+524            1          1 Female  50     Missouri Midwest                1
+526            0          0 Female  73     Michigan Midwest                3
+531            1          1 Female  73     Michigan Midwest                3
+533            1          0   Male  74     Michigan Midwest                4
+535            1          1   Male  43     Michigan Midwest                3
+536            1          1   Male  30         Ohio Midwest                2
+540            1          1   Male  59     Illinois Midwest                3
+544            0          1   Male  60     Michigan Midwest               NA
+547            1          1   Male  NA     Michigan Midwest               NA
+549            1          1   Male  33       Kansas Midwest                4
+551            1          0   Male  40     Missouri Midwest                4
+554            1          0 Female  61 North Dakota Midwest                4
+558            1          1 Female  30       Kansas Midwest                2
+560            1          0   Male  53    Wisconsin Midwest                4
+565           NA          0   Male  33    Wisconsin Midwest                4
+566            1          1 Female  57         Ohio Midwest                2
+570            1          1 Female  30       Kansas Midwest                3
+582            0         NA   Male  50     Missouri Midwest               NA
+586            1          1   Male  44      Indiana Midwest                1
+595            0          0 Female  65      Indiana Midwest                3
+598            0          0 Female  70     Michigan Midwest                4
+606            1          0 Female  22     Michigan Midwest               NA
+616            1          0   Male  58 South Dakota Midwest                3
+617            1          1   Male  26     Illinois Midwest                3
+619            1          0   Male  64       Kansas Midwest                3
+622            0          0 Female  75     Illinois Midwest                4
+627            1          1 Female  79     Nebraska Midwest                4
+629            1          1   Male  59       Kansas Midwest                3
+634            0         NA   Male  53     Illinois Midwest                5
+636            1          0   Male  53       Kansas Midwest                5
+638            1          1 Female  65 South Dakota Midwest                3
+639            1          1   Male  55     Missouri Midwest                2
+660            1          0   Male  60     Michigan Midwest               NA
+662            0          0   Male  51     Michigan Midwest                5
+666            1          1 Female  48     Michigan Midwest                3
+671            1          1   Male  32         Ohio Midwest                3
+672            1          1   Male  19         Ohio Midwest                3
+679            0         NA   Male  65     Nebraska Midwest                3
+680            1          0   Male  53     Illinois Midwest                5
+690            1          0 Female  66     Nebraska Midwest                5
+691            1          1 Female  37     Illinois Midwest               NA
+693            1          1   Male  70     Missouri Midwest                4
+695            0          0   Male  62       Kansas Midwest                3
+703            1          0 Female  44     Illinois Midwest                5
+709            1          1   Male  64 North Dakota Midwest                3
+714            0          0 Female  56     Illinois Midwest               NA
+723            1          1   Male  72     Illinois Midwest                4
+730            1          0   Male  27     Michigan Midwest                4
+734            1          1   Male  26    Wisconsin Midwest                5
+736            1          0 Female  38         Ohio Midwest                4
+738            1          1 Female  60         Iowa Midwest                4
+740            1          1   Male  49      Indiana Midwest                1
+746            1          1 Female  57         Ohio Midwest                3
+747            1          0   Male  67    Wisconsin Midwest                3
+749            1          1   Male  60      Indiana Midwest                4
+750            1          0 Female  27     Illinois Midwest               NA
+764            1          1   Male  28 North Dakota Midwest                4
+778            1          1 Female  23     Nebraska Midwest                2
+782            1          1   Male  21         Ohio Midwest                3
+784            1          1   Male  61         Ohio Midwest                3
+787            1          1   Male  26    Wisconsin Midwest                4
+788            1          1   Male  69     Illinois Midwest                4
+823            0          0 Female  65      Indiana Midwest                4
+827            1          1 Female  30     Nebraska Midwest                3
+833            1          1   Male  22         Iowa Midwest                4
+835            1          0 Female  19      Indiana Midwest                3
+840            1          1 Female  27     Illinois Midwest               NA
+842            0          0   Male  55      Indiana Midwest                3
+844            1          1 Female  28    Minnesota Midwest                3
+846            1          0 Female  60     Illinois Midwest                2
+849            1          1 Female  29     Nebraska Midwest                3
+852            1          1   Male  33         Ohio Midwest                3
+856            1          0 Female  49     Nebraska Midwest                4
+857            1          1 Female  53     Missouri Midwest                4
+859            0          1   Male  64     Missouri Midwest                4
+860            1          1   Male  29    Wisconsin Midwest                5
+862            1          1 Female  23     Missouri Midwest                3
+865            0          0   Male  62    Wisconsin Midwest               NA
+871            0          1   Male  72     Missouri Midwest                4
+874            1          1   Male  59         Iowa Midwest                4
+876            1          1   Male  NA     Missouri Midwest                4
+877            0          0   Male  70     Illinois Midwest                2
+880            1          1   Male  22     Michigan Midwest                4
+881            1          1   Male  19         Ohio Midwest                2
+886            1          1   Male  31       Kansas Midwest                4
+890            1          0   Male  52      Indiana Midwest                3
+896            1          1 Female  57      Indiana Midwest                2
+900            0          0   Male  80         Ohio Midwest                3
+918            1          1 Female  34    Wisconsin Midwest                2
+922            1          1   Male  65      Indiana Midwest                5
+926            1          1   Male  22      Indiana Midwest               NA
+927            0          0   Male  52         Iowa Midwest                3
+928            1          1 Female  39      Indiana Midwest                3
+929            0          0   Male  41         Ohio Midwest                3
+942            1         NA   Male  35    Minnesota Midwest                1
+943            1          1 Female  59     Missouri Midwest                4
+945            1          1 Female  60    Minnesota Midwest                3
+947            1          1 Female  59         Iowa Midwest                4
+948            1          0   Male  65    Minnesota Midwest                3
+951            1          0 Female  49     Illinois Midwest                3
+953            1          0   Male  60     Missouri Midwest                2
+959            1          0 Female  30         Ohio Midwest                5
+971            1          1   Male  29     Michigan Midwest                4
+973            1          1   Male  74         Ohio Midwest                4
+974            0         NA   Male  52         Ohio Midwest                2
+979            1          0 Female  19       Kansas Midwest                2
+982            1          1 Female  NA      Indiana Midwest                4
+987            1          1 Female  26         Iowa Midwest                3
+989            1          1 Female  26    Minnesota Midwest                1
+990            1          1 Female  36     Missouri Midwest                3
+991            1          1 Female  27 North Dakota Midwest                3
+993            1          1 Female  63    Wisconsin Midwest                2
+    Info.On.Internet Worry.About.Info Privacy.Importance Anonymity.Possible
+7                  3                1          33.333333                  0
+11                NA               NA                 NA                 NA
+16                NA               NA                 NA                 NA
+19                 5                1          71.428571                 NA
+20                NA               NA                 NA                 NA
+24                 0                0         100.000000                  0
+25                NA               NA                 NA                 NA
+26                NA               NA                 NA                 NA
+28                NA               NA                 NA                 NA
+29                 0                0          85.714286                  1
+30                NA               NA                 NA                 NA
+32                 5                1          80.000000                  1
+33                NA               NA                 NA                 NA
+34                 0                1          88.888889                  0
+42                NA               NA                 NA                 NA
+44                 5                1          88.888889                  0
+49                 0                1          83.333333                  1
+51                NA               NA                 NA                 NA
+52                 1                0           0.000000                 NA
+55                 7                1          38.888889                  1
+57                 3                1         100.000000                  0
+63                 5                1          83.333333                  0
+74                NA               NA                 NA                 NA
+81                 2                0          50.000000                  1
+83                 0                0          22.222222                  1
+84                NA               NA                 NA                 NA
+85                 1                0         100.000000                  0
+89                 0                0           0.000000                  1
+91                 0                0           6.250000                  1
+93                 4                1          62.500000                  1
+106                0                0          50.000000                  0
+109                1                1         100.000000                  0
+116                6                1         100.000000                  0
+133                5                0          66.666667                  0
+135                5                0          11.111111                  0
+137               NA               NA                 NA                 NA
+138               NA               NA                 NA                 NA
+139                5                1          27.777778                  1
+141               NA               NA                 NA                 NA
+142                9                1          94.444444                  0
+143               NA               NA                 NA                 NA
+148                5                1          72.222222                  0
+157               10                0          27.777778                  0
+162                1                0          12.500000                  0
+167               NA               NA                 NA                 NA
+169                4                0          50.000000                  0
+174               NA               NA                 NA                 NA
+179               NA               NA                 NA                 NA
+195               NA               NA                 NA                 NA
+199               NA               NA                 NA                 NA
+202               NA               NA                 NA                 NA
+203               NA               NA                 NA                 NA
+207               NA               NA                 NA                 NA
+213               NA               NA                 NA                 NA
+214               NA               NA                 NA                 NA
+215               NA               NA                 NA                 NA
+221               NA               NA                 NA                 NA
+222                4                0          83.333333                  0
+224               NA               NA                 NA                 NA
+225                3                0          68.750000                  1
+231               NA               NA                 NA                 NA
+232                7                0          42.857143                  1
+233                0                0         100.000000                  1
+237                4                1          61.111111                  0
+239                5                1          55.555556                  1
+240                1                0          33.333333                  0
+242                5                1          55.555556                  0
+249               NA               NA                 NA                 NA
+259                4                0          50.000000                  0
+286               NA               NA                 NA                 NA
+289               NA               NA                 NA                 NA
+292                7                0          25.000000                  1
+297               NA               NA                 NA                 NA
+299               NA               NA                 NA                 NA
+304                2                0          66.666667                  0
+306                6                0          27.777778                 NA
+320               NA               NA                 NA                 NA
+322                8                1         100.000000                  0
+328               NA               NA                 NA                 NA
+334                0                0          22.222222                  1
+338                7                1          94.444444                  0
+348                1                0          22.222222                  0
+356                6                0          33.333333                  0
+360                2                1          66.666667                  0
+365                2                0          20.000000                  1
+366                4                1         100.000000                  0
+374                1                0          11.111111                  0
+381                3                1         100.000000                  0
+384                4                0          66.666667                  1
+385                9                0          16.666667                  1
+389               NA               NA                 NA                 NA
+395               NA               NA                 NA                 NA
+399               NA               NA                 NA                 NA
+404                2                0          11.111111                  1
+421                3                0          71.428571                  0
+428               10                0           0.000000                  0
+429                0                0          16.666667                  1
+433               NA               NA                 NA                 NA
+439                2                0          43.750000                  0
+440               NA               NA                 NA                 NA
+450                2                0         100.000000                  0
+453                4                1          88.888889                  1
+454                1                1          94.444444                  1
+457               NA               NA                 NA                 NA
+468                6                1         100.000000                  0
+469                2                0         100.000000                  0
+470               NA               NA                 NA                 NA
+471                9                1          61.111111                  0
+472               11                0          72.222222                  1
+475                3                0           5.555556                  0
+478                2                0          55.555556                  0
+480                4                1          57.142857                  0
+481                5                0          50.000000                  0
+485                1                0          88.888889                  0
+488                4                1         100.000000                  0
+490               NA               NA                 NA                 NA
+494               NA               NA                 NA                 NA
+502                0                0          11.111111                  0
+505               NA               NA                 NA                 NA
+507                5                1          88.888889                  0
+514               NA               NA                 NA                 NA
+515                4                0          83.333333                  0
+516                4                1          66.666667                  1
+517                8                1          66.666667                  1
+519                6                1          55.555556                  0
+521                6                0           0.000000                  1
+522                2                0          62.500000                  1
+524                6                1          77.777778                  0
+526               NA               NA                 NA                 NA
+531                5                1         100.000000                  0
+533                3                1          66.666667                  1
+535                6                0         100.000000                  0
+536                5                0          33.333333                  1
+540                2                0          44.444444                  1
+544                1                0           0.000000                  1
+547                6                1          94.444444                  0
+549                4                0           0.000000                  1
+551                5                0          77.777778                  0
+554                1                0          94.444444                  1
+558                1                0         100.000000                  0
+560                1                0          83.333333                  0
+565               NA               NA                 NA                 NA
+566                3                1          50.000000                  0
+570                6                0          43.750000                  0
+582               NA               NA                 NA                 NA
+586                7                1          55.555556                  0
+595               NA               NA                 NA                 NA
+598               NA               NA                 NA                 NA
+606                4                1          87.500000                  0
+616                2                1          75.000000                  1
+617                5                1          77.777778                  0
+619                0                1          66.666667                  0
+622               NA               NA                 NA                 NA
+627                2                0          33.333333                 NA
+629                6                0           5.555556                  1
+634               NA               NA                 NA                 NA
+636                5                1         100.000000                  1
+638                2                0          72.222222                  0
+639                3                1         100.000000                  1
+660                1                0          80.000000                  0
+662               NA               NA                 NA                 NA
+666                6                0          56.250000                  0
+671                2                1          75.000000                  1
+672                8                0          66.666667                  0
+679               NA               NA                 NA                 NA
+680                1                0           0.000000                  0
+690                8                0          28.571429                  0
+691                2                0         100.000000                  0
+693                3                1          38.888889                  0
+695               NA               NA                 NA                 NA
+703                3                1         100.000000                 NA
+709               11                0          93.750000                 NA
+714               NA               NA                 NA                 NA
+723                2                1         100.000000                  0
+730                8                0          44.444444                  1
+734                2                0         100.000000                  0
+736                3                1          38.888889                  0
+738                3                0          61.111111                  1
+740                6                0          55.555556                 NA
+746                4                0         100.000000                  0
+747                3                0          55.555556                  0
+749                9                0          22.222222                  0
+750                6                0          18.750000                  1
+764                8                1          66.666667                  0
+778                5                0          44.444444                  0
+782                5                1          33.333333                  1
+784                4                0          91.666667                  0
+787                3                1          66.666667                  0
+788                5                0           0.000000                  0
+823               NA               NA                 NA                 NA
+827                3                1          88.888889                  0
+833                7                0          22.222222                  0
+835                3                1          55.555556                  0
+840                3                0          50.000000                 NA
+842               NA               NA                 NA                 NA
+844                5                1          61.111111                  0
+846                1                0          22.222222                  0
+849                6                1         100.000000                  0
+852                6                1          77.777778                  0
+856                2                1          94.444444                  0
+857                5                1         100.000000                  0
+859                0                0          88.888889                 NA
+860                5                1         100.000000                  1
+862                5                0          83.333333                  1
+865               NA               NA                 NA                 NA
+871                0                0                 NA                  0
+874                1                0          16.666667                  1
+876                1                0         100.000000                  0
+877               NA               NA                 NA                 NA
+880                7                0          27.777778                  1
+881                5                1          77.777778                  0
+886                0                0          16.666667                  0
+890                3                1          33.333333                  0
+896                5                1          93.750000                  0
+900               NA               NA                 NA                 NA
+918                3                0          16.666667                  0
+922                3                0          22.222222                  1
+926                1                0          91.666667                  1
+927               NA               NA                 NA                 NA
+928                3                0          72.222222                  0
+929               NA               NA                 NA                 NA
+942                2                1          94.444444                  1
+943                0                1         100.000000                  0
+945                3                1         100.000000                  1
+947                2                1          61.111111                  1
+948                4                1          61.111111                  1
+951                5                0          66.666667                  1
+953                5                1          38.888889                  0
+959                5                1         100.000000                  1
+971                5                0          94.444444                  0
+973                3                0          22.222222                  0
+974               NA               NA                 NA                 NA
+979                2                0           5.555556                  0
+982                0                0         100.000000                  0
+987                7                1          72.222222                  0
+989                9                0          72.222222                  0
+990                6                0         100.000000                  0
+991                6                1          77.777778                  1
+993                0                0          83.333333                  0
+    Tried.Masking.Identity Privacy.Laws.Effective
+7                        0                      1
+11                      NA                      0
+16                      NA                      0
+19                       0                      0
+20                      NA                     NA
+24                       1                      0
+25                      NA                      0
+26                      NA                      0
+28                      NA                      0
+29                       0                      0
+30                      NA                      1
+32                       1                     NA
+33                      NA                      0
+34                       0                      0
+42                      NA                      0
+44                       0                      0
+49                       0                      0
+51                      NA                      0
+52                       0                     NA
+55                       0                      0
+57                       0                      0
+63                       1                      0
+74                      NA                      0
+81                       0                     NA
+83                       0                      0
+84                      NA                      0
+85                       0                     NA
+89                       0                      0
+91                       0                      0
+93                       0                      0
+106                      0                      0
+109                      1                      0
+116                      1                      0
+133                      0                      0
+135                      0                      1
+137                     NA                      0
+138                     NA                      0
+139                      0                      1
+141                     NA                      0
+142                      0                      0
+143                     NA                      0
+148                      1                      1
+157                      1                      0
+162                      0                      1
+167                     NA                     NA
+169                      0                      0
+174                     NA                      1
+179                     NA                     NA
+195                     NA                      0
+199                     NA                      0
+202                     NA                      0
+203                     NA                      0
+207                     NA                      0
+213                     NA                      0
+214                     NA                     NA
+215                     NA                     NA
+221                     NA                      0
+222                      0                      0
+224                     NA                      0
+225                      0                      0
+231                     NA                      0
+232                      0                      1
+233                      0                      0
+237                      0                      0
+239                      0                      0
+240                      1                      0
+242                      0                     NA
+249                     NA                     NA
+259                      0                      1
+286                     NA                      0
+289                     NA                      0
+292                      0                      0
+297                     NA                     NA
+299                     NA                      0
+304                      0                     NA
+306                      1                      0
+320                     NA                      1
+322                      0                      1
+328                     NA                      0
+334                      0                      1
+338                      1                      0
+348                      0                      0
+356                      0                      1
+360                      0                      0
+365                      0                      1
+366                      1                      0
+374                      0                      0
+381                      0                     NA
+384                      0                      0
+385                      0                      0
+389                     NA                      0
+395                     NA                     NA
+399                     NA                      0
+404                      0                      1
+421                      0                      1
+428                      0                      1
+429                      0                      0
+433                     NA                      0
+439                      0                     NA
+440                     NA                      0
+450                      0                      1
+453                      0                      0
+454                      0                      0
+457                     NA                     NA
+468                      0                      0
+469                      0                      0
+470                     NA                     NA
+471                      0                      1
+472                      0                      0
+475                      0                      1
+478                      0                      0
+480                      0                      0
+481                      0                     NA
+485                      0                      0
+488                      0                      0
+490                     NA                      1
+494                     NA                      1
+502                      0                      1
+505                     NA                      1
+507                      0                      0
+514                     NA                      0
+515                      0                      0
+516                      0                      0
+517                      0                      1
+519                      0                      0
+521                      0                      1
+522                      0                      0
+524                      1                      0
+526                     NA                     NA
+531                      0                      0
+533                      1                      0
+535                      0                      0
+536                      0                      0
+540                      1                      0
+544                      0                     NA
+547                      0                      0
+549                      0                      0
+551                      1                      0
+554                      0                     NA
+558                      0                     NA
+560                      0                      0
+565                     NA                      0
+566                      1                      0
+570                      0                      1
+582                     NA                      0
+586                      0                      0
+595                     NA                     NA
+598                     NA                     NA
+606                      1                      0
+616                      0                     NA
+617                      0                      0
+619                      0                      1
+622                     NA                      0
+627                      0                      0
+629                      0                      1
+634                     NA                      0
+636                      0                      0
+638                      0                      0
+639                      0                      0
+660                      0                      0
+662                     NA                     NA
+666                      0                      0
+671                      0                      0
+672                      0                      0
+679                     NA                      0
+680                      0                      1
+690                      0                      1
+691                      1                      0
+693                      0                      0
+695                     NA                      0
+703                      0                      0
+709                      0                      1
+714                     NA                      0
+723                      0                     NA
+730                      1                      1
+734                      0                      0
+736                      0                      0
+738                      0                      1
+740                      0                      0
+746                      0                      0
+747                      0                      0
+749                      1                      1
+750                      0                      1
+764                      0                      0
+778                      0                      0
+782                      0                      0
+784                      1                      0
+787                      0                      0
+788                      0                      1
+823                     NA                      0
+827                      0                      0
+833                      0                      1
+835                      1                      0
+840                      0                     NA
+842                     NA                     NA
+844                      0                      0
+846                      0                      0
+849                      0                      0
+852                      1                      0
+856                      0                     NA
+857                      0                      0
+859                      0                      0
+860                      1                      0
+862                      0                      0
+865                     NA                      0
+871                      0                      0
+874                      0                      1
+876                      0                      0
+877                     NA                      0
+880                      0                      1
+881                      1                      1
+886                      0                      0
+890                      0                      1
+896                      0                      0
+900                     NA                      0
+918                      0                      0
+922                      1                      0
+926                      0                      0
+927                     NA                      0
+928                      0                      0
+929                     NA                      1
+942                      0                      0
+943                      0                      0
+945                      0                      1
+947                      0                      1
+948                      1                      0
+951                      0                      0
+953                      0                      0
+959                      0                      0
+971                      0                      0
+973                      0                      1
+974                     NA                      0
+979                      0                      0
+982                      0                     NA
+987                      0                      0
+989                      0                     NA
+990                      0                      1
+991                      1                      0
+993                      0                      1
+> table(MidwestInterviewees$State)
+
+             Alabama              Arizona             Arkansas           California 
+                   0                    0                    0                    0 
+            Colorado          Connecticut             Delaware District of Columbia 
+                   0                    0                    0                    0 
+             Florida              Georgia                Idaho             Illinois 
+                   0                    0                    0                   32 
+             Indiana                 Iowa               Kansas             Kentucky 
+                  27                   14                   14                    0 
+           Louisiana                Maine             Maryland        Massachusetts 
+                   0                    0                    0                    0 
+            Michigan            Minnesota          Mississippi             Missouri 
+                  31                   15                    0                   26 
+             Montana             Nebraska               Nevada        New Hampshire 
+                   0                   11                    0                    0 
+          New Jersey           New Mexico             New York       North Carolina 
+                   0                    0                    0                    0 
+        North Dakota                 Ohio             Oklahoma               Oregon 
+                   5                   38                    0                    0 
+        Pennsylvania         Rhode Island       South Carolina         South Dakota 
+                   0                    0                    0                    3 
+           Tennessee                Texas                 Utah              Vermont 
+                   0                    0                    0                    0 
+            Virginia           Washington        West Virginia            Wisconsin 
+                   0                    0                    0                   23 
+             Wyoming 
+                   0 
+> 
+> SouthInterviewees = subset(poll, Region=="South")
+> table(SouthInterviewees$State)
+
+             Alabama              Arizona             Arkansas           California 
+                  11                    0                   10                    0 
+            Colorado          Connecticut             Delaware District of Columbia 
+                   0                    0                    6                    2 
+             Florida              Georgia                Idaho             Illinois 
+                  42                   34                    0                    0 
+             Indiana                 Iowa               Kansas             Kentucky 
+                   0                    0                    0                   25 
+           Louisiana                Maine             Maryland        Massachusetts 
+                  17                    0                   18                    0 
+            Michigan            Minnesota          Mississippi             Missouri 
+                   0                    0                   11                    0 
+             Montana             Nebraska               Nevada        New Hampshire 
+                   0                    0                    0                    0 
+          New Jersey           New Mexico             New York       North Carolina 
+                   0                    0                    0                   32 
+        North Dakota                 Ohio             Oklahoma               Oregon 
+                   0                    0                   14                    0 
+        Pennsylvania         Rhode Island       South Carolina         South Dakota 
+                   0                    0                   12                    0 
+           Tennessee                Texas                 Utah              Vermont 
+                  17                   72                    0                    0 
+            Virginia           Washington        West Virginia            Wisconsin 
+                  31                    0                    5                    0 
+             Wyoming 
+                   0 
+> str(poll)
+'data.frame':   1002 obs. of  13 variables:
+ $ Internet.Use          : int  1 1 0 1 0 1 1 0 0 1 ...
+ $ Smartphone            : int  0 0 1 0 NA 1 0 0 NA 0 ...
+ $ Sex                   : Factor w/ 2 levels "Female","Male": 2 2 1 2 1 2 1 1 2 1 ...
+ $ Age                   : int  62 45 70 70 80 49 52 76 75 76 ...
+ $ State                 : Factor w/ 49 levels "Alabama","Arizona",..: 20 39 29 10 10 41 21 31 32 32 ...
+ $ Region                : Factor w/ 4 levels "Midwest","Northeast",..: 2 3 2 3 3 3 1 2 3 3 ...
+ $ Conservativeness      : int  4 1 4 4 4 4 3 3 4 4 ...
+ $ Info.On.Internet      : int  0 1 0 3 NA 6 3 NA NA 0 ...
+ $ Worry.About.Info      : int  1 0 0 1 NA 0 1 NA NA 0 ...
+ $ Privacy.Importance    : num  100 0 NA 88.9 NA ...
+ $ Anonymity.Possible    : int  0 1 0 1 NA 1 0 NA NA 1 ...
+ $ Tried.Masking.Identity: int  0 0 0 0 NA 1 0 NA NA 0 ...
+ $ Privacy.Laws.Effective: int  0 1 NA 0 NA 0 1 NA 0 1 ...
+> table(is.na(poll$Internet.Use),is.na(poll$Smartphone))
+       
+        FALSE TRUE
+  FALSE   958   43
+  TRUE      1    0
+> table(poll$Internet.Use, poll$Smartphone)
+   
+      0   1
+  0 186  17
+  1 285 470
+> Limited = subset(poll, Internet.Use=='1' | Smartphone=='1')
+> str(Limited)
+'data.frame':   792 obs. of  13 variables:
+ $ Internet.Use          : int  1 1 0 1 1 1 1 1 1 1 ...
+ $ Smartphone            : int  0 0 1 0 1 0 0 1 1 0 ...
+ $ Sex                   : Factor w/ 2 levels "Female","Male": 2 2 1 2 2 1 1 1 1 2 ...
+ $ Age                   : int  62 45 70 70 49 52 76 50 47 69 ...
+ $ State                 : Factor w/ 49 levels "Alabama","Arizona",..: 20 39 29 10 41 21 32 45 32 31 ...
+ $ Region                : Factor w/ 4 levels "Midwest","Northeast",..: 2 3 2 3 3 1 3 3 3 2 ...
+ $ Conservativeness      : int  4 1 4 4 4 3 4 3 3 3 ...
+ $ Info.On.Internet      : int  0 1 0 3 6 3 0 1 0 9 ...
+ $ Worry.About.Info      : int  1 0 0 1 0 1 0 0 0 0 ...
+ $ Privacy.Importance    : num  100 0 NA 88.9 88.9 ...
+ $ Anonymity.Possible    : int  0 1 0 1 1 0 1 0 1 0 ...
+ $ Tried.Masking.Identity: int  0 0 0 0 1 0 0 0 0 0 ...
+ $ Privacy.Laws.Effective: int  0 1 NA 0 0 1 1 0 0 0 ...
+> summary(Limited)
+  Internet.Use      Smartphone         Sex           Age                   State    
+ Min.   :0.0000   Min.   :0.0000   Female:392   Min.   :18.00   California    : 89  
+ 1st Qu.:1.0000   1st Qu.:0.0000   Male  :400   1st Qu.:33.00   Texas         : 57  
+ Median :1.0000   Median :1.0000                Median :51.00   New York      : 45  
+ Mean   :0.9785   Mean   :0.6308                Mean   :48.57   Pennsylvania  : 33  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000                3rd Qu.:62.00   Florida       : 32  
+ Max.   :1.0000   Max.   :1.0000                Max.   :93.00   North Carolina: 28  
+                  NA's   :20                    NA's   :22      (Other)       :508  
+       Region    Conservativeness Info.On.Internet Worry.About.Info
+ Midwest  :172   Min.   :1.000    Min.   : 0.000   Min.   :0.0000  
+ Northeast:128   1st Qu.:3.000    1st Qu.: 2.000   1st Qu.:0.0000  
+ South    :288   Median :3.000    Median : 4.000   Median :0.0000  
+ West     :204   Mean   :3.237    Mean   : 3.795   Mean   :0.4886  
+                 3rd Qu.:4.000    3rd Qu.: 6.000   3rd Qu.:1.0000  
+                 Max.   :5.000    Max.   :11.000   Max.   :1.0000  
+                 NA's   :45                        NA's   :2       
+ Privacy.Importance Anonymity.Possible Tried.Masking.Identity Privacy.Laws.Effective
+ Min.   :  0.00     Min.   :0.0000     Min.   :0.0000         Min.   :0.0000        
+ 1st Qu.: 41.43     1st Qu.:0.0000     1st Qu.:0.0000         1st Qu.:0.0000        
+ Median : 68.75     Median :0.0000     Median :0.0000         Median :0.0000        
+ Mean   : 62.85     Mean   :0.3692     Mean   :0.1633         Mean   :0.2559        
+ 3rd Qu.: 88.89     3rd Qu.:1.0000     3rd Qu.:0.0000         3rd Qu.:1.0000        
+ Max.   :100.00     Max.   :1.0000     Max.   :1.0000         Max.   :1.0000        
+ NA's   :5          NA's   :39         NA's   :8              NA's   :65            
+> summary(limited$Info.On.Internet)
+Error in summary(limited$Info.On.Internet) : object 'limited' not found
+> summary(Limited$Info.On.Internet)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   2.000   4.000   3.795   6.000  11.000 
+> table(Limited$Info.On.Internet)
+
+  0   1   2   3   4   5   6   7   8   9  10  11 
+105  84  95 101 104  94  67  63  40  18  13   8 
+> table(is.na(Limited$Worry.About.Info))
+
+FALSE  TRUE 
+  790     2 
+> table((Limited$Worry.About.Info))
+
+  0   1 
+404 386 
+> table((Limited$Anonymity.Possible))
+
+  0   1 
+475 278 
+> 278/(475+278)
+[1] 0.3691899
+> table((Limited$Tried.Masking.Identity))
+
+  0   1 
+656 128 
+> 128/(128+656)
+[1] 0.1632653
+> table((Limited$Privacy.Laws.Effective))
+
+  0   1 
+541 186 
+> 186/(186+541)
+[1] 0.2558459
+> hist(poll$Age)
+> plot(limited$Age, limited$Info.On.Internet,ylim=(c(0,1)))
+Error in plot(limited$Age, limited$Info.On.Internet, ylim = (c(0, 1))) : 
+  object 'limited' not found
+> plot(Limited$Age, Limited$Info.On.Internet,ylim=(c(0,1)))
+> table(Limited$Age,Limited$Info.On.Internet)
+    
+     0 1 2 3 4 5 6 7 8 9 10 11
+  18 1 2 0 0 1 2 5 1 0 0  1  0
+  19 0 1 2 3 1 1 1 2 4 0  0  0
+  20 1 1 3 4 1 0 0 0 1 1  0  0
+  21 1 1 1 0 2 3 2 0 2 1  1  0
+  22 0 1 1 2 2 3 1 3 1 0  1  0
+  23 2 0 0 2 3 2 3 5 1 0  0  0
+  24 1 1 0 0 1 0 2 3 1 0  1  0
+  25 0 0 1 0 3 1 0 0 0 0  0  0
+  26 0 1 2 3 0 1 3 1 2 1  0  0
+  27 0 0 0 3 1 2 3 1 1 0  0  0
+  28 1 1 1 1 1 3 3 1 2 0  0  0
+  29 0 0 3 1 0 3 1 3 0 0  0  0
+  30 0 1 0 4 0 4 2 0 2 1  0  0
+  31 1 1 0 1 1 2 1 1 2 0  0  0
+  32 1 0 1 1 1 0 0 0 1 0  1  0
+  33 0 1 3 4 2 1 2 4 0 0  0  0
+  34 0 0 0 2 1 1 1 1 1 0  0  0
+  35 0 0 2 2 4 1 1 1 0 0  0  0
+  36 2 0 1 1 0 2 1 0 1 1  1  1
+  37 2 0 4 1 2 0 0 0 1 0  0  0
+  38 0 2 0 1 2 1 0 0 0 0  0  0
+  39 1 0 2 1 5 0 1 0 1 0  0  0
+  40 0 0 3 0 3 3 0 0 0 0  0  0
+  41 3 1 2 1 2 0 0 0 0 0  0  0
+  42 0 0 0 2 2 1 1 1 0 0  1  0
+  43 3 1 0 1 3 0 2 1 2 0  1  0
+  44 1 1 1 2 0 3 0 2 0 1  0  0
+  45 1 1 1 1 5 2 0 0 0 0  0  0
+  46 1 1 1 0 3 0 0 1 0 0  0  0
+  47 2 0 3 1 2 0 0 0 0 0  0  0
+  48 2 2 1 0 0 2 4 1 2 0  0  0
+  49 2 2 3 2 1 2 3 0 0 0  1  0
+  50 1 4 5 1 0 3 4 1 1 0  0  0
+  51 1 1 2 0 2 0 1 0 2 0  2  0
+  52 3 4 2 3 0 1 0 2 0 0  0  0
+  53 6 2 3 3 3 5 0 0 1 1  0  0
+  54 1 0 0 1 2 1 0 0 1 0  0  2
+  55 1 3 1 5 1 0 5 3 0 0  0  0
+  56 2 3 1 1 3 3 2 0 0 2  0  1
+  57 2 4 2 5 1 2 1 3 1 0  1  0
+  58 1 2 2 1 3 1 2 1 0 2  0  0
+  59 3 3 3 0 1 2 2 2 2 0  0  1
+  60 6 6 2 4 2 5 0 1 0 2  0  0
+  61 1 3 1 1 2 1 1 0 0 0  0  0
+  62 4 1 4 3 4 2 1 3 2 0  0  0
+  63 1 1 1 2 1 0 0 1 0 0  0  0
+  64 5 2 2 2 1 3 0 2 1 2  1  1
+  65 4 2 2 2 1 2 1 1 0 0  0  0
+  66 0 2 1 2 2 1 1 3 1 0  0  0
+  67 3 3 1 2 1 1 0 0 0 0  0  0
+  68 2 1 2 1 2 0 0 0 0 0  0  1
+  69 3 3 0 0 1 1 0 1 0 1  0  0
+  70 3 0 0 3 2 2 0 0 0 0  0  0
+  71 0 1 0 3 3 1 0 1 0 0  0  0
+  72 3 0 3 1 1 2 0 0 0 0  0  0
+  73 1 0 0 1 2 2 0 1 0 0  0  0
+  74 1 1 0 3 1 1 0 0 0 0  0  0
+  75 2 0 1 0 0 0 0 1 0 0  0  0
+  76 1 1 2 1 0 0 0 0 0 0  0  0
+  77 3 0 1 0 3 0 0 0 0 1  0  0
+  78 1 1 1 0 0 1 0 0 0 0  0  0
+  79 0 0 3 0 0 1 0 0 0 0  0  0
+  80 2 0 0 0 0 1 0 0 0 0  0  0
+  81 3 0 0 1 0 1 0 0 0 0  0  0
+  82 0 0 0 0 0 0 0 1 0 0  0  0
+  83 0 0 3 0 1 0 0 1 0 0  0  0
+  86 0 1 0 0 0 0 0 0 0 0  0  0
+  88 0 1 0 0 0 0 0 0 0 0  0  0
+  91 0 0 1 0 0 1 0 0 0 0  0  0
+  92 1 0 0 0 0 0 0 0 0 0  0  0
+  93 0 0 0 1 0 0 0 0 0 0  0  0
+> jitter(c(1, 2, 3))
+[1] 0.9812437 2.1922429 3.0189371
+> plot(jitter(limited$Age), jitter(limited$Info.On.Internet))
+Error in jitter(limited$Age) : object 'limited' not found
+> plot(jitter(Limited$Age), jitter(Limited$Info.On.Internet))
+> tapply(Limited$Info.On.Internet,Limited$Smartphone,mean)
+       0        1 
+2.922807 4.367556 
+> tapply(Limited$Tried.Masking.Identity,Limited$Smartphone,mean)
+ 0  1 
+NA NA 
+> tapply(Limited$Tried.Masking.Identity,Limited$Smartphone,mean,na.rm=TRUE)
+        0         1 
+0.1174377 0.1925466 
+> 

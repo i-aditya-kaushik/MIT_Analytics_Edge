@@ -1,0 +1,162 @@
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> summary(model3)
+
+Call:
+lm(formula = Price ~ AGST + HarvestRain + WinterRain + Age + 
+    FrancePop, data = wine)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.48179 -0.24662 -0.00726  0.22012  0.51987 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -4.504e-01  1.019e+01  -0.044 0.965202    
+AGST         6.012e-01  1.030e-01   5.836 1.27e-05 ***
+HarvestRain -3.958e-03  8.751e-04  -4.523 0.000233 ***
+WinterRain   1.043e-03  5.310e-04   1.963 0.064416 .  
+Age          5.847e-04  7.900e-02   0.007 0.994172    
+FrancePop   -4.953e-05  1.667e-04  -0.297 0.769578    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.3019 on 19 degrees of freedom
+Multiple R-squared:  0.8294,    Adjusted R-squared:  0.7845 
+F-statistic: 18.47 on 5 and 19 DF,  p-value: 1.044e-06
+
+> model4 = lm(Price ~ AGST + HarvestRain + WinterRain + Age, data =wine)
+> summary(model4)
+
+Call:
+lm(formula = Price ~ AGST + HarvestRain + WinterRain + Age, data = wine)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.45470 -0.24273  0.00752  0.19773  0.53637 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -3.4299802  1.7658975  -1.942 0.066311 .  
+AGST         0.6072093  0.0987022   6.152  5.2e-06 ***
+HarvestRain -0.0039715  0.0008538  -4.652 0.000154 ***
+WinterRain   0.0010755  0.0005073   2.120 0.046694 *  
+Age          0.0239308  0.0080969   2.956 0.007819 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.295 on 20 degrees of freedom
+Multiple R-squared:  0.8286,    Adjusted R-squared:  0.7943 
+F-statistic: 24.17 on 4 and 20 DF,  p-value: 2.036e-07
+
+> modelAss = lm(Price ~ HarvestRain + WinterRain,data= wine)
+> summary(modelAss)
+
+Call:
+lm(formula = Price ~ HarvestRain + WinterRain, data = wine)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.0933 -0.3222 -0.1012  0.3871  1.1877 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  7.865e+00  6.616e-01  11.888 4.76e-11 ***
+HarvestRain -4.971e-03  1.601e-03  -3.105  0.00516 ** 
+WinterRain  -9.848e-05  9.007e-04  -0.109  0.91392    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.5611 on 22 degrees of freedom
+Multiple R-squared:  0.3177,    Adjusted R-squared:  0.2557 
+F-statistic: 5.122 on 2 and 22 DF,  p-value: 0.01492
+
+> cor(wine$WinterRain, wine$Price)
+[1] 0.1366505
+> cor(wine$Age, wine$FrancePopulation)
+Error in cor(wine$Age, wine$FrancePopulation) : 
+  supply both 'x' and 'y' or a matrix-like 'x'
+> cor(wine$Age, wine$FrancePop)
+[1] -0.9944851
+> cor(wine)
+                   Year      Price   WinterRain        AGST HarvestRain
+Year         1.00000000 -0.4477679  0.016970024 -0.24691585  0.02800907
+Price       -0.44776786  1.0000000  0.136650547  0.65956286 -0.56332190
+WinterRain   0.01697002  0.1366505  1.000000000 -0.32109061 -0.27544085
+AGST        -0.24691585  0.6595629 -0.321090611  1.00000000 -0.06449593
+HarvestRain  0.02800907 -0.5633219 -0.275440854 -0.06449593  1.00000000
+Age         -1.00000000  0.4477679 -0.016970024  0.24691585 -0.02800907
+FrancePop    0.99448510 -0.4668616 -0.001621627 -0.25916227  0.04126439
+                    Age    FrancePop
+Year        -1.00000000  0.994485097
+Price        0.44776786 -0.466861641
+WinterRain  -0.01697002 -0.001621627
+AGST         0.24691585 -0.259162274
+HarvestRain -0.02800907  0.041264394
+Age          1.00000000 -0.994485097
+FrancePop   -0.99448510  1.000000000
+> model5 = lm(Price~AGST+HarvestRain+WinterRain,data=wine)
+> summary(model5)
+
+Call:
+lm(formula = Price ~ AGST + HarvestRain + WinterRain, data = wine)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.67472 -0.12958  0.01973  0.20751  0.63846 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -4.3016263  2.0366743  -2.112 0.046831 *  
+AGST         0.6810242  0.1117011   6.097 4.75e-06 ***
+HarvestRain -0.0039481  0.0009987  -3.953 0.000726 ***
+WinterRain   0.0011765  0.0005920   1.987 0.060097 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.345 on 21 degrees of freedom
+Multiple R-squared:  0.7537,    Adjusted R-squared:  0.7185 
+F-statistic: 21.42 on 3 and 21 DF,  p-value: 1.359e-06
+
+> cor(wine$HarvestRain,wine$WinterRain)
+[1] -0.2754409
+> wineTest = read.csv("wine_test.csv")
+> str(wineTest)
+'data.frame':   2 obs. of  7 variables:
+ $ Year       : int  1979 1980
+ $ Price      : num  6.95 6.5
+ $ WinterRain : int  717 578
+ $ AGST       : num  16.2 16
+ $ HarvestRain: int  122 74
+ $ Age        : int  4 3
+ $ FrancePop  : num  54836 55110
+> predictTest = predict(model4,newdata=wineTest)
+> predictTest
+       1        2 
+6.768925 6.684910 
+> SSE = sum((wineTest$Price - predictTest)^2)
+> SST = sum(wineTest$Price - mean(wine$Price))^2)
+Error: unexpected ')' in "SST = sum(wineTest$Price - mean(wine$Price))^2)"
+> SST = sum((wineTest$Price - mean(wine$Price))^2)
+> 1-SSE/SST
+[1] 0.7944278
+> 

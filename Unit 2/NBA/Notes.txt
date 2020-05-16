@@ -1,0 +1,9 @@
+---------------------Video 3 Lecture----------------------------
+
+Pts Scored
+
+1. Pr(>|t|) has the final say in terms of which variable to remove. Remove the one
+   with the maximum value
+2. 
+
+----------------------------------------------------------------

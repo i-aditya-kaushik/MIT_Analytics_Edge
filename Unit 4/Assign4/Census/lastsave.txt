@@ -1,0 +1,433 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> census = read.csv('census.csv')
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'census.csv': No such file or directory
+> census = read.csv('census.csv')
+> set.seed(2000)
+>  library(caTools)
+Warning message:
+package ‘caTools’ was built under R version 3.6.3 
+> spl = sample.split(census$over50k, SplitRatio = 0.6)
+> train = subset(census, spl == TRUE)
+> test = subset(census, spl == FALSE)
+> model1 = glm(over50k~. , data = train , family = 'binomial')
+Warning message:
+glm.fit: fitted probabilities numerically 0 or 1 occurred 
+> summary(model1)
+
+Call:
+glm(formula = over50k ~ ., family = "binomial", data = train)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-5.1065  -0.5037  -0.1804  -0.0008   3.3383  
+
+Coefficients: (1 not defined because of singularities)
+                                           Estimate Std. Error z value Pr(>|z|)
+(Intercept)                              -8.658e+00  1.379e+00  -6.279 3.41e-10
+age                                       2.548e-02  2.139e-03  11.916  < 2e-16
+workclass Federal-gov                     1.105e+00  2.014e-01   5.489 4.03e-08
+workclass Local-gov                       3.675e-01  1.821e-01   2.018 0.043641
+workclass Never-worked                   -1.283e+01  8.453e+02  -0.015 0.987885
+workclass Private                         6.012e-01  1.626e-01   3.698 0.000218
+workclass Self-emp-inc                    7.575e-01  1.950e-01   3.884 0.000103
+workclass Self-emp-not-inc                1.855e-01  1.774e-01   1.046 0.295646
+workclass State-gov                       4.012e-01  1.961e-01   2.046 0.040728
+workclass Without-pay                    -1.395e+01  6.597e+02  -0.021 0.983134
+education 11th                            2.225e-01  2.867e-01   0.776 0.437738
+education 12th                            6.380e-01  3.597e-01   1.774 0.076064
+education 1st-4th                        -7.075e-01  7.760e-01  -0.912 0.361897
+education 5th-6th                        -3.170e-01  4.880e-01  -0.650 0.516008
+education 7th-8th                        -3.498e-01  3.126e-01  -1.119 0.263152
+education 9th                            -1.258e-01  3.539e-01  -0.355 0.722228
+education Assoc-acdm                      1.602e+00  2.427e-01   6.601 4.10e-11
+education Assoc-voc                       1.541e+00  2.368e-01   6.506 7.74e-11
+education Bachelors                       2.177e+00  2.218e-01   9.817  < 2e-16
+education Doctorate                       2.761e+00  2.893e-01   9.544  < 2e-16
+education HS-grad                         1.006e+00  2.169e-01   4.638 3.52e-06
+education Masters                         2.421e+00  2.353e-01  10.289  < 2e-16
+education Preschool                      -2.237e+01  6.864e+02  -0.033 0.973996
+education Prof-school                     2.938e+00  2.753e-01  10.672  < 2e-16
+education Some-college                    1.365e+00  2.195e-01   6.219 5.00e-10
+maritalstatus Married-AF-spouse           2.540e+00  7.145e-01   3.555 0.000378
+maritalstatus Married-civ-spouse          2.458e+00  3.573e-01   6.880 6.00e-12
+maritalstatus Married-spouse-absent      -9.486e-02  3.204e-01  -0.296 0.767155
+maritalstatus Never-married              -4.515e-01  1.139e-01  -3.962 7.42e-05
+maritalstatus Separated                   3.609e-02  1.984e-01   0.182 0.855672
+maritalstatus Widowed                     1.858e-01  1.962e-01   0.947 0.343449
+occupation Adm-clerical                   9.470e-02  1.288e-01   0.735 0.462064
+occupation Armed-Forces                  -1.008e+00  1.487e+00  -0.677 0.498170
+occupation Craft-repair                   2.174e-01  1.109e-01   1.960 0.049972
+occupation Exec-managerial                9.400e-01  1.138e-01   8.257  < 2e-16
+occupation Farming-fishing               -1.068e+00  1.908e-01  -5.599 2.15e-08
+occupation Handlers-cleaners             -6.237e-01  1.946e-01  -3.204 0.001353
+occupation Machine-op-inspct             -1.862e-01  1.376e-01  -1.353 0.176061
+occupation Other-service                 -8.183e-01  1.641e-01  -4.987 6.14e-07
+occupation Priv-house-serv               -1.297e+01  2.267e+02  -0.057 0.954385
+occupation Prof-specialty                 6.331e-01  1.222e-01   5.180 2.22e-07
+occupation Protective-serv                6.267e-01  1.710e-01   3.664 0.000248
+occupation Sales                          3.276e-01  1.175e-01   2.789 0.005282
+occupation Tech-support                   6.173e-01  1.533e-01   4.028 5.63e-05
+occupation Transport-moving                      NA         NA      NA       NA
+relationship Not-in-family                7.881e-01  3.530e-01   2.233 0.025562
+relationship Other-relative              -2.194e-01  3.137e-01  -0.699 0.484263
+relationship Own-child                   -7.489e-01  3.507e-01  -2.136 0.032716
+relationship Unmarried                    7.041e-01  3.720e-01   1.893 0.058392
+relationship Wife                         1.324e+00  1.331e-01   9.942  < 2e-16
+race Asian-Pac-Islander                   4.830e-01  3.548e-01   1.361 0.173504
+race Black                                3.644e-01  2.882e-01   1.265 0.206001
+race Other                                2.204e-01  4.513e-01   0.488 0.625263
+race White                                4.108e-01  2.737e-01   1.501 0.133356
+sex Male                                  7.729e-01  1.024e-01   7.545 4.52e-14
+capitalgain                               3.280e-04  1.372e-05  23.904  < 2e-16
+capitalloss                               6.445e-04  4.854e-05  13.277  < 2e-16
+hoursperweek                              2.897e-02  2.101e-03  13.791  < 2e-16
+nativecountry Canada                      2.593e-01  1.308e+00   0.198 0.842879
+nativecountry China                      -9.695e-01  1.327e+00  -0.730 0.465157
+nativecountry Columbia                   -1.954e+00  1.526e+00  -1.280 0.200470
+nativecountry Cuba                        5.735e-02  1.323e+00   0.043 0.965432
+nativecountry Dominican-Republic         -1.435e+01  3.092e+02  -0.046 0.962972
+nativecountry Ecuador                    -3.550e-02  1.477e+00  -0.024 0.980829
+nativecountry El-Salvador                -6.095e-01  1.395e+00  -0.437 0.662181
+nativecountry England                    -6.707e-02  1.327e+00  -0.051 0.959686
+nativecountry France                      5.301e-01  1.419e+00   0.374 0.708642
+nativecountry Germany                     5.474e-02  1.306e+00   0.042 0.966572
+nativecountry Greece                     -2.646e+00  1.714e+00  -1.544 0.122527
+nativecountry Guatemala                  -1.293e+01  3.345e+02  -0.039 0.969180
+nativecountry Haiti                      -9.221e-01  1.615e+00  -0.571 0.568105
+nativecountry Holand-Netherlands         -1.282e+01  2.400e+03  -0.005 0.995736
+nativecountry Honduras                   -9.584e-01  3.412e+00  -0.281 0.778775
+nativecountry Hong                       -2.362e-01  1.492e+00  -0.158 0.874155
+nativecountry Hungary                     1.412e-01  1.555e+00   0.091 0.927653
+nativecountry India                      -8.218e-01  1.314e+00  -0.625 0.531661
+nativecountry Iran                       -3.299e-02  1.366e+00  -0.024 0.980736
+nativecountry Ireland                     1.579e-01  1.473e+00   0.107 0.914628
+nativecountry Italy                       6.100e-01  1.333e+00   0.458 0.647194
+nativecountry Jamaica                    -2.279e-01  1.387e+00  -0.164 0.869467
+nativecountry Japan                       5.072e-01  1.375e+00   0.369 0.712179
+nativecountry Laos                       -6.831e-01  1.661e+00  -0.411 0.680866
+nativecountry Mexico                     -9.182e-01  1.303e+00  -0.705 0.481103
+nativecountry Nicaragua                  -1.987e-01  1.507e+00  -0.132 0.895132
+nativecountry Outlying-US(Guam-USVI-etc) -1.373e+01  8.502e+02  -0.016 0.987115
+nativecountry Peru                       -9.660e-01  1.678e+00  -0.576 0.564797
+nativecountry Philippines                 4.393e-02  1.281e+00   0.034 0.972640
+nativecountry Poland                      2.410e-01  1.383e+00   0.174 0.861624
+nativecountry Portugal                    7.276e-01  1.477e+00   0.493 0.622327
+nativecountry Puerto-Rico                -5.769e-01  1.357e+00  -0.425 0.670837
+nativecountry Scotland                   -1.188e+00  1.719e+00  -0.691 0.489616
+nativecountry South                      -8.183e-01  1.341e+00  -0.610 0.541809
+nativecountry Taiwan                     -2.590e-01  1.350e+00  -0.192 0.847878
+nativecountry Thailand                   -1.693e+00  1.737e+00  -0.975 0.329678
+nativecountry Trinadad&Tobago            -1.346e+00  1.721e+00  -0.782 0.434105
+nativecountry United-States              -8.594e-02  1.269e+00  -0.068 0.946020
+nativecountry Vietnam                    -1.008e+00  1.523e+00  -0.662 0.507799
+nativecountry Yugoslavia                  1.402e+00  1.648e+00   0.851 0.394874
+                                            
+(Intercept)                              ***
+age                                      ***
+workclass Federal-gov                    ***
+workclass Local-gov                      *  
+workclass Never-worked                      
+workclass Private                        ***
+workclass Self-emp-inc                   ***
+workclass Self-emp-not-inc                  
+workclass State-gov                      *  
+workclass Without-pay                       
+education 11th                              
+education 12th                           .  
+education 1st-4th                           
+education 5th-6th                           
+education 7th-8th                           
+education 9th                               
+education Assoc-acdm                     ***
+education Assoc-voc                      ***
+education Bachelors                      ***
+education Doctorate                      ***
+education HS-grad                        ***
+education Masters                        ***
+education Preschool                         
+education Prof-school                    ***
+education Some-college                   ***
+maritalstatus Married-AF-spouse          ***
+maritalstatus Married-civ-spouse         ***
+maritalstatus Married-spouse-absent         
+maritalstatus Never-married              ***
+maritalstatus Separated                     
+maritalstatus Widowed                       
+occupation Adm-clerical                     
+occupation Armed-Forces                     
+occupation Craft-repair                  *  
+occupation Exec-managerial               ***
+occupation Farming-fishing               ***
+occupation Handlers-cleaners             ** 
+occupation Machine-op-inspct                
+occupation Other-service                 ***
+occupation Priv-house-serv                  
+occupation Prof-specialty                ***
+occupation Protective-serv               ***
+occupation Sales                         ** 
+occupation Tech-support                  ***
+occupation Transport-moving                 
+relationship Not-in-family               *  
+relationship Other-relative                 
+relationship Own-child                   *  
+relationship Unmarried                   .  
+relationship Wife                        ***
+race Asian-Pac-Islander                     
+race Black                                  
+race Other                                  
+race White                                  
+sex Male                                 ***
+capitalgain                              ***
+capitalloss                              ***
+hoursperweek                             ***
+nativecountry Canada                        
+nativecountry China                         
+nativecountry Columbia                      
+nativecountry Cuba                          
+nativecountry Dominican-Republic            
+nativecountry Ecuador                       
+nativecountry El-Salvador                   
+nativecountry England                       
+nativecountry France                        
+nativecountry Germany                       
+nativecountry Greece                        
+nativecountry Guatemala                     
+nativecountry Haiti                         
+nativecountry Holand-Netherlands            
+nativecountry Honduras                      
+nativecountry Hong                          
+nativecountry Hungary                       
+nativecountry India                         
+nativecountry Iran                          
+nativecountry Ireland                       
+nativecountry Italy                         
+nativecountry Jamaica                       
+nativecountry Japan                         
+nativecountry Laos                          
+nativecountry Mexico                        
+nativecountry Nicaragua                     
+nativecountry Outlying-US(Guam-USVI-etc)    
+nativecountry Peru                          
+nativecountry Philippines                   
+nativecountry Poland                        
+nativecountry Portugal                      
+nativecountry Puerto-Rico                   
+nativecountry Scotland                      
+nativecountry South                         
+nativecountry Taiwan                        
+nativecountry Thailand                      
+nativecountry Trinadad&Tobago               
+nativecountry United-States                 
+nativecountry Vietnam                       
+nativecountry Yugoslavia                    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 21175  on 19186  degrees of freedom
+Residual deviance: 12104  on 19090  degrees of freedom
+AIC: 12298
+
+Number of Fisher Scoring iterations: 15
+
+> predictTest = predict(model1, type = "response", newdata = test)
+Warning message:
+In predict.lm(object, newdata, se.fit, scale = 1, type = if (type ==  :
+  prediction from a rank-deficient fit may be misleading
+> table(test$over50k, predictTest>0.5)
+        
+         FALSE TRUE
+   <=50K  9051  662
+   >50K   1190 1888
+> (9051+1888)/(9051+662+1190+1888)
+[1] 0.8552107
+> table(test$over50k)
+
+ <=50K   >50K 
+  9713   3078 
+> 9713/(9713+3078)
+[1] 0.7593621
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+Warning messages:
+1: package ‘ROCR’ was built under R version 3.6.3 
+2: package ‘gplots’ was built under R version 3.6.3 
+> ROCRpred = prediction(predictTest, test$over50k)
+> as.numeric(performance(ROCpred, "auc")@y.values)
+Error in performance(ROCpred, "auc") : object 'ROCpred' not found
+> as.numeric(performance(ROCRpred, "auc")@y.values)
+[1] 0.9061598
+> library(rpart)
+Warning message:
+package ‘rpart’ was built under R version 3.6.3 
+> library(rpart.plot)
+Warning message:
+package ‘rpart.plot’ was built under R version 3.6.3 
+> censustree = rpart( over50k ~ . , method="class", data = train)
+> prp(censustree)
+>  predictTest = predict(censustree, newdata = test, type = "class")
+> table(test$over50k, predictTest)
+        predictTest
+          <=50K  >50K
+   <=50K   9243   470
+   >50K    1482  1596
+> (9243+1596)/(9243+470+1482+1596)
+[1] 0.8473927
+> predictTest = predict(censustree, newdata = test)
+> predictTest = predictTest[,2]
+> ROCRpred = prediction(predictTest, test$over50k)
+> as.numeric(performance(ROCRpred, "auc")@y.values)
+[1] 0.8470256
+> set.seed(1)
+> trainSmall = train[sample(nrow(train), 2000), ]
+> censusrf = randomForest(over50k ~ . , data = trainSmall)
+Error in randomForest(over50k ~ ., data = trainSmall) : 
+  could not find function "randomForest"
+> library(randomForest)
+randomForest 4.6-14
+Type rfNews() to see new features/changes/bug fixes.
+Warning message:
+package ‘randomForest’ was built under R version 3.6.3 
+> censusrf = randomForest(over50k ~ . , data = trainSmall)
+> predictTest = predict(censusrf, newdata=test)
+> table(test$over50k, predictTest)
+        predictTest
+          <=50K  >50K
+   <=50K   8939   774
+   >50K    1119  1959
+> (9614+1050)/nrow(test) 
+[1] 0.8337112
+> vu = varUsed(MODEL, count=TRUE)
+Error in varUsed(MODEL, count = TRUE) : object 'MODEL' not found
+> 
+> vu = varUsed(censusrf, count=TRUE)
+> vusorted = sort(vu, decreasing = FALSE, index.return = TRUE)
+> 
+> dotchart(vusorted$x, names(MODEL$forest$xlevels[vusorted$ix]))
+Error in dotchart(vusorted$x, names(MODEL$forest$xlevels[vusorted$ix])) : 
+  object 'MODEL' not found
+> dotchart(vusorted$x, names(censusrf$forest$xlevels[vusorted$ix]))
+> varImpPlot(censusrf)
+> cartGrid = expand.grid( .cp = seq(0.002,0.1,0.002))
+> library(caret)
+Loading required package: lattice
+Loading required package: ggplot2
+
+Attaching package: ‘ggplot2’
+
+The following object is masked from ‘package:randomForest’:
+
+    margin
+
+Warning messages:
+1: package ‘caret’ was built under R version 3.6.3 
+2: package ‘ggplot2’ was built under R version 3.6.3 
+> set.seed(2)
+> fitControl = trainControl( method = "cv", number = 10 )
+> fitControl = trainControl( method = "cv", number = 10 )
+> train( over50k ~ . , data = train, method = "rpart", trControl = fitControl, tuneGrid = cartGrid )
+CART 
+
+19187 samples
+   12 predictor
+    2 classes: ' <=50K', ' >50K' 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold) 
+Summary of sample sizes: 17268, 17269, 17269, 17268, 17268, 17268, ... 
+Resampling results across tuning parameters:
+
+  cp     Accuracy   Kappa     
+  0.002  0.8506804  0.55166958
+  0.004  0.8473968  0.55338034
+  0.006  0.8458331  0.54517523
+  0.008  0.8446864  0.54487864
+  0.010  0.8448428  0.54615398
+  0.012  0.8448428  0.54615398
+  0.014  0.8448428  0.54615398
+  0.016  0.8439048  0.54146539
+  0.018  0.8415598  0.52766202
+  0.020  0.8401527  0.51892369
+  0.022  0.8390060  0.50919387
+  0.024  0.8387453  0.50576836
+  0.026  0.8387453  0.50576836
+  0.028  0.8387453  0.50576836
+  0.030  0.8376510  0.49966842
+  0.032  0.8369215  0.49452710
+  0.034  0.8349931  0.47865253
+  0.036  0.8304592  0.45552417
+  0.038  0.8255600  0.43503975
+  0.040  0.8243611  0.43009541
+  0.042  0.8243611  0.43009541
+  0.044  0.8243611  0.43009541
+  0.046  0.8243611  0.43009541
+  0.048  0.8243611  0.43009541
+  0.050  0.8223799  0.41594630
+  0.052  0.8180019  0.37709201
+  0.054  0.8129987  0.32483536
+  0.056  0.8118522  0.30761641
+  0.058  0.8118522  0.30761641
+  0.060  0.8118522  0.30761641
+  0.062  0.8118522  0.30761641
+  0.064  0.8118522  0.30761641
+  0.066  0.8118522  0.30761641
+  0.068  0.7969460  0.22129021
+  0.070  0.7958517  0.21462295
+  0.072  0.7958517  0.21462295
+  0.074  0.7958517  0.21462295
+  0.076  0.7686961  0.05565338
+  0.078  0.7593684  0.00000000
+  0.080  0.7593684  0.00000000
+  0.082  0.7593684  0.00000000
+  0.084  0.7593684  0.00000000
+  0.086  0.7593684  0.00000000
+  0.088  0.7593684  0.00000000
+  0.090  0.7593684  0.00000000
+  0.092  0.7593684  0.00000000
+  0.094  0.7593684  0.00000000
+  0.096  0.7593684  0.00000000
+  0.098  0.7593684  0.00000000
+  0.100  0.7593684  0.00000000
+
+Accuracy was used to select the optimal model using the largest value.
+The final value used for the model was cp = 0.002.
+> model = rpart(over50k~., data=train, method="class", cp=0.002)
+> predictTest = predict(model, newdata=test, type="class")
+> table(test$over50k, predictTest)
+        predictTest
+          <=50K  >50K
+   <=50K   9178   535
+   >50K    1240  1838
+> (9178+1838)/(9178+535+1240+1838)
+[1] 0.8612306
+> prp(model)
+> 

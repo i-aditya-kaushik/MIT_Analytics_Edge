@@ -1,0 +1,210 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> gerber = read.csv('gerber.csv')
+> str(gerber)
+'data.frame':   344084 obs. of  8 variables:
+ $ sex      : int  0 1 1 1 0 1 0 0 1 0 ...
+ $ yob      : int  1941 1947 1982 1950 1951 1959 1956 1981 1968 1967 ...
+ $ voting   : int  0 0 1 1 1 1 1 0 0 0 ...
+ $ hawthorne: int  0 0 1 1 1 0 0 0 0 0 ...
+ $ civicduty: int  1 1 0 0 0 0 0 0 0 0 ...
+ $ neighbors: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ self     : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ control  : int  0 0 0 0 0 1 1 1 1 1 ...
+> table(gerber$voting)
+
+     0      1 
+235388 108696 
+> 108696/nrow(gerber)
+[1] 0.3158996
+> table(gerber$voting,gerber$hawthrone)
+Error in table(gerber$voting, gerber$hawthrone) : 
+  all arguments must have the same length
+> table(gerber$voting,gerber$hawthorne)
+   
+         0      1
+  0 209500  25888
+  1  96380  12316
+> tapply(gerber$voting, gerber$civicduty, mean)
+        0         1 
+0.3160698 0.3145377 
+> 
+> tapply(gerber$voting, gerber$hawthorne, mean)
+        0         1 
+0.3150909 0.3223746 
+> tapply(gerber$voting, gerber$self, mean)
+        0         1 
+0.3122446 0.3451515 
+> tapply(gerber$voting, gerber$neighbors, mean)
+        0         1 
+0.3081505 0.3779482 
+> log1 = glm(voting ~ civicduty+hawthorne+self+neighbors, data = gerber, family = binomial)
+> summary(log1)
+
+Call:
+glm(formula = voting ~ civicduty + hawthorne + self + neighbors, 
+    family = binomial, data = gerber)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.9744  -0.8691  -0.8389   1.4586   1.5590  
+
+Coefficients:
+             Estimate Std. Error  z value Pr(>|z|)    
+(Intercept) -0.863358   0.005006 -172.459  < 2e-16 ***
+civicduty    0.084368   0.012100    6.972 3.12e-12 ***
+hawthorne    0.120477   0.012037   10.009  < 2e-16 ***
+self         0.222937   0.011867   18.786  < 2e-16 ***
+neighbors    0.365092   0.011679   31.260  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 429238  on 344083  degrees of freedom
+Residual deviance: 428090  on 344079  degrees of freedom
+AIC: 428100
+
+Number of Fisher Scoring iterations: 4
+
+> predictTrain = predict(QualitiyLog, type = "response")
+Error in predict(QualitiyLog, type = "response") : 
+  object 'QualitiyLog' not found
+> predictTrain = predict(log1, type = "response")
+> table(gerber$voting, predictTrain > 0.3)
+   
+     FALSE   TRUE
+  0 134513 100875
+  1  56730  51966
+> (134513+51966)/nrow(gerber)
+[1] 0.5419578
+> table(gerber$voting, predictTrain > 0.5)
+   
+     FALSE
+  0 235388
+  1 108696
+> 235388/nrow(gerber)
+[1] 0.6841004
+> ROCRpred = predict(predictTrain, gerber$voting)
+Error in UseMethod("predict") : 
+  no applicable method for 'predict' applied to an object of class "c('double', 'numeric')"
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+Warning messages:
+1: package ‘ROCR’ was built under R version 3.6.3 
+2: package ‘gplots’ was built under R version 3.6.3 
+> ROCRpred = predict(predictTrain, gerber$voting)
+Error in UseMethod("predict") : 
+  no applicable method for 'predict' applied to an object of class "c('double', 'numeric')"
+> ROCRpred = prediction(predictTrain,gerber$voting)
+> ROCRperf = performance(ROCRpred, "tpr","fpr")
+> auc = as.numeric(performance(ROCRpred,"auc")@y.values)
+> auc
+[1] 0.5308461
+> CARTmodel = rpart(voting ~ civicduty + hawthorne + self + neighbors, data=gerber)
+Error in rpart(voting ~ civicduty + hawthorne + self + neighbors, data = gerber) : 
+  could not find function "rpart"
+> library(rpart)
+Warning message:
+package ‘rpart’ was built under R version 3.6.3 
+> library(rpart.plot)
+Warning message:
+package ‘rpart.plot’ was built under R version 3.6.3 
+> CARTmodel = rpart(voting ~ civicduty + hawthorne + self + neighbors, data=gerber)
+> prp(CARTmodel)
+> CARTmodel2 = rpart(voting ~ civicduty + hawthorne + self + neighbors, data=gerber, cp=0.0)
+> prp(CARTmodel2)
+> CARTmodel2 = rpart(voting ~ civicduty + hawthorne + self + neighbors+sex, data=gerber, cp=0.0)
+> prp(CARTmodel2)
+> CARTmodel2 = rpart(voting ~ control, data=gerber, cp=0.0)
+> CARTmodelsexc = rpart(voting ~ control+sex, data=gerber, cp=0.0)
+> prp(CARTmodel2, digits=6)
+> prp(CARTmodelsexc, digits=6)
+> LogModelSex = glm(voting ~ control + sex, data=gerber, family="binomial")
+> 
+> summary(LogModelSex)
+
+Call:
+glm(formula = voting ~ control + sex, family = "binomial", data = gerber)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.9220  -0.9012  -0.8290   1.4564   1.5717  
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -0.635538   0.006511 -97.616  < 2e-16 ***
+control     -0.200142   0.007364 -27.179  < 2e-16 ***
+sex         -0.055791   0.007343  -7.597 3.02e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 429238  on 344083  degrees of freedom
+Residual deviance: 428443  on 344081  degrees of freedom
+AIC: 428449
+
+Number of Fisher Scoring iterations: 4
+
+> Possibilities = data.frame(sex=c(0,0,1,1),control=c(0,1,0,1))
+> predict(LogModelSex, newdata=Possibilities, type="response")
+        1         2         3         4 
+0.3462559 0.3024455 0.3337375 0.2908065 
+> LogModel2 = glm(voting ~ sex + control + sex:control, data=gerber, family="binomial")
+> summary(LogModel2)
+
+Call:
+glm(formula = voting ~ sex + control + sex:control, family = "binomial", 
+    data = gerber)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.9213  -0.9019  -0.8284   1.4573   1.5724  
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -0.637471   0.007603 -83.843  < 2e-16 ***
+sex         -0.051888   0.010801  -4.804 1.55e-06 ***
+control     -0.196553   0.010356 -18.980  < 2e-16 ***
+sex:control -0.007259   0.014729  -0.493    0.622    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 429238  on 344083  degrees of freedom
+Residual deviance: 428442  on 344080  degrees of freedom
+AIC: 428450
+
+Number of Fisher Scoring iterations: 4
+
+> predict(LogModel2, newdata=Possibilities, type="response")
+        1         2         3         4 
+0.3458183 0.3027947 0.3341757 0.2904558 
+> 
+> 

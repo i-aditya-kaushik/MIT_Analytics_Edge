@@ -1,0 +1,27 @@
+1. Logistic Regression: Extension of linear regression. 
+   Formula: 1/(1+exp(-1*(b0+b1x1+b2x2...bkxk)))
+2. Logistic Function lies between 0 and 1 and represents probability
+3. Odds = P(y=1)/P(y=0)
+4. Odds = exp(b0+b1x1+b2x2..bkxk)
+   log(Odds) = Linear regression formula
+   Logit: Looks like linear regression formula
+5. Ans1: exp(-1.5+3-2.5) = logit
+         exp(-1)
+6 caTools: A package in R which is used for randomly splitting the data
+  to training set and testing set
+7. Lower the AIC in our model, better the model
+8. Since Logistic Regression gives the probabilty, we define a threshold
+   value for 0 or 1
+9. We find the confusion matrix to understand which model to pick
+10. We need to maximise True Negatives and True Positives while minimise
+   the False Negatives and False Positives
+11. Sensitivity = TP/(TP+FN)
+    Specificity = TN/(TN+FP)
+12. To find the best threshold value, we draw the ROC curve to find the 
+    place where these values coincide
+13. ROCR is a package used to find the ROC curve
+14. AUC AREA UNDER ROC CURVE gives the quality of prediction
+15. More AUC is desirable.. if AUC is less than 0.5 then it is pure 
+    guessing
+16. Overall Error rate = (FP+FN)/N
+    Overall Accuracy = (TN+TP)/N

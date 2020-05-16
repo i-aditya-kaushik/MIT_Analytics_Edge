@@ -1,0 +1,13 @@
+1.
+For parolees A and B who are identical other than A having committed multiple offenses, the predicted log odds of A is 1.61 more than the predicted log odds of B. Then we have:
+ln(odds of A) = ln(odds of B) + 1.61
+exp(ln(odds of A)) = exp(ln(odds of B) + 1.61)
+exp(ln(odds of A)) = exp(ln(odds of B)) * exp(1.61)
+odds of A = exp(1.61) * odds of B
+odds of A= 5.01 * odds of B
+In the second step we raised e to the power of both sides. 
+In the third step we used the exponentiation rule that e^(a+b) = e^a * e^b. 
+In the fourth step we used the rule that e^(ln(x)) = x.
+
+2. The AUC deals with differentiating between a randomly selected positive and negative example. It is independent of the regression cutoff selected.
+3. 

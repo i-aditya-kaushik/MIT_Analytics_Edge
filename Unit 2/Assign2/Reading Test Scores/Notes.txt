@@ -1,0 +1,3 @@
+Read About 
+1. Ordered and Unordered factors
+2. Reference variables
