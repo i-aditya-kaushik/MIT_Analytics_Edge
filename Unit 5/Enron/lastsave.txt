@@ -1,0 +1,359 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> emails = read.csv('energy_bids.csv')
+> emails = read.csv('energy_bids.csv',stringsAsFactors=FALSE)
+> str(emails)
+'data.frame':   855 obs. of  2 variables:
+ $ email     : chr  "North America's integrated electricity market requires cooperation on environmental policies Commission for Env"| __truncated__ "FYI -----Original Message----- From: \t\"Ginny Feliciano\" <gfeliciano@earthlink.net>@ENRON [mailto:IMCEANOTES-"| __truncated__ "14:13:53 Synchronizing Mailbox 'Kean, Steven J.' 14:13:53 Synchronizing Hierarchy 14:13:53 Synchronizing Favori"| __truncated__ "^ ----- Forwarded by Steven J Kean/NA/Enron on 03/02/2001 12:27 PM ----- Suzanne_Nimocks@mckinsey.com Sent by: "| __truncated__ ...
+ $ responsive: int  0 1 0 1 0 0 1 0 0 0 ...
+> emails$email[1]
+[1] "North America's integrated electricity market requires cooperation on environmental policies Commission for Environmental Cooperation releases working paper on North America's electricity market Montreal, 27 November 2001 -- The North American Commission for Environmental Cooperation (CEC) is releasing a working paper highlighting the trend towards increasing trade, competition and cross-border investment in electricity between Canada, Mexico and the United States. It is hoped that the working paper, Environmental Challenges and Opportunities in the Evolving North American Electricity Market, will stimulate public discussion around a CEC symposium of the same title about the need to coordinate environmental policies trinationally as a North America-wide electricity market develops. The CEC symposium will take place in San Diego on 29-30 November, and will bring together leading experts from industry, academia, NGOs and the governments of Canada, Mexico and the United States to consider the impact of the evolving continental electricity market on human health and the environment. \"Our goal [with the working paper and the symposium] is to highlight key environmental issues that must be addressed as the electricity markets in North America become more and more integrated,\" said Janine Ferretti, executive director of the CEC. \"We want to stimulate discussion around the important policy questions being raised so that countries can cooperate in their approach to energy and the environment.\" The CEC, an international organization created under an environmental side agreement to NAFTA known as the North American Agreement on Environmental Cooperation, was established to address regional environmental concerns, help prevent potential trade and environmental conflicts, and promote the effective enforcement of environmental law. The CEC Secretariat believes that greater North American cooperation on environmental policies regarding the continental electricity market is necessary to: *  protect air quality and mitigate climate change, *  minimize the possibility of environment-based trade disputes, *  ensure a dependable supply of reasonably priced electricity across North America *  avoid creation of pollution havens, and *  ensure local and national environmental measures remain effective. The Changing Market The working paper profiles the rapid changing North American electricity market. For example, in 2001, the US is projected to export 13.1 thousand gigawatt-hours (GWh) of electricity to Canada and Mexico. By 2007, this number is projected to grow to 16.9 thousand GWh of electricity. \"Over the past few decades, the North American electricity market has developed into a complex array of cross-border transactions and relationships,\" said Phil Sharp, former US congressman and chairman of the CEC's Electricity Advisory Board. \"We need to achieve this new level of cooperation in our environmental approaches as well.\" The Environmental Profile of the Electricity Sector The electricity sector is the single largest source of nationally reported toxins in the United States and Canada and a large source in Mexico. In the US, the electricity sector emits approximately 25 percent of all NOx emissions, roughly 35 percent of all CO2 emissions, 25 percent of all mercury emissions and almost 70 percent of SO2 emissions. These emissions have a large impact on airsheds, watersheds and migratory species corridors that are often shared between the three North American countries. \"We want to discuss the possible outcomes from greater efforts to coordinate federal, state or provincial environmental laws and policies that relate to the electricity sector,\" said Ferretti. \"How can we develop more compatible environmental approaches to help make domestic environmental policies more effective?\" The Effects of an Integrated Electricity Market One key issue raised in the paper is the effect of market integration on the competitiveness of particular fuels such as coal, natural gas or renewables. Fuel choice largely determines environmental impacts from a specific facility, along with pollution control technologies, performance standards and regulations. The paper highlights other impacts of a highly competitive market as well. For example, concerns about so called \"pollution havens\" arise when significant differences in environmental laws or enforcement practices induce power companies to locate their operations in jurisdictions with lower standards. \"The CEC Secretariat is exploring what additional environmental policies will work in this restructured market and how these policies can be adapted to ensure that they enhance competitiveness and benefit the entire region,\" said Sharp. Because trade rules and policy measures directly influence the variables that drive a successfully integrated North American electricity market, the working paper also addresses fuel choice, technology, pollution control strategies and subsidies. The CEC will use the information gathered during the discussion period to develop a final report that will be submitted to the Council in early 2002. For more information or to view the live video webcast of the symposium, please go to: http://www.cec.org/electricity. You may download the working paper and other supporting documents from: http://www.cec.org/programs_projects/other_initiatives/electricity/docs.cfm?varlan=english. Commission for Environmental Cooperation 393, rue St-Jacques Ouest, Bureau 200 MontrÃ©al (QuÃ©bec) Canada H2Y 1N9 Tel: (514) 350-4300; Fax: (514) 350-4314 E-mail: info@ccemtl.org ***********"
+> strwrap(emails$email[1])
+ [1] "North America's integrated electricity market requires cooperation on"                      
+ [2] "environmental policies Commission for Environmental Cooperation"                            
+ [3] "releases working paper on North America's electricity market Montreal,"                     
+ [4] "27 November 2001 -- The North American Commission for Environmental"                        
+ [5] "Cooperation (CEC) is releasing a working paper highlighting the trend"                      
+ [6] "towards increasing trade, competition and cross-border investment in"                       
+ [7] "electricity between Canada, Mexico and the United States. It is hoped"                      
+ [8] "that the working paper, Environmental Challenges and Opportunities in"                      
+ [9] "the Evolving North American Electricity Market, will stimulate public"                      
+[10] "discussion around a CEC symposium of the same title about the need to"                      
+[11] "coordinate environmental policies trinationally as a North America-wide"                    
+[12] "electricity market develops. The CEC symposium will take place in San"                      
+[13] "Diego on 29-30 November, and will bring together leading experts from"                      
+[14] "industry, academia, NGOs and the governments of Canada, Mexico and the"                     
+[15] "United States to consider the impact of the evolving continental"                           
+[16] "electricity market on human health and the environment. \"Our goal [with"                   
+[17] "the working paper and the symposium] is to highlight key environmental"                     
+[18] "issues that must be addressed as the electricity markets in North"                          
+[19] "America become more and more integrated,\" said Janine Ferretti,"                           
+[20] "executive director of the CEC. \"We want to stimulate discussion around"                    
+[21] "the important policy questions being raised so that countries can"                          
+[22] "cooperate in their approach to energy and the environment.\" The CEC, an"                   
+[23] "international organization created under an environmental side"                             
+[24] "agreement to NAFTA known as the North American Agreement on"                                
+[25] "Environmental Cooperation, was established to address regional"                             
+[26] "environmental concerns, help prevent potential trade and environmental"                     
+[27] "conflicts, and promote the effective enforcement of environmental law."                     
+[28] "The CEC Secretariat believes that greater North American cooperation on"                    
+[29] "environmental policies regarding the continental electricity market is"                     
+[30] "necessary to: * protect air quality and mitigate climate change, *"                         
+[31] "minimize the possibility of environment-based trade disputes, * ensure"                     
+[32] "a dependable supply of reasonably priced electricity across North"                          
+[33] "America * avoid creation of pollution havens, and * ensure local and"                       
+[34] "national environmental measures remain effective. The Changing Market"                      
+[35] "The working paper profiles the rapid changing North American"                               
+[36] "electricity market. For example, in 2001, the US is projected to export"                    
+[37] "13.1 thousand gigawatt-hours (GWh) of electricity to Canada and Mexico."                    
+[38] "By 2007, this number is projected to grow to 16.9 thousand GWh of"                          
+[39] "electricity. \"Over the past few decades, the North American electricity"                   
+[40] "market has developed into a complex array of cross-border transactions"                     
+[41] "and relationships,\" said Phil Sharp, former US congressman and chairman"                   
+[42] "of the CEC's Electricity Advisory Board. \"We need to achieve this new"                     
+[43] "level of cooperation in our environmental approaches as well.\" The"                        
+[44] "Environmental Profile of the Electricity Sector The electricity sector"                     
+[45] "is the single largest source of nationally reported toxins in the"                          
+[46] "United States and Canada and a large source in Mexico. In the US, the"                      
+[47] "electricity sector emits approximately 25 percent of all NOx emissions,"                    
+[48] "roughly 35 percent of all CO2 emissions, 25 percent of all mercury"                         
+[49] "emissions and almost 70 percent of SO2 emissions. These emissions have"                     
+[50] "a large impact on airsheds, watersheds and migratory species corridors"                     
+[51] "that are often shared between the three North American countries. \"We"                     
+[52] "want to discuss the possible outcomes from greater efforts to"                              
+[53] "coordinate federal, state or provincial environmental laws and policies"                    
+[54] "that relate to the electricity sector,\" said Ferretti. \"How can we"                       
+[55] "develop more compatible environmental approaches to help make domestic"                     
+[56] "environmental policies more effective?\" The Effects of an Integrated"                      
+[57] "Electricity Market One key issue raised in the paper is the effect of"                      
+[58] "market integration on the competitiveness of particular fuels such as"                      
+[59] "coal, natural gas or renewables. Fuel choice largely determines"                            
+[60] "environmental impacts from a specific facility, along with pollution"                       
+[61] "control technologies, performance standards and regulations. The paper"                     
+[62] "highlights other impacts of a highly competitive market as well. For"                       
+[63] "example, concerns about so called \"pollution havens\" arise when"                          
+[64] "significant differences in environmental laws or enforcement practices"                     
+[65] "induce power companies to locate their operations in jurisdictions with"                    
+[66] "lower standards. \"The CEC Secretariat is exploring what additional"                        
+[67] "environmental policies will work in this restructured market and how"                       
+[68] "these policies can be adapted to ensure that they enhance"                                  
+[69] "competitiveness and benefit the entire region,\" said Sharp. Because"                       
+[70] "trade rules and policy measures directly influence the variables that"                      
+[71] "drive a successfully integrated North American electricity market, the"                     
+[72] "working paper also addresses fuel choice, technology, pollution control"                    
+[73] "strategies and subsidies. The CEC will use the information gathered"                        
+[74] "during the discussion period to develop a final report that will be"                        
+[75] "submitted to the Council in early 2002. For more information or to view"                    
+[76] "the live video webcast of the symposium, please go to:"                                     
+[77] "http://www.cec.org/electricity. You may download the working paper and"                     
+[78] "other supporting documents from:"                                                           
+[79] "http://www.cec.org/programs_projects/other_initiatives/electricity/docs.cfm?varlan=english."
+[80] "Commission for Environmental Cooperation 393, rue St-Jacques Ouest,"                        
+[81] "Bureau 200 MontrÃ©al (QuÃ©bec) Canada H2Y 1N9 Tel: (514) 350-4300; Fax:"                    
+[82] "(514) 350-4314 E-mail: info@ccemtl.org ***********"                                         
+> strwrap(emails$responsive[1])
+[1] "0"
+> emails$responsive[1]
+[1] 0
+> table(emails$responsive)
+
+  0   1 
+716 139 
+> library('tm')
+Loading required package: NLP
+Warning message:
+package ‘tm’ was built under R version 3.6.3 
+> corpus = Corpus(VectorSource(emails$email))
+> strwrap(corpus[1])
+ [1] "North America's integrated electricity market requires cooperation on"                      
+ [2] "environmental policies Commission for Environmental Cooperation"                            
+ [3] "releases working paper on North America's electricity market Montreal,"                     
+ [4] "27 November 2001 -- The North American Commission for Environmental"                        
+ [5] "Cooperation (CEC) is releasing a working paper highlighting the trend"                      
+ [6] "towards increasing trade, competition and cross-border investment in"                       
+ [7] "electricity between Canada, Mexico and the United States. It is hoped"                      
+ [8] "that the working paper, Environmental Challenges and Opportunities in"                      
+ [9] "the Evolving North American Electricity Market, will stimulate public"                      
+[10] "discussion around a CEC symposium of the same title about the need to"                      
+[11] "coordinate environmental policies trinationally as a North America-wide"                    
+[12] "electricity market develops. The CEC symposium will take place in San"                      
+[13] "Diego on 29-30 November, and will bring together leading experts from"                      
+[14] "industry, academia, NGOs and the governments of Canada, Mexico and the"                     
+[15] "United States to consider the impact of the evolving continental"                           
+[16] "electricity market on human health and the environment. \"Our goal [with"                   
+[17] "the working paper and the symposium] is to highlight key environmental"                     
+[18] "issues that must be addressed as the electricity markets in North"                          
+[19] "America become more and more integrated,\" said Janine Ferretti,"                           
+[20] "executive director of the CEC. \"We want to stimulate discussion around"                    
+[21] "the important policy questions being raised so that countries can"                          
+[22] "cooperate in their approach to energy and the environment.\" The CEC, an"                   
+[23] "international organization created under an environmental side"                             
+[24] "agreement to NAFTA known as the North American Agreement on"                                
+[25] "Environmental Cooperation, was established to address regional"                             
+[26] "environmental concerns, help prevent potential trade and environmental"                     
+[27] "conflicts, and promote the effective enforcement of environmental law."                     
+[28] "The CEC Secretariat believes that greater North American cooperation on"                    
+[29] "environmental policies regarding the continental electricity market is"                     
+[30] "necessary to: * protect air quality and mitigate climate change, *"                         
+[31] "minimize the possibility of environment-based trade disputes, * ensure"                     
+[32] "a dependable supply of reasonably priced electricity across North"                          
+[33] "America * avoid creation of pollution havens, and * ensure local and"                       
+[34] "national environmental measures remain effective. The Changing Market"                      
+[35] "The working paper profiles the rapid changing North American"                               
+[36] "electricity market. For example, in 2001, the US is projected to export"                    
+[37] "13.1 thousand gigawatt-hours (GWh) of electricity to Canada and Mexico."                    
+[38] "By 2007, this number is projected to grow to 16.9 thousand GWh of"                          
+[39] "electricity. \"Over the past few decades, the North American electricity"                   
+[40] "market has developed into a complex array of cross-border transactions"                     
+[41] "and relationships,\" said Phil Sharp, former US congressman and chairman"                   
+[42] "of the CEC's Electricity Advisory Board. \"We need to achieve this new"                     
+[43] "level of cooperation in our environmental approaches as well.\" The"                        
+[44] "Environmental Profile of the Electricity Sector The electricity sector"                     
+[45] "is the single largest source of nationally reported toxins in the"                          
+[46] "United States and Canada and a large source in Mexico. In the US, the"                      
+[47] "electricity sector emits approximately 25 percent of all NOx emissions,"                    
+[48] "roughly 35 percent of all CO2 emissions, 25 percent of all mercury"                         
+[49] "emissions and almost 70 percent of SO2 emissions. These emissions have"                     
+[50] "a large impact on airsheds, watersheds and migratory species corridors"                     
+[51] "that are often shared between the three North American countries. \"We"                     
+[52] "want to discuss the possible outcomes from greater efforts to"                              
+[53] "coordinate federal, state or provincial environmental laws and policies"                    
+[54] "that relate to the electricity sector,\" said Ferretti. \"How can we"                       
+[55] "develop more compatible environmental approaches to help make domestic"                     
+[56] "environmental policies more effective?\" The Effects of an Integrated"                      
+[57] "Electricity Market One key issue raised in the paper is the effect of"                      
+[58] "market integration on the competitiveness of particular fuels such as"                      
+[59] "coal, natural gas or renewables. Fuel choice largely determines"                            
+[60] "environmental impacts from a specific facility, along with pollution"                       
+[61] "control technologies, performance standards and regulations. The paper"                     
+[62] "highlights other impacts of a highly competitive market as well. For"                       
+[63] "example, concerns about so called \"pollution havens\" arise when"                          
+[64] "significant differences in environmental laws or enforcement practices"                     
+[65] "induce power companies to locate their operations in jurisdictions with"                    
+[66] "lower standards. \"The CEC Secretariat is exploring what additional"                        
+[67] "environmental policies will work in this restructured market and how"                       
+[68] "these policies can be adapted to ensure that they enhance"                                  
+[69] "competitiveness and benefit the entire region,\" said Sharp. Because"                       
+[70] "trade rules and policy measures directly influence the variables that"                      
+[71] "drive a successfully integrated North American electricity market, the"                     
+[72] "working paper also addresses fuel choice, technology, pollution control"                    
+[73] "strategies and subsidies. The CEC will use the information gathered"                        
+[74] "during the discussion period to develop a final report that will be"                        
+[75] "submitted to the Council in early 2002. For more information or to view"                    
+[76] "the live video webcast of the symposium, please go to:"                                     
+[77] "http://www.cec.org/electricity. You may download the working paper and"                     
+[78] "other supporting documents from:"                                                           
+[79] "http://www.cec.org/programs_projects/other_initiatives/electricity/docs.cfm?varlan=english."
+[80] "Commission for Environmental Cooperation 393, rue St-Jacques Ouest,"                        
+[81] "Bureau 200 MontrÃ©al (QuÃ©bec) Canada H2Y 1N9 Tel: (514) 350-4300; Fax:"                    
+[82] "(514) 350-4314 E-mail: info@ccemtl.org ***********"                                         
+[83] "list(language = \"en\")"                                                                    
+[84] "list()"                                                                                     
+> corpus = tm_map(corpus,tolower)
+Warning message:
+In tm_map.SimpleCorpus(corpus, tolower) : transformation drops documents
+> corpus = tm_map(corpus,removePunctuation)
+Warning message:
+In tm_map.SimpleCorpus(corpus, removePunctuation) :
+  transformation drops documents
+> corpus = tm_map(corpus,removeWords,stopwords('english'))
+Warning message:
+In tm_map.SimpleCorpus(corpus, removeWords, stopwords("english")) :
+  transformation drops documents
+> corpus = tm_map(corpus,stemDocument)
+Warning message:
+In tm_map.SimpleCorpus(corpus, stemDocument) :
+  transformation drops documents
+> strwrap(corpus[1])
+ [1] "north america integr electr market requir cooper environment polici"         
+ [2] "commiss environment cooper releas work paper north america electr"           
+ [3] "market montreal 27 novemb 2001 north american commiss environment"           
+ [4] "cooper cec releas work paper highlight trend toward increas trade"           
+ [5] "competit crossbord invest electr canada mexico unit state hope work"         
+ [6] "paper environment challeng opportun evolv north american electr market"      
+ [7] "will stimul public discuss around cec symposium titl need coordin"           
+ [8] "environment polici trinat north americawid electr market develop cec"        
+ [9] "symposium will take place san diego 2930 novemb will bring togeth lead"      
+[10] "expert industri academia ngos govern canada mexico unit state consid"        
+[11] "impact evolv continent electr market human health environ goal work"         
+[12] "paper symposium highlight key environment issu must address electr"          
+[13] "market north america becom integr said janin ferretti execut director"       
+[14] "cec want stimul discuss around import polici question rais countri can"      
+[15] "cooper approach energi environ cec intern organ creat environment side"      
+[16] "agreement nafta known north american agreement environment cooper"           
+[17] "establish address region environment concern help prevent potenti trade"     
+[18] "environment conflict promot effect enforc environment law cec"               
+[19] "secretariat believ greater north american cooper environment polici"         
+[20] "regard continent electr market necessari protect air qualiti mitig"          
+[21] "climat chang minim possibl environmentbas trade disput ensur depend"         
+[22] "suppli reason price electr across north america avoid creation pollut"       
+[23] "haven ensur local nation environment measur remain effect chang market"      
+[24] "work paper profil rapid chang north american electr market exampl 2001"      
+[25] "us project export 131 thousand gigawatthour gwh electr canada mexico"        
+[26] "2007 number project grow 169 thousand gwh electr past decad north"           
+[27] "american electr market develop complex array crossbord transact"             
+[28] "relationship said phil sharp former us congressman chairman cec electr"      
+[29] "advisori board need achiev new level cooper environment approach well"       
+[30] "environment profil electr sector electr sector singl largest sourc"          
+[31] "nation report toxin unit state canada larg sourc mexico us electr"           
+[32] "sector emit approxim 25 percent nox emiss rough 35 percent co2 emiss 25"     
+[33] "percent mercuri emiss almost 70 percent so2 emiss emiss larg impact"         
+[34] "airsh watersh migratori speci corridor often share three north american"     
+[35] "countri want discuss possibl outcom greater effort coordin feder state"      
+[36] "provinci environment law polici relat electr sector said ferretti can"       
+[37] "develop compat environment approach help make domest environment polici"     
+[38] "effect effect integr electr market one key issu rais paper effect"           
+[39] "market integr competit particular fuel coal natur gas renew fuel choic"      
+[40] "larg determin environment impact specif facil along pollut control"          
+[41] "technolog perform standard regul paper highlight impact high competit"       
+[42] "market well exampl concern call pollut haven aris signific differ"           
+[43] "environment law enforc practic induc power compani locat oper jurisdict"     
+[44] "lower standard cec secretariat explor addit environment polici will"         
+[45] "work restructur market polici can adapt ensur enhanc competit benefit"       
+[46] "entir region said sharp trade rule polici measur direct influenc"            
+[47] "variabl drive success integr north american electr market work paper"        
+[48] "also address fuel choic technolog pollut control strategi subsidi cec"       
+[49] "will use inform gather discuss period develop final report will submit"      
+[50] "council earli 2002 inform view live video webcast symposium pleas go"        
+[51] "httpwwwcecorgelectr may download work paper support document"                
+[52] "httpwwwcecorgprogramsprojectsotherinitiativeselectricitydocscfmvarlanenglish"
+[53] "commiss environment cooper 393 rue stjacqu ouest bureau 200 montrã©al"       
+[54] "quã©bec canada h2i 1n9 tel 514 3504300 fax 514 3504314 email"                
+[55] "infoccemtlorg"                                                               
+[56] "list(language = \"en\")"                                                     
+[57] "list()"                                                                      
+> dtm = DocumentTermMatrix(corpus)
+> dtm
+<<DocumentTermMatrix (documents: 855, terms: 22167)>>
+Non-/sparse entries: 102891/18849894
+Sparsity           : 99%
+Maximal term length: 156
+Weighting          : term frequency (tf)
+> dtm = remove$SparseTerms(dtm,0.97)
+Error in remove$SparseTerms : object of type 'closure' is not subsettable
+> dtm = removeSparseTerms(dtm,0.97)
+> dtm
+<<DocumentTermMatrix (documents: 855, terms: 788)>>
+Non-/sparse entries: 51612/622128
+Sparsity           : 92%
+Maximal term length: 19
+Weighting          : term frequency (tf)
+> labeledTerms = as.data.frame(as.matrix(dtm))
+> labeledTerms$responsive = email$responsive
+Error: object 'email' not found
+> labeledTerms$responsive = emails$responsive
+> library(caTools)
+Warning message:
+package ‘caTools’ was built under R version 3.6.3 
+> set.seed(144)
+> spl = sample.split(labeledTerms$responsive,0.7)
+> train = subset(labeledTerms,spl==TRUE)
+> test = subset(labeledTerms,spl==FALSE)
+> library(rpart)
+Warning message:
+package ‘rpart’ was built under R version 3.6.3 
+> library(rpart.plot)
+Warning message:
+package ‘rpart.plot’ was built under R version 3.6.3 
+> emailCART = rpart(responsive ~., data = train,method='class')
+> prp(emailCART)
+> pred = predict(emailCART, newdata= test)
+> pred.prob = pred[,2]
+> #Here, pred.prob contains the probability of the second column.
+> table(test$responsive,pred.prob>=0.5)
+   
+    FALSE TRUE
+  0   195   20
+  1    17   25
+> (195+25)/nrow(test)
+[1] 0.8560311
+> table(test$responsive)
+
+  0   1 
+215  42 
+> 215/nrow(test)
+[1] 0.8365759
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+Warning messages:
+1: package ‘ROCR’ was built under R version 3.6.3 
+2: package ‘gplots’ was built under R version 3.6.3 
+> predROCR= prediction(pred.prob, test$responsive)
+> perfROCR = performance(predROCR,
++ 'tpr','rpr')
+Error in performance(predROCR, "tpr", "rpr") : 
+  Wrong argument types: First argument must be of type 'prediction'; second and optional third argument must be available performance measures!
+> perfROCR = performance(predROCR,'tpr','fps')
+Error in performance(predROCR, "tpr", "fps") : 
+  Wrong argument types: First argument must be of type 'prediction'; second and optional third argument must be available performance measures!
+> perfROCR = performance(predROCR,'tpr','fpr')
+> plot(perfROCR,colorize=TRUE)
+> performance(predROCR,'auc')@y.values
+[[1]]
+[1] 0.7936323
+
+> 
