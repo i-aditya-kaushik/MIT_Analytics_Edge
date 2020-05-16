@@ -1,0 +1,19 @@
+Sentiment Analysis:
+    Natural Language Processing.
+    Bag of Words:
+        Each word is taken as an independent variable and a score is assigned to each of the word.
+        If we preprocess the txt, we get better results. For preprocessing,
+            1.First, we need to Clean irregularities by converting everything into the same case.
+            2.Remove Punctuation to preprocess
+            3.Remove unhelpful terms: like the, who, that.. sometimes not helpful
+            4.Porter Stemming: Remove the past tense,past perfect, etc from the words. eg: joke joked joking are considered as the root
+            word, hence all are counted as joke.
+    For preprocessing, we download 2 packages, namely tm and SnowballC(This helps us to extract tm package)
+    Tm converts the tweets into corpus.
+    The command has been defined in R files. The tm_map is used as to convert into one case
+
+    In R, we implement bag of words by applying DocumentTermMatrix on the preprocessed corpus
+    For finding the most frequent word, we use findFreqTerms function
+    When we build a randomForest model for Analysis of sentiment, it takes longer time due to the fact that we address more number of independent variables 
+    when it comes to this.
+    
