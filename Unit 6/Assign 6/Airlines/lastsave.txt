@@ -1,0 +1,119 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> airlines = read.csv('AirlinesCluster.csv')
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'AirlinesCluster.csv': No such file or directory
+> airlines = read.csv('AirlinesCluster.csv')
+> summary(airlines)
+    Balance          QualMiles         BonusMiles       BonusTrans  
+ Min.   :      0   Min.   :    0.0   Min.   :     0   Min.   : 0.0  
+ 1st Qu.:  18528   1st Qu.:    0.0   1st Qu.:  1250   1st Qu.: 3.0  
+ Median :  43097   Median :    0.0   Median :  7171   Median :12.0  
+ Mean   :  73601   Mean   :  144.1   Mean   : 17145   Mean   :11.6  
+ 3rd Qu.:  92404   3rd Qu.:    0.0   3rd Qu.: 23801   3rd Qu.:17.0  
+ Max.   :1704838   Max.   :11148.0   Max.   :263685   Max.   :86.0  
+  FlightMiles       FlightTrans     DaysSinceEnroll
+ Min.   :    0.0   Min.   : 0.000   Min.   :   2   
+ 1st Qu.:    0.0   1st Qu.: 0.000   1st Qu.:2330   
+ Median :    0.0   Median : 0.000   Median :4096   
+ Mean   :  460.1   Mean   : 1.374   Mean   :4119   
+ 3rd Qu.:  311.0   3rd Qu.: 1.000   3rd Qu.:5790   
+ Max.   :30817.0   Max.   :53.000   Max.   :8296   
+> library(caret)
+Loading required package: lattice
+Loading required package: ggplot2
+Warning messages:
+1: package ‘caret’ was built under R version 3.6.3 
+2: package ‘ggplot2’ was built under R version 3.6.3 
+> preproc = preProcess(airlines)
+> airlinesNorm = predict(preproc,airlines)
+> #The first command pre-processes the data, and the second command performs the normalization. If you look at the summary of airlinesNorm, you should see that all of the variables now have mean zero. You can also see that each of the variables has standard deviation 1 by using the sd() function.
+> 
+> summary(airlines)
+    Balance          QualMiles         BonusMiles       BonusTrans  
+ Min.   :      0   Min.   :    0.0   Min.   :     0   Min.   : 0.0  
+ 1st Qu.:  18528   1st Qu.:    0.0   1st Qu.:  1250   1st Qu.: 3.0  
+ Median :  43097   Median :    0.0   Median :  7171   Median :12.0  
+ Mean   :  73601   Mean   :  144.1   Mean   : 17145   Mean   :11.6  
+ 3rd Qu.:  92404   3rd Qu.:    0.0   3rd Qu.: 23801   3rd Qu.:17.0  
+ Max.   :1704838   Max.   :11148.0   Max.   :263685   Max.   :86.0  
+  FlightMiles       FlightTrans     DaysSinceEnroll
+ Min.   :    0.0   Min.   : 0.000   Min.   :   2   
+ 1st Qu.:    0.0   1st Qu.: 0.000   1st Qu.:2330   
+ Median :    0.0   Median : 0.000   Median :4096   
+ Mean   :  460.1   Mean   : 1.374   Mean   :4119   
+ 3rd Qu.:  311.0   3rd Qu.: 1.000   3rd Qu.:5790   
+ Max.   :30817.0   Max.   :53.000   Max.   :8296   
+> summary(airlinesNorm)
+    Balance          QualMiles         BonusMiles        BonusTrans      
+ Min.   :-0.7303   Min.   :-0.1863   Min.   :-0.7099   Min.   :-1.20805  
+ 1st Qu.:-0.5465   1st Qu.:-0.1863   1st Qu.:-0.6581   1st Qu.:-0.89568  
+ Median :-0.3027   Median :-0.1863   Median :-0.4130   Median : 0.04145  
+ Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.00000  
+ 3rd Qu.: 0.1866   3rd Qu.:-0.1863   3rd Qu.: 0.2756   3rd Qu.: 0.56208  
+ Max.   :16.1868   Max.   :14.2231   Max.   :10.2083   Max.   : 7.74673  
+  FlightMiles       FlightTrans       DaysSinceEnroll   
+ Min.   :-0.3286   Min.   :-0.36212   Min.   :-1.99336  
+ 1st Qu.:-0.3286   1st Qu.:-0.36212   1st Qu.:-0.86607  
+ Median :-0.3286   Median :-0.36212   Median :-0.01092  
+ Mean   : 0.0000   Mean   : 0.00000   Mean   : 0.00000  
+ 3rd Qu.:-0.1065   3rd Qu.:-0.09849   3rd Qu.: 0.80960  
+ Max.   :21.6803   Max.   :13.61035   Max.   : 2.02284  
+> distances = dist(airlinesNorm, method="euclidean")
+> hierClust = hclust(distances, method="ward.D")
+> plot(hierClust)
+> clusterGroups = cutree(hierClust, k = 5)
+> table(clusterGroups)
+clusterGroups
+   1    2    3    4    5 
+ 776  519  494  868 1342 
+> tapply(airlines$Balance, clusterGroups, mean)
+        1         2         3         4         5 
+ 57866.90 110669.27 198191.57  52335.91  36255.91 
+> tapply(airlines$QualMiles, clusterGroups, mean)
+           1            2            3            4            5 
+   0.6443299 1065.9826590   30.3461538    4.8479263    2.5111773 
+> tapply(airlines$BonusMiles, clusterGroups, mean)
+        1         2         3         4         5 
+10360.124 22881.763 55795.860 20788.766  2264.788 
+> tapply(airlines$BonusTrans, clusterGroups, mean)
+        1         2         3         4         5 
+10.823454 18.229287 19.663968 17.087558  2.973174 
+> tapply(airlines$FlightMiles, clusterGroups, mean)
+         1          2          3          4          5 
+  83.18428 2613.41811  327.67611  111.57373  119.32191 
+> tapply(airlines$FlightTrans, clusterGroups, mean)
+        1         2         3         4         5 
+0.3028351 7.4026975 1.0688259 0.3444700 0.4388972 
+> tapply(airlines$DaysSinceEnroll, clusterGroups, mean)
+       1        2        3        4        5 
+6235.365 4402.414 5615.709 2840.823 3060.081 
+> tapply(airlines$None, clusterGroups, mean)
+Error in tapply(airlines$None, clusterGroups, mean) : 
+  arguments must have same length
+> set.seed(88)
+> kmeansClust = kmeans(airlinesNorm, centers=5, iter.max=1000)
+> table(kmeansClust$cluster)
+
+   1    2    3    4    5 
+ 776   57  143 1373 1650 
+> 

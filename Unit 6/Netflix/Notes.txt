@@ -1,0 +1,22 @@
+Recommendation Systems:
+    Collaborative Filtering: Seeing the similarities between the two users and coming up with an answer
+    Content Filtering: Based on actors, directors, etc
+
+Distance in Clustering:
+    Find the Distance:
+        By Eucledian Distance
+        By Manhattan Distance
+    Minimum Distance between the Clusters
+    Maximum Distance between the Clusters
+    Most popular:
+        Centroid Distance
+    One needs to normalize data since the difference can be in terms of 1000s for one variable and 10s for others
+    So we find the mean and divide it by deviation to get the results
+
+Hirarchical Clustering:
+    Converts two clusters with minimum Eucledian Distance and Converts them into clusters
+    See the cluster dendogram and accordingly decide the number of clusters
+    read.table('movieLens.txt',header = FALSE,sep ='|',quote="\"")
+    The above command is used to read into a txt file with a separator of | in between. The quote function makes sure
+    that the data is read properly
+    

@@ -1,0 +1,247 @@
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+Warning: namespace ‘flexclust’ is not available and has been replaced
+by .GlobalEnv when processing object ‘KMC.kcca’
+Warning: namespace ‘modeltools’ is not available and has been replaced
+by .GlobalEnv when processing object ‘KMC.kcca’
+[Previously saved workspace restored]
+
+> flower = read.csv('flower.csv',header=FALSE)
+> str(flower)
+'data.frame':   50 obs. of  50 variables:
+ $ V1 : num  0.0991 0.0991 0.1034 0.1034 0.1034 ...
+ $ V2 : num  0.112 0.108 0.112 0.116 0.108 ...
+ $ V3 : num  0.134 0.116 0.121 0.116 0.112 ...
+ $ V4 : num  0.138 0.138 0.121 0.121 0.112 ...
+ $ V5 : num  0.138 0.134 0.125 0.116 0.112 ...
+ $ V6 : num  0.138 0.129 0.121 0.108 0.112 ...
+ $ V7 : num  0.129 0.116 0.103 0.108 0.112 ...
+ $ V8 : num  0.116 0.103 0.103 0.103 0.116 ...
+ $ V9 : num  0.1121 0.0991 0.1078 0.1121 0.1164 ...
+ $ V10: num  0.121 0.108 0.112 0.116 0.125 ...
+ $ V11: num  0.134 0.125 0.129 0.134 0.129 ...
+ $ V12: num  0.147 0.134 0.138 0.129 0.138 ...
+ $ V13: num  0.000862 0.146552 0.142241 0.142241 0.133621 ...
+ $ V14: num  0.000862 0.000862 0.142241 0.133621 0.12931 ...
+ $ V15: num  0.142 0.142 0.134 0.121 0.116 ...
+ $ V16: num  0.125 0.125 0.116 0.108 0.108 ...
+ $ V17: num  0.1121 0.1164 0.1078 0.0991 0.0991 ...
+ $ V18: num  0.108 0.112 0.108 0.108 0.108 ...
+ $ V19: num  0.121 0.129 0.125 0.116 0.116 ...
+ $ V20: num  0.138 0.129 0.125 0.116 0.116 ...
+ $ V21: num  0.138 0.134 0.121 0.125 0.125 ...
+ $ V22: num  0.134 0.129 0.125 0.121 0.103 ...
+ $ V23: num  0.125 0.1207 0.1164 0.1164 0.0819 ...
+ $ V24: num  0.1034 0.1034 0.0991 0.0991 0.1034 ...
+ $ V25: num  0.0948 0.0905 0.0905 0.1034 0.125 ...
+ $ V26: num  0.0862 0.0862 0.0991 0.125 0.1422 ...
+ $ V27: num  0.086207 0.086207 0.103448 0.12931 0.000862 ...
+ $ V28: num  0.0991 0.1078 0.1164 0.1293 0.1466 ...
+ $ V29: num  0.116 0.134 0.134 0.121 0.142 ...
+ $ V30: num  0.121 0.138 0.142 0.129 0.138 ...
+ $ V31: num  0.121 0.134 0.142 0.134 0.129 ...
+ $ V32: num  0.116 0.134 0.129 0.116 0.112 ...
+ $ V33: num  0.108 0.112 0.116 0.108 0.108 ...
+ $ V34: num  0.1078 0.1078 0.1034 0.0991 0.1034 ...
+ $ V35: num  0.1078 0.1034 0.0991 0.0991 0.0991 ...
+ $ V36: num  0.1078 0.1034 0.1034 0.0905 0.0862 ...
+ $ V37: num  0.1078 0.1078 0.1034 0.0819 0.0733 ...
+ $ V38: num  0.0948 0.0991 0.0776 0.069 0.0733 ...
+ $ V39: num  0.0733 0.056 0.0474 0.0474 0.056 ...
+ $ V40: num  0.0474 0.0388 0.0431 0.0474 0.0603 ...
+ $ V41: num  0.0345 0.0345 0.0388 0.0474 0.0647 ...
+ $ V42: num  0.0259 0.0259 0.0345 0.0431 0.056 ...
+ $ V43: num  0.0259 0.0259 0.0388 0.0517 0.0603 ...
+ $ V44: num  0.0302 0.0302 0.0345 0.0517 0.0603 ...
+ $ V45: num  0.0259 0.0259 0.0259 0.0388 0.0474 ...
+ $ V46: num  0.0259 0.0172 0.0172 0.0259 0.0345 ...
+ $ V47: num  0.01724 0.01724 0.00862 0.02155 0.02586 ...
+ $ V48: num  0.0216 0.0129 0.0129 0.0172 0.0302 ...
+ $ V49: num  0.0216 0.0216 0.0216 0.0345 0.0603 ...
+ $ V50: num  0.0302 0.0345 0.0388 0.0603 0.0776 ...
+> flowerMatrix = as.matrix(flower)
+> str(flowerMatrix)
+ num [1:50, 1:50] 0.0991 0.0991 0.1034 0.1034 0.1034 ...
+ - attr(*, "dimnames")=List of 2
+  ..$ : NULL
+  ..$ : chr [1:50] "V1" "V2" "V3" "V4" ...
+> flowerVector = as.vector(flowerMatrix)
+> str(flowerVector)
+ num [1:2500] 0.0991 0.0991 0.1034 0.1034 0.1034 ...
+> distance = dist(flowerVector,method='euclidean')
+> clusterIntensity = hclust(distance,method='ward')
+The "ward" method has been renamed to "ward.D"; note new "ward.D2"
+> plot(clusterIntensity)
+> rect.hclust(clusterIntensity,k=3,color='red')
+Error in rect.hclust(clusterIntensity, k = 3, color = "red") : 
+  unused argument (color = "red")
+> rect.hclust(clusterIntensity,k=3,border='red')
+> flowerCluster = cutree(clusterIntensity,k=3)
+> flowerCluster
+   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+  [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [149] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [186] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [223] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [260] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [297] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1
+ [334] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [371] 1 1 3 3 2 2 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [408] 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 3 3 3 3 3 2 1 2 3 2 1 1 1 1 1 1 1 1 1 1 1 1
+ [445] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 1 1 1 3 3 3 3 3 2 2 3 3
+ [482] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3
+ [519] 3 2 1 1 3 3 3 3 3 2 3 3 3 1 2 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [556] 1 1 1 1 1 1 1 2 3 2 1 2 3 3 3 1 1 3 3 3 3 3 2 3 3 2 2 3 3 2 2 2 2 1 1 1 1
+ [593] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3 3 2 1 3 3 3 2 1 2 3 3 3 3 3 3
+ [630] 3 2 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3
+ [667] 2 2 3 3 3 1 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [704] 1 1 1 1 1 1 1 1 1 1 2 3 3 3 3 3 3 3 2 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 1 1
+ [741] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3 2 1 1 2 3 3 3 3 3 3 3 2 3 3 3 3
+ [778] 3 3 3 3 3 3 3 3 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 2
+ [815] 1 1 3 3 3 3 3 3 2 2 3 3 3 3 3 3 3 3 3 3 3 2 1 1 2 2 3 3 1 1 1 1 1 1 1 1 1
+ [852] 1 1 1 1 1 1 1 1 1 2 3 3 3 2 1 2 3 3 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 2 1 2 3
+ [889] 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3 3 3 3 2 2 3 3 3 3 3 2 2
+ [926] 3 3 3 3 3 3 3 3 2 1 3 3 3 3 3 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 3 3
+ [963] 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 3 3 3 3 2 2 3 3 3 3 3 3 2 1 1 1 1 1 1 1 1
+[1000] 1 1 1 1 1 1 1 1 1 1 1 2 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3
+[1037] 3 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 3 3 3 3 3 3 3 2 2 2 2
+[1074] 2 2 2 2 2 2 2 3 3 3 3 3 3 2 2 2 2 3 3 3 2 1 1 1 1 1 1 1 1 1 1 1 2 3 3 3 3
+[1111] 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 2 1 1 1
+[1148] 1 1 1 1 1 1 1 1 1 2 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3
+[1185] 3 3 3 3 3 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 3 3 3 3 3 2 2 2
+[1222] 2 2 2 2 2 2 2 2 2 2 3 3 3 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[1259] 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1
+[1296] 1 1 1 1 1 1 1 1 1 1 1 1 2 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 3 3
+[1333] 3 3 3 3 3 3 3 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3
+[1370] 3 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1
+[1407] 1 2 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3
+[1444] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 3
+[1481] 3 3 3 3 3 3 3 3 3 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 2 3
+[1518] 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 3 3 3 2 3 3 3 3 3 2 1 1 1 1 1 1 1 1 1 1 1 1
+[1555] 1 1 1 1 2 3 3 2 2 1 2 3 3 3 3 3 3 3 3 2 2 3 3 3 3 2 3 3 3 3 3 2 1 2 2 2 2
+[1592] 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3 3 3 3 3 3 3 3 3 2 3 3 3 3
+[1629] 3 2 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3 3
+[1666] 3 2 3 3 3 3 3 2 2 3 3 3 3 3 2 1 3 3 3 3 3 3 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1
+[1703] 1 1 1 1 1 1 1 1 1 2 3 3 2 2 3 3 3 3 3 3 1 3 3 3 3 3 3 2 1 2 3 3 3 3 3 3 3
+[1740] 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 2 1 3 3 3 3 3 3 1 1 3 3 3
+[1777] 3 3 3 2 1 1 2 3 3 3 3 2 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2
+[1814] 1 2 3 3 3 3 3 2 1 2 3 3 2 3 3 3 2 1 1 1 1 3 3 3 2 1 1 1 1 1 1 1 1 1 1 1 1
+[1851] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 1 1 2 3 3 2 3 3 3 3 1 1 1 1 1 2 2
+[1888] 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3 3 3 3 3 1 1 2 3
+[1925] 3 1 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[1962] 1 1 1 1 2 2 3 3 2 1 1 2 3 3 1 2 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[1999] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3 1 1 1 1 3 3 1 1 3 3 3 1 1 1 1 1
+[2036] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2073] 1 2 3 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2110] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2147] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2184] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2221] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2258] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2295] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2332] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2369] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2406] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2443] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[2480] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+> tapply(flowerVector,flowerClusters,mean)
+Error in tapply(flowerVector, flowerClusters, mean) : 
+  object 'flowerClusters' not found
+> tapply(flowerVector,flowerCluster,mean)
+         1          2          3 
+0.08574315 0.50826255 0.93147713 
+> dim(flowerCluster)= c(50,50)
+> image(flowerCluster,axes=FALSE)
+> image(flowerMatrix,axes=FALSE,col= grey(seq(0,1,length=256))
++ )
+> #If the image is high resolution, then it is advised to use K means as hirarchical clustering can cause a memory error
+> k=5
+> set.seed(1)
+> KMC = kmeans(healthyVector,centers = k,iter.max=1000)
+> str(KMC)
+List of 9
+ $ cluster     : int [1:365636] 5 5 5 5 5 5 5 5 5 5 ...
+ $ centers     : num [1:5, 1] 0.1166 0.2014 0.4914 0.3299 0.0219
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:5] "1" "2" "3" "4" ...
+  .. ..$ : NULL
+ $ totss       : num 5775
+ $ withinss    : num [1:5] 65.9 54.4 81.1 47.4 53.3
+ $ tot.withinss: num 302
+ $ betweenss   : num 5473
+ $ size        : int [1:5] 114480 65557 18298 27338 139963
+ $ iter        : int 3
+ $ ifault      : int 0
+ - attr(*, "class")= chr "kmeans"
+> healthyClusters = KMC$cluster
+> KMC$centers[2]
+[1] 0.2013635
+> dim(healthyClusters) = c(nrow(healthyMatrix),ncol(healthyMatrix))
+> image(healthyClusters,axes=FALSE,col=rainbow(k))
+> tumor = read.csv('tumor.csv',header=FALSE)
+> tumorMatrix = as.matrix(tumor)
+> tumorVector = as.vector(tumorMatrix)
+> install.packages('flexcust')
+Warning in install.packages("flexcust") :
+  'lib = "C:/Program Files/R/R-3.6.3/library"' is not writable
+Error in install.packages("flexcust") : unable to install packages
+> install.packages('flexclust')
+Warning in install.packages("flexclust") :
+  'lib = "C:/Program Files/R/R-3.6.3/library"' is not writable
+Error in install.packages("flexclust") : unable to install packages
+> library('flexclust')
+Error in library("flexclust") : there is no package called ‘flexclust’
+> KMC.kcca = as.kcca(KMC,healthyVector)
+Error in as.kcca(KMC, healthyVector) : could not find function "as.kcca"
+> library('flexclust')
+Error in library("flexclust") : there is no package called ‘flexclust’
+> install.packages('flexclust')
+Warning in install.packages("flexclust") :
+  'lib = "C:/Program Files/R/R-3.6.3/library"' is not writable
+--- Please select a CRAN mirror for use in this session ---
+also installing the dependency ‘modeltools’
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/modeltools_0.2-23.zip'
+Content type 'application/zip' length 206077 bytes (201 KB)
+downloaded 201 KB
+
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.6/flexclust_1.4-0.zip'
+Content type 'application/zip' length 617879 bytes (603 KB)
+downloaded 603 KB
+
+package ‘modeltools’ successfully unpacked and MD5 sums checked
+package ‘flexclust’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\pc\AppData\Local\Temp\RtmpyAlBRj\downloaded_packages
+> KMC.kcca = as.kcca(KMC,healthyVector)
+Error in as.kcca(KMC, healthyVector) : could not find function "as.kcca"
+> library('flexclust')
+Loading required package: grid
+Loading required package: lattice
+Loading required package: modeltools
+Loading required package: stats4
+> KMC.kcca = as.kcca(KMC,healthyVector)
+> tumorClusters = predict(KMC.kcca,newdata = tumorVector)
+> dim(tumorClusters) = c(nrow(tumorMatrix),ncol(tumorMatrix))
+> image(tumorClusters,axes=FALSE,col=rainbow(k))
+> 

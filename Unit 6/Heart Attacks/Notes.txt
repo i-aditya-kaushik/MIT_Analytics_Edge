@@ -1,0 +1,8 @@
+K Means:
+    Randomly assign the clusters: k=2
+    Assign each data point to a cluster
+    Compute cluster centroids 
+    Re assign each point to the closest cluster centroid
+    Re Compute cluster centroids
+    Repeat 4 and 5 until no improvement
+

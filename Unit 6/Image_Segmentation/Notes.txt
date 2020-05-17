@@ -1,0 +1,11 @@
+Clustering the grayscaled images is a way to cluster colors
+
+We convert the image into a matrix first as it is important 
+and then as a vector otherwise our data wont be changed and 
+the individual variables will be converted to a vector, which 
+is not required
+
+In order to use one image as training set and other as testing set
+we need flexclust
+
+kcca = k centroid cluster analysis

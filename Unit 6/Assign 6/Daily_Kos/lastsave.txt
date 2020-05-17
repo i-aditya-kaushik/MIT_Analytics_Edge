@@ -1,0 +1,112 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> dailykos = read.csv("dailykos.csv")
+> 
+> kosDist = dist(dailykos, method="euclidean")
+> kosHierClust = hclust(kosDist, method="ward.D")
+> plot(kosHierClust)
+> hierGroups = cutree(kosHierClust, k = 7)
+> HierCluster1 = subset(dailykos, hierGroups == 1)
+> 
+> HierCluster2 = subset(dailykos, hierGroups == 2)
+> HierCluster3 = subset(dailykos, hierGroups == 3)
+> HierCluster4 = subset(dailykos, hierGroups == 4)
+> HierCluster5 = subset(dailykos, hierGroups == 5)
+> HierCluster6 = subset(dailykos, hierGroups == 6)
+> HierCluster7 = subset(dailykos, hierGroups == 7)
+> nrow(HierCluster3)
+[1] 374
+> which.max(nrow(hierGroups))
+integer(0)
+> table(hierGroups)
+hierGroups
+   1    2    3    4    5    6    7 
+1266  321  374  139  407  714  209 
+> tail(sort(colMeans(HierCluster1)))
+     state republican       poll   democrat      kerry       bush 
+ 0.7575039  0.7590837  0.9036335  0.9194313  1.0624013  1.7053712 
+> 
+> tail(sort(colMeans(HierCluster2)))
+     bush  democrat challenge      vote      poll  november 
+ 2.847352  2.850467  4.096573  4.398754  4.847352 10.339564 
+> tail(sort(colMeans(HierCluster3)))
+     elect    parties      state republican   democrat       bush 
+  1.647059   1.665775   2.320856   2.524064   3.823529   4.406417 
+> tail(sort(colMeans(HierCluster4)))
+campaign    voter presided     poll     bush    kerry 
+1.431655 1.539568 1.625899 3.589928 7.834532 8.438849 
+> tail(sort(colMeans(HierCluster5)))
+      american       presided administration            war           iraq 
+      1.090909       1.120393       1.230958       1.776413       2.427518 
+          bush 
+      3.941032 
+> tail(sort(colMeans(HierCluster6)))
+     race      bush     kerry     elect  democrat      poll 
+0.4579832 0.4887955 0.5168067 0.5350140 0.5644258 0.5812325 
+> tail(sort(colMeans(HierCluster7)))
+democrat    clark   edward     poll    kerry     dean 
+2.148325 2.497608 2.607656 2.765550 3.952153 5.803828 
+> set.seed(1000)
+> KmeansCluster = kmeans(dailykos, centers=7)
+> KmeansCluster1 = subset(dailykos, KmeansCluster$cluster == 1)
+> 
+> KmeansCluster2 = subset(dailykos, KmeansCluster$cluster == 2)
+> 
+> KmeansCluster3 = subset(dailykos, KmeansCluster$cluster == 3)
+> 
+> KmeansCluster4 = subset(dailykos, KmeansCluster$cluster == 4)
+> 
+> KmeansCluster5 = subset(dailykos, KmeansCluster$cluster == 5)
+> 
+> KmeansCluster6 = subset(dailykos, KmeansCluster$cluster == 6)
+> 
+> KmeansCluster7 = subset(dailykos, KmeansCluster$cluster == 7)
+> table(KmeansCluster)
+Error in table(KmeansCluster) : all arguments must have the same length
+> table(KmeansCluster$cluster)
+
+   1    2    3    4    5    6    7 
+ 150  329  300 2027  144  275  205 
+> tail(sort(colMeans(KmeansCluster1)))
+          time           iraq          kerry administration       presided 
+      1.586667       1.640000       1.653333       2.620000       2.726667 
+          bush 
+     11.333333 
+> tail(sort(colMeans(KmeansCluster2)))
+ democrat      bush challenge      vote      poll  november 
+ 2.899696  2.960486  4.121581  4.446809  4.872340 10.370821 
+> tail(sort(colMeans(KmeansCluster3)))
+   voter presided campaign     poll     bush    kerry 
+1.326667 1.336667 1.403333 2.816667 5.963333 6.613333 
+> tail(sort(colMeans(KmeansCluster4)))
+republican      elect      kerry       poll   democrat       bush 
+ 0.5772077  0.5786877  0.6581154  0.7380365  0.7409965  1.1588555 
+> tail(sort(colMeans(KmeansCluster5)))
+primaries  democrat    edward     clark     kerry      dean 
+ 2.333333  2.708333  2.826389  3.083333  5.041667  8.236111 
+> tail(sort(colMeans(KmeansCluster6)))
+administration          iraqi       american           bush            war 
+      1.396364       1.621818       1.694545       2.607273       3.036364 
+          iraq 
+      4.094545 
+> tail(sort(colMeans(KmeansCluster7)))
+      race     senate      state    parties republican   democrat 
+  2.341463   2.409756   2.995122   3.243902   4.200000   6.185366 
+> 
