@@ -1,0 +1,56 @@
+Linear Regression:
+    Used for:
+        Predicting a continuous outcome(salary, price,number of votes,etc)
+    Pros: 
+        Simple, well recognized, works on small and large datasets
+    Cons: 
+        Assumes a Linear relationship (y= a*log(x)+b)
+
+Logistic Regression:
+    Used for:
+        Predicting a categorical outcome((Yes/No),(Sell/Buy),(Accept/Reject))
+    Pros:
+        Computes probabilities that can be used to access confidence of the 
+        Prediction
+    Cons:
+        Assumes a Linear relationship
+
+CART:
+    Used for:
+        Predicting a categorical outcome(quality rating 1-5, Buy/Sell/Hold) or a
+        continuous outcome.
+    Pros:
+        Can handle datasets without a Linear relationship. Easy to interpret
+    Cons:
+        May not work well with small datasets
+
+Random Forests:
+    Used for:
+        Same as CART
+    Pros:
+        Can improve accuracy as compared to CART
+    Cons:
+        Many parameters to adjust
+        Not as easy to explain
+
+Hierarchical Clustering:
+    Used for:
+        Finding Similar Groups
+        Clustering into smaller Groups and applying predictive methods on Groups
+
+    Pros:
+        No need to select number of clusters a priori
+        Visualize with a dendogram to analyse the number of clusters
+    Cons:
+        Hard to use with large datasets
+
+K means:
+    Used for:
+        Same as Hierarchical Clustering
+    Pros:
+        Works with complex dataset size
+    Cons:
+        Need to select number of clusters before algo
+
+
+
