@@ -1,0 +1,940 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> emails = read.csv('emails.csv')
+> emails = read.csv('emails.csv',stringsAsFactors=FALSE)
+> str(emails)
+'data.frame':   5728 obs. of  2 variables:
+ $ text: chr  "Subject: naturally irresistible your corporate identity  lt is really hard to recollect a company : the  market"| __truncated__ "Subject: the stock trading gunslinger  fanny is merrill but muzo not colza attainder and penultimate like esmar"| __truncated__ "Subject: unbelievable new homes made easy  im wanting to show you this  homeowner  you have been pre - approved"| __truncated__ "Subject: 4 color printing special  request additional information now ! click here  click here for a printable "| __truncated__ ...
+ $ spam: int  1 1 1 1 1 1 1 1 1 1 ...
+> table(emails$spam)
+
+   0    1 
+4360 1368 
+> emails$text[1]
+[1] "Subject: naturally irresistible your corporate identity  lt is really hard to recollect a company : the  market is full of suqgestions and the information isoverwhelminq ; but a good  catchy logo , stylish statlonery and outstanding website  will make the task much easier .  we do not promise that havinq ordered a iogo your  company will automaticaily become a world ieader : it isguite ciear that  without good products , effective business organization and practicable aim it  will be hotat nowadays market ; but we do promise that your marketing efforts  will become much more effective . here is the list of clear  benefits : creativeness : hand - made , original logos , specially done  to reflect your distinctive company image . convenience : logo and stationery  are provided in all formats ; easy - to - use content management system letsyou  change your website content and even its structure . promptness : you  will see logo drafts within three business days . affordability : your  marketing break - through shouldn ' t make gaps in your budget . 100 % satisfaction  guaranteed : we provide unlimited amount of changes with no extra fees for you to  be surethat you will love the result of this collaboration . have a look at our  portfolio _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ not interested . . . _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
+> which.max(nchar(emails$text))
+[1] 2651
+> max(nchar(emails$text))
+[1] 43952
+> which.min(nchar(emails$text))
+[1] 1992
+> library(tm)
+Loading required package: NLP
+Warning message:
+package ‘tm’ was built under R version 3.6.3 
+> library(SnowballC)
+Warning message:
+package ‘SnowballC’ was built under R version 3.6.3 
+> corpus = VCorpus(VectorSource(emails$text))
+> corpus = tm_map(corpus, content_transformer(tolower))
+> corpus = tm_map(corpus, PlainTextDocument)]
+Error: unexpected ']' in "corpus = tm_map(corpus, PlainTextDocument)]"
+> corpus = tm_map(corpus, PlainTextDocument)
+> corpus = tm_map(corpus, removePunctuation)
+> corpus = tm_map(corpus, removeWords, stopwords("english"))
+> corpus = tm_map(corpus, stemDocument)
+> dtm = DocumentTermMatrix(corpus)
+> summary(dtm)
+Error in `[.simple_triplet_matrix`(object, !nas) : 
+  Logical vector subscripting disabled for this object.
+> nrow(dtm)
+[1] 5728
+> str(dtm)
+List of 6
+ $ i       : int [1:481719] 1 1 1 1 1 1 1 1 1 1 ...
+ $ j       : int [1:481719] 333 3880 3983 4314 5020 5453 5551 6151 6347 6445 ...
+ $ v       : num [1:481719] 1 1 1 1 1 2 1 1 1 2 ...
+ $ nrow    : int 5728
+ $ ncol    : int 28687
+ $ dimnames:List of 2
+  ..$ Docs : chr [1:5728] "character(0)" "character(0)" "character(0)" "character(0)" ...
+  ..$ Terms: chr [1:28687] "000" "0000" "000000" "00000000" ...
+ - attr(*, "class")= chr [1:2] "DocumentTermMatrix" "simple_triplet_matrix"
+ - attr(*, "weighting")= chr [1:2] "term frequency" "tf"
+> dtm = removeSparseTerms(dtm, 0.95)
+> ncol(dtm)
+[1] 330
+> str(dtm)
+List of 6
+ $ i       : int [1:213551] 1 1 1 1 1 1 1 1 1 1 ...
+ $ j       : int [1:213551] 36 41 48 57 67 81 85 86 94 111 ...
+ $ v       : num [1:213551] 2 2 3 1 1 1 2 1 1 1 ...
+ $ nrow    : int 5728
+ $ ncol    : int 330
+ $ dimnames:List of 2
+  ..$ Docs : chr [1:5728] "character(0)" "character(0)" "character(0)" "character(0)" ...
+  ..$ Terms: chr [1:330] "000" "2000" "2001" "713" ...
+ - attr(*, "class")= chr [1:2] "DocumentTermMatrix" "simple_triplet_matrix"
+ - attr(*, "weighting")= chr [1:2] "term frequency" "tf"
+> emailsSparse = as.data.frame(as.matrix(dtm))
+> str(emailsSparse)
+'data.frame':   5728 obs. of  330 variables:
+ $ 000       : num  0 0 0 0 0 0 0 0 1 0 ...
+ $ 2000      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ 2001      : num  0 0 0 0 0 0 0 0 1 0 ...
+ $ 713       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ 853       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ abl       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ access    : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ account   : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ addit     : num  0 0 0 2 0 0 1 0 0 0 ...
+ $ address   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ allow     : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ alreadi   : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ also      : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ analysi   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ anoth     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ applic    : num  0 0 0 0 0 0 3 0 0 0 ...
+ $ appreci   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ approv    : num  0 0 2 0 0 0 0 0 0 0 ...
+ $ april     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ area      : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ arrang    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ ask       : num  0 0 1 0 0 0 0 0 0 0 ...
+ $ assist    : num  0 0 0 0 0 0 3 0 0 0 ...
+ $ associ    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ attach    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ attend    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ avail     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ back      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ base      : num  0 0 0 0 0 0 3 0 2 0 ...
+ $ begin     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ believ    : num  0 0 0 0 0 0 2 0 0 0 ...
+ $ best      : num  0 0 0 0 1 0 0 0 0 0 ...
+ $ better    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ book      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ bring     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ busi      : num  2 0 0 0 0 0 3 0 2 0 ...
+ $ buy       : num  0 0 0 0 0 0 1 1 0 1 ...
+ $ call      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ can       : num  0 0 0 0 0 0 11 1 0 1 ...
+ $ case      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ chang     : num  2 0 0 0 0 0 1 0 0 0 ...
+ $ check     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ click     : num  0 0 0 4 0 0 0 0 0 0 ...
+ $ com       : num  0 0 0 1 0 0 0 0 1 0 ...
+ $ come      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ comment   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ communic  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ compani   : num  3 0 0 0 0 0 16 0 0 0 ...
+ $ complet   : num  0 0 1 0 0 0 1 0 0 0 ...
+ $ confer    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ confirm   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ contact   : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ continu   : num  0 1 0 0 0 0 0 0 0 0 ...
+ $ contract  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ copi      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ corp      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ corpor    : num  1 0 0 0 0 0 0 0 0 0 ...
+ $ cost      : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ cours     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ creat     : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ credit    : num  0 0 1 0 0 0 0 0 0 0 ...
+ $ crenshaw  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ current   : num  0 0 0 0 0 0 3 0 0 0 ...
+ $ custom    : num  0 0 0 0 0 1 4 0 0 0 ...
+ $ data      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ date      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ day       : num  1 0 0 0 0 1 0 0 0 0 ...
+ $ deal      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ dear      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ depart    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ deriv     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ design    : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ detail    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ develop   : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ differ    : num  0 0 0 0 0 0 2 0 0 0 ...
+ $ direct    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ director  : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ discuss   : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ doc       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ don       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ done      : num  1 0 0 0 0 0 0 0 0 0 ...
+ $ due       : num  0 0 0 0 0 0 2 0 0 0 ...
+ $ ect       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ edu       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ effect    : num  2 0 0 0 0 0 0 1 0 1 ...
+ $ effort    : num  1 0 0 0 0 0 1 0 0 0 ...
+ $ either    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ email     : num  0 0 0 0 0 0 2 0 0 0 ...
+ $ end       : num  0 0 0 0 1 0 0 0 0 0 ...
+ $ energi    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ engin     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ enron     : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ etc       : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ even      : num  1 0 0 0 0 0 1 1 0 1 ...
+ $ event     : num  0 0 0 0 0 0 4 0 0 0 ...
+ $ expect    : num  0 0 0 0 0 0 4 0 0 0 ...
+ $ experi    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ fax       : num  0 0 0 1 0 0 0 0 0 0 ...
+ $ feel      : num  0 0 0 0 0 0 0 0 0 0 ...
+  [list output truncated]
+> colnames(emailsSparse) = make.names(colnames(emailsSparse))
+> which.max(colSums(emailsSparse))
+enron 
+   92 
+> emailsSparse$spam = emails$spam
+> sort(colSums(subset(emailsSparse, spam == 0)))
+      spam       life      remov      money      onlin    without     websit 
+         0         80        103        114        173        191        194 
+     click    special       wish      repli        buy        net       link 
+       217        226        229        239        243        243        247 
+    immedi       done       mean     design        lot     effect       info 
+       249        254        259        261        268        270        273 
+    either       read      write       line      begin      sorri    success 
+       279        279        286        289        291        293        293 
+    involv      creat    softwar     better     vkamin        say       keep 
+       294        299        299        301        301        305        306 
+     bring     believ       full    increas     realli    mention    thought 
+       311        313        317        320        324        325        325 
+      idea     invest      secur     specif      sever     experi      thing 
+       327        327        337        338        340        346        347 
+     allow      check        due       type      happi     return     expect 
+       348        351        351        352        354        355        356 
+     short     effort       open   internet     sincer     public     recent 
+       357        358        360        361        361        364        368 
+     anoth    alreadi       home       made    respond      given        etc 
+       369        372        375        380        382        383        385 
+       put     within      place      right    version      hello       sure 
+       385        386        388        390        390        395        396 
+      area        run     arrang    account       join       hour      locat 
+       397        398        399        401        403        404        406 
+    togeth      engin     import        per     corpor       high     result 
+       406        411        411        412        414        416        418 
+      hear      final       deal     applic       even        web     custom 
+       420        422        423        428        429        430        433 
+      soon       long       sinc      futur     member       X000      event 
+       435        436        439        440        446        447        447 
+       don       part       feel    tuesday  wednesday      still       unit 
+       450        450        453        454        456        457        457 
+      site       X853    continu understand    resourc     robert    analysi 
+       458        461        464        464        466        466        468 
+      form      point     assist    confirm     differ     intern      might 
+       468        474        475        485        489        489        490 
+      real       case      howev    comment        abl    complet       rate 
+       490        492        496        505        515        515        516 
+   appreci        tri       move      updat     approv    suggest       free 
+       518        521        526        527        533        533        535 
+  contract     detail       morn        end       mani     attend   thursday 
+       544        546        546        550        550        558        558 
+    direct     requir      cours     person      relat     depart      today 
+       561        562        567        569        573        575        577 
+     start        way       mark       valu    problem      peopl       note 
+       580        586        588        590        593        599        600 
+    school      invit     access       term       juli     monday     gibner 
+       607        614        617        625        630        630        633 
+      base   director      offer       cost      addit      kevin      great 
+       635        640        643        646        648        654        655 
+       set       file       find       much       oper      order      deriv 
+       658        659        665        669        669        669        673 
+       doc      april       book    address       copi    financi      month 
+       673        677        680        693        700        702        709 
+   student    respons    possibl     associ   particip        now      first 
+       710        711        712        715        717        725        726 
+  industri       dear    support       plan       back       name       come 
+       731        734        734        738        739        745        748 
+  opportun     report    product        two     origin        ask     credit 
+       760        772        776        787        796        797        798 
+     state     system    process       hope     london       just     receiv 
+       806        816        826        828        828        830        830 
+     chang     review    current      shall     friday       team      phone 
+       831        834        841        844        847        850        858 
+      issu       data      avail       last       good       give        www 
+       865        868        872        874        876        883        897 
+       gas       list      posit      visit     includ      resum       best 
+       905        907        917        920        924        928        933 
+     offic     servic       talk     number       well        fax     provid 
+       935        942        943        951        961        963        970 
+      sent      next.       send       http       john    univers     financ 
+       971        975        986       1009       1022       1025       1038 
+   stinson    schedul       take       date       want   question    program 
+      1051       1054       1057       1060       1068       1069       1080 
+     think       X713   crenshaw     attach      trade       help      email 
+      1084       1097       1115       1155       1167       1168       1201 
+   compani    request        see   communic     confer    discuss       make 
+      1225       1227       1238       1251       1264       1270       1281 
+   contact     follow  interview    project       mail    present       busi 
+      1301       1308       1320       1328       1352       1397       1416 
+  interest     option        day       call        one       year       week 
+      1429       1432       1440       1497       1516       1523       1527 
+    messag    houston       also       look        edu       corp    shirley 
+      1538       1577       1604       1607       1620       1643       1687 
+   develop        get        new        use        let     regard     inform 
+      1691       1768       1777       1784       1856       1859       1883 
+      need      power        may       like       risk     energi     market 
+      1890       1972       1976       1980       2097       2124       2150 
+     model      price       work      manag       know      group       meet 
+      2170       2191       2293       2334       2345       2474       2544 
+      time   research    forward      X2001        can      thank        com 
+      2552       2752       2952       3060       3426       3558       4444 
+     pleas   kaminski      X2000        hou       will       vinc    subject 
+      4494       4801       4935       5569       6802       8531       8625 
+       ect      enron 
+     11417      13388 
+> sort(colSums(subset(emailsSparse, spam == 1)))
+      X713   crenshaw      enron     gibner   kaminski    stinson     vkamin 
+         0          0          0          0          0          0          0 
+      X853       vinc        doc      kevin    shirley      deriv      april 
+         1          1          2          2          2          3          5 
+   houston      resum        edu     friday        hou  wednesday        ect 
+         5          5          7          7          8          8         10 
+    arrang  interview     attend     london     robert    student    schedul 
+        11         13         15         15         16         16         17 
+  thursday     monday       john    tuesday     attach    suggest    appreci 
+        17         19         20         20         21         21         23 
+      mark      begin    comment    analysi      X2001      model       hope 
+        25         26         26         27         29         29         30 
+   mention      X2000     togeth     confer      invit    univers     financ 
+        30         32         32         33         33         34         35 
+      talk     either        run       morn      shall      happi    thought 
+        38         39         39         40         40         42         42 
+    depart    confirm    respond     school       corp        etc       hear 
+        46         47         48         48         49         49         49 
+     howev      sorri       idea     energi    discuss       open     option 
+        49         50         51         55         56         56         56 
+      soon understand      cours     experi     associ      point      bring 
+        57         57         59         59         62         62         63 
+  director   particip      anoth       join      still      final   research 
+        65         65         66         66         66         68         68 
+      case        set     specif      given       juli    problem        put 
+        69         69         69         70         71         73         73 
+   alreadi        ask        abl       deal        fax       book       team 
+        74         74         75         75         75         76         76 
+      issu      locat       meet      updat        lot     sincer     better 
+        79         79         79         79         80         80         82 
+     short       sinc       done   question     recent    possibl   contract 
+        82         82         83         83         83         84         85 
+       end       move       data      might    continu       note       feel 
+        85         86         87         87         88         88         90 
+   resourc      sever       area   communic     realli        due     direct 
+        90         90         92         92         93         94         96 
+    origin       copi       unit       long     member       sure      allow 
+        96         97         97         98         99         99        102 
+      dear     public      write      event        let     differ       file 
+       104        104        104        105        107        109        111 
+    involv    respons      creat       type     approv     detail     effort 
+       111        113        114        114        115        115        115 
+    intern    request        say     import    support       part      relat 
+       117        117        118        119        120        121        121 
+    assist       last        two       back       keep      addit       date 
+       123        124        124        125        125        126        127 
+     place      group       mean       valu      think      offic       read 
+       128        130        131        131        132        133        134 
+    immedi      check     applic      hello        tri     review     believ 
+       136        137        139        139        140        142        143 
+     phone       hour      power    present    process     corpor       oper 
+       143        144        145        146        149        151        151 
+      full     return       come       sent   opportun       real      repli 
+       152        154        155        155        158        158        158 
+      line      engin       term     credit       well        gas       info 
+       159        160        161        162        164        165        165 
+      plan      next.       risk    increas     access       give      thank 
+       166        170        170        171        172        172        172 
+      link     requir    version       cost      great       wish     regard 
+       174        174        174        175        182        185        186 
+     posit      thing       call    develop    complet       much       even 
+       187        188        190        191        192        192        193 
+   project     design       form     expect     person    without        buy 
+       194        196        196        198        198        198        199 
+     trade     effect       rate       base       find    current      first 
+       199        201        201        202        202        203        203 
+     chang      visit    financi       high       mani    forward       good 
+       204        206        207        208        208        209        221 
+   special        don    success        per     number       week     result 
+       225        226        226        230        231        231        237 
+       web   industri    contact       made     follow      month      right 
+       238        239        242        242        244        249        249 
+     today       also       help   internet      manag       know        way 
+       251        260        262        262        266        269        278 
+     avail      state      futur       home      start     system       take 
+       280        280        282        285        300        302        304 
+       net     includ       life        see       name      onlin     within 
+       305        314        320        329        344        345        346 
+     remov       best    program      peopl     custom       year       like 
+       357        358        358        359        363        367        372 
+  interest       send     servic       look       work        day       want 
+       385        393        395        396        415        420        420 
+   product        www    account     provid       need    softwar     messag 
+       421        426        428        435        438        440        445 
+      site    address        may       list      price        new     websit 
+       455        461        489        503        503        504        506 
+    report      secur       just      offer     invest      order        use 
+       507        520        524        528        540        541        546 
+     click       X000        now        one       time       http     market 
+       552        560        575        592        593        600        600 
+      make       free      pleas      money        get     receiv     inform 
+       603        606        619        662        694        727        818 
+       can      email       busi       mail        com    compani       spam 
+       831        865        897        917        999       1065       1368 
+      will    subject 
+      1450       1577 
+> spamLog = glm(spam~., data=train, family="binomial")
+Error in is.data.frame(data) : object 'train' not found
+> 
+> spamCART = rpart(spam~., data=train, method="class")
+Error in rpart(spam ~ ., data = train, method = "class") : 
+  could not find function "rpart"
+> 
+> set.seed(123)
+> 
+> emailsSparse$spam = as.factor(emailsSparse$spam)
+> 
+> set.seed(123)
+> 
+> library(caTools)
+Warning message:
+package ‘caTools’ was built under R version 3.6.3 
+> 
+> spl = sample.split(emailsSparse$spam, 0.7)
+> 
+> train = subset(emailsSparse, spl == TRUE)
+> 
+> test = subset(emailsSparse, spl == FALSE)
+> spamLog = glm(spam~., data=train, family="binomial")
+Warning messages:
+1: glm.fit: algorithm did not converge 
+2: glm.fit: fitted probabilities numerically 0 or 1 occurred 
+> 
+> spamCART = rpart(spam~., data=train, method="class")
+Error in rpart(spam ~ ., data = train, method = "class") : 
+  could not find function "rpart"
+> 
+> set.seed(123)
+> 
+> library(rpart)
+Warning message:
+package ‘rpart’ was built under R version 3.6.3 
+> library(rpart.plot)
+Warning message:
+package ‘rpart.plot’ was built under R version 3.6.3 
+> spamCART = rpart(spam~., data=train, method="class")
+> spamRF = randomForest(spam~., data=train)
+Error in randomForest(spam ~ ., data = train) : 
+  could not find function "randomForest"
+> 
+> library(randomForest)
+randomForest 4.6-14
+Type rfNews() to see new features/changes/bug fixes.
+Warning message:
+package ‘randomForest’ was built under R version 3.6.3 
+> spamRF = randomForest(spam~., data=train)
+> predTrainLog = predict(spamLog, type="response")
+> 
+> predTrainCART = predict(spamCART)[,2]
+> 
+> predTrainRF = predict(spamRF, type="prob")[,2]
+> table(predTrainLog < 0.00001)
+
+FALSE  TRUE 
+  964  3046 
+> 
+> table(predTrainLog > 0.99999)
+
+FALSE  TRUE 
+ 3056   954 
+> 
+> table(predTrainLog >= 0.00001 & predTrainLog <= 0.99999)
+
+FALSE  TRUE 
+ 4000    10 
+> summary(spamLog)
+
+Call:
+glm(formula = spam ~ ., family = "binomial", data = train)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-1.011   0.000   0.000   0.000   1.354  
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)
+(Intercept) -3.082e+01  1.055e+04  -0.003    0.998
+X000         1.474e+01  1.058e+04   0.001    0.999
+X2000       -3.631e+01  1.556e+04  -0.002    0.998
+X2001       -3.215e+01  1.318e+04  -0.002    0.998
+X713        -2.427e+01  2.914e+04  -0.001    0.999
+X853        -1.212e+00  5.942e+04   0.000    1.000
+abl         -2.049e+00  2.088e+04   0.000    1.000
+access      -1.480e+01  1.335e+04  -0.001    0.999
+account      2.488e+01  8.165e+03   0.003    0.998
+addit        1.463e+00  2.703e+04   0.000    1.000
+address     -4.613e+00  1.113e+04   0.000    1.000
+allow        1.899e+01  6.436e+03   0.003    0.998
+alreadi     -2.407e+01  3.319e+04  -0.001    0.999
+also         2.990e+01  1.378e+04   0.002    0.998
+analysi     -2.405e+01  3.860e+04  -0.001    1.000
+anoth       -8.744e+00  2.032e+04   0.000    1.000
+applic      -2.649e+00  1.674e+04   0.000    1.000
+appreci     -2.145e+01  2.762e+04  -0.001    0.999
+approv      -1.302e+00  1.589e+04   0.000    1.000
+april       -2.620e+01  2.208e+04  -0.001    0.999
+area         2.041e+01  2.266e+04   0.001    0.999
+arrang       1.069e+01  2.135e+04   0.001    1.000
+ask         -7.746e+00  1.976e+04   0.000    1.000
+assist      -1.128e+01  2.490e+04   0.000    1.000
+associ       9.049e+00  1.909e+04   0.000    1.000
+attach      -1.037e+01  1.534e+04  -0.001    0.999
+attend      -3.451e+01  3.257e+04  -0.001    0.999
+avail        8.651e+00  1.709e+04   0.001    1.000
+back        -1.323e+01  2.272e+04  -0.001    1.000
+base        -1.354e+01  2.122e+04  -0.001    0.999
+begin        2.228e+01  2.973e+04   0.001    0.999
+believ       3.233e+01  2.136e+04   0.002    0.999
+best        -8.201e+00  1.333e+03  -0.006    0.995
+better       4.263e+01  2.360e+04   0.002    0.999
+book         4.301e+00  2.024e+04   0.000    1.000
+bring        1.607e+01  6.767e+04   0.000    1.000
+busi        -4.803e+00  1.000e+04   0.000    1.000
+buy          4.170e+01  3.892e+04   0.001    0.999
+call        -1.145e+00  1.111e+04   0.000    1.000
+can          3.762e+00  7.674e+03   0.000    1.000
+case        -3.372e+01  2.880e+04  -0.001    0.999
+chang       -2.717e+01  2.215e+04  -0.001    0.999
+check        1.425e+00  1.963e+04   0.000    1.000
+click        1.376e+01  7.077e+03   0.002    0.998
+com          1.936e+00  4.039e+03   0.000    1.000
+come        -1.166e+00  1.511e+04   0.000    1.000
+comment     -3.251e+00  3.387e+04   0.000    1.000
+communic     1.580e+01  8.958e+03   0.002    0.999
+compani      4.781e+00  9.186e+03   0.001    1.000
+complet     -1.363e+01  2.024e+04  -0.001    0.999
+confer      -7.503e-01  8.557e+03   0.000    1.000
+confirm     -1.300e+01  1.514e+04  -0.001    0.999
+contact      1.530e+00  1.262e+04   0.000    1.000
+continu      1.487e+01  1.535e+04   0.001    0.999
+contract    -1.295e+01  1.498e+04  -0.001    0.999
+copi        -4.274e+01  3.070e+04  -0.001    0.999
+corp         1.606e+01  2.708e+04   0.001    1.000
+corpor      -8.286e-01  2.818e+04   0.000    1.000
+cost        -1.938e+00  1.833e+04   0.000    1.000
+cours        1.665e+01  1.834e+04   0.001    0.999
+creat        1.338e+01  3.946e+04   0.000    1.000
+credit       2.617e+01  1.314e+04   0.002    0.998
+crenshaw     9.994e+01  6.769e+04   0.001    0.999
+current      3.629e+00  1.707e+04   0.000    1.000
+custom       1.829e+01  1.008e+04   0.002    0.999
+data        -2.609e+01  2.271e+04  -0.001    0.999
+date        -2.786e+00  1.699e+04   0.000    1.000
+day         -6.100e+00  5.866e+03  -0.001    0.999
+deal        -1.129e+01  1.448e+04  -0.001    0.999
+dear        -2.313e+00  2.306e+04   0.000    1.000
+depart      -4.068e+01  2.509e+04  -0.002    0.999
+deriv       -4.971e+01  3.587e+04  -0.001    0.999
+design      -7.923e+00  2.939e+04   0.000    1.000
+detail       1.197e+01  2.301e+04   0.001    1.000
+develop      5.976e+00  9.455e+03   0.001    0.999
+differ      -2.293e+00  1.075e+04   0.000    1.000
+direct      -2.051e+01  3.194e+04  -0.001    0.999
+director    -1.770e+01  1.793e+04  -0.001    0.999
+discuss     -1.051e+01  1.915e+04  -0.001    1.000
+doc         -2.597e+01  2.603e+04  -0.001    0.999
+don          2.129e+01  1.456e+04   0.001    0.999
+done         6.828e+00  1.882e+04   0.000    1.000
+due         -4.163e+00  3.532e+04   0.000    1.000
+ect          8.685e-01  5.342e+03   0.000    1.000
+edu         -2.122e-01  6.917e+02   0.000    1.000
+effect       1.948e+01  2.100e+04   0.001    0.999
+effort       1.606e+01  5.670e+04   0.000    1.000
+either      -2.744e+01  4.000e+04  -0.001    0.999
+email        3.833e+00  1.186e+04   0.000    1.000
+end         -1.311e+01  2.938e+04   0.000    1.000
+energi      -1.620e+01  1.646e+04  -0.001    0.999
+engin        2.664e+01  2.394e+04   0.001    0.999
+enron       -8.789e+00  5.719e+03  -0.002    0.999
+etc          9.470e-01  1.569e+04   0.000    1.000
+even        -1.654e+01  2.289e+04  -0.001    0.999
+event        1.694e+01  1.851e+04   0.001    0.999
+expect      -1.179e+01  1.914e+04  -0.001    1.000
+experi       2.460e+00  2.240e+04   0.000    1.000
+fax          3.537e+00  3.386e+04   0.000    1.000
+feel         2.596e+00  2.348e+04   0.000    1.000
+file        -2.943e+01  2.165e+04  -0.001    0.999
+final        8.075e+00  5.008e+04   0.000    1.000
+financ      -9.122e+00  7.524e+03  -0.001    0.999
+financi     -9.747e+00  1.727e+04  -0.001    1.000
+find        -2.623e+00  9.727e+03   0.000    1.000
+first       -4.666e-01  2.043e+04   0.000    1.000
+follow       1.766e+01  3.080e+03   0.006    0.995
+form         8.483e+00  1.674e+04   0.001    1.000
+forward     -3.484e+00  1.864e+04   0.000    1.000
+free         6.113e+00  8.121e+03   0.001    0.999
+friday      -1.146e+01  1.996e+04  -0.001    1.000
+full         2.125e+01  2.190e+04   0.001    0.999
+futur        4.146e+01  1.439e+04   0.003    0.998
+gas         -3.901e+00  4.160e+03  -0.001    0.999
+get          5.154e+00  9.737e+03   0.001    1.000
+gibner       2.901e+01  2.460e+04   0.001    0.999
+give        -2.518e+01  2.130e+04  -0.001    0.999
+given       -2.186e+01  5.426e+04   0.000    1.000
+good         5.399e+00  1.619e+04   0.000    1.000
+great        1.222e+01  1.090e+04   0.001    0.999
+group        5.264e-01  1.037e+04   0.000    1.000
+happi        1.939e-02  1.202e+04   0.000    1.000
+hear         2.887e+01  2.281e+04   0.001    0.999
+hello        2.166e+01  1.361e+04   0.002    0.999
+help         1.731e+01  2.791e+03   0.006    0.995
+high        -1.982e+00  2.554e+04   0.000    1.000
+home         5.973e+00  8.965e+03   0.001    0.999
+hope        -1.435e+01  2.179e+04  -0.001    0.999
+hou          6.852e+00  6.437e+03   0.001    0.999
+hour         2.478e+00  1.333e+04   0.000    1.000
+houston     -1.855e+01  7.305e+03  -0.003    0.998
+howev       -3.449e+01  3.562e+04  -0.001    0.999
+http         2.528e+01  2.107e+04   0.001    0.999
+idea        -1.845e+01  3.892e+04   0.000    1.000
+immedi       6.285e+01  3.346e+04   0.002    0.999
+import      -1.859e+00  2.236e+04   0.000    1.000
+includ      -3.454e+00  1.799e+04   0.000    1.000
+increas      6.476e+00  2.329e+04   0.000    1.000
+industri    -3.160e+01  2.373e+04  -0.001    0.999
+info        -1.255e+00  4.857e+03   0.000    1.000
+inform       2.078e+01  8.549e+03   0.002    0.998
+interest     2.698e+01  1.159e+04   0.002    0.998
+intern      -7.991e+00  3.351e+04   0.000    1.000
+internet     8.749e+00  1.100e+04   0.001    0.999
+interview   -1.640e+01  1.873e+04  -0.001    0.999
+invest       3.201e+01  2.393e+04   0.001    0.999
+invit        4.304e+00  2.215e+04   0.000    1.000
+involv       3.815e+01  3.315e+04   0.001    0.999
+issu        -3.708e+01  3.396e+04  -0.001    0.999
+john        -5.326e-01  2.856e+04   0.000    1.000
+join        -3.824e+01  2.334e+04  -0.002    0.999
+juli        -1.358e+01  3.009e+04   0.000    1.000
+just        -1.021e+01  1.114e+04  -0.001    0.999
+kaminski    -1.812e+01  6.029e+03  -0.003    0.998
+keep         1.867e+01  2.782e+04   0.001    0.999
+kevin       -3.779e+01  4.738e+04  -0.001    0.999
+know         1.277e+01  1.526e+04   0.001    0.999
+last         1.046e+00  1.372e+04   0.000    1.000
+let         -2.763e+01  1.462e+04  -0.002    0.998
+life         5.812e+01  3.864e+04   0.002    0.999
+like         5.649e+00  7.660e+03   0.001    0.999
+line         8.743e+00  1.236e+04   0.001    0.999
+link        -6.929e+00  1.345e+04  -0.001    1.000
+list        -8.692e+00  2.149e+03  -0.004    0.997
+locat        2.073e+01  1.597e+04   0.001    0.999
+london       6.745e+00  1.642e+04   0.000    1.000
+long        -1.489e+01  1.934e+04  -0.001    0.999
+look        -7.031e+00  1.563e+04   0.000    1.000
+lot         -1.964e+01  1.321e+04  -0.001    0.999
+made         2.820e+00  2.743e+04   0.000    1.000
+mail         7.584e+00  1.021e+04   0.001    0.999
+make         2.901e+01  1.528e+04   0.002    0.998
+manag        6.014e+00  1.445e+04   0.000    1.000
+mani         1.885e+01  1.442e+04   0.001    0.999
+mark        -3.350e+01  3.208e+04  -0.001    0.999
+market       7.895e+00  8.012e+03   0.001    0.999
+may         -9.434e+00  1.397e+04  -0.001    0.999
+mean         6.078e-01  2.952e+04   0.000    1.000
+meet        -1.063e+00  1.263e+04   0.000    1.000
+member       1.381e+01  2.343e+04   0.001    1.000
+mention     -2.279e+01  2.714e+04  -0.001    0.999
+messag       1.716e+01  2.562e+03   0.007    0.995
+might        1.244e+01  1.753e+04   0.001    0.999
+model       -2.292e+01  1.049e+04  -0.002    0.998
+monday      -1.034e+00  3.233e+04   0.000    1.000
+money        3.264e+01  1.321e+04   0.002    0.998
+month       -3.727e+00  1.112e+04   0.000    1.000
+morn        -2.645e+01  3.403e+04  -0.001    0.999
+move        -3.834e+01  3.011e+04  -0.001    0.999
+much         3.775e-01  1.392e+04   0.000    1.000
+name         1.672e+01  1.322e+04   0.001    0.999
+need         8.437e-01  1.221e+04   0.000    1.000
+net          1.256e+01  2.197e+04   0.001    1.000
+new          1.003e+00  1.009e+04   0.000    1.000
+next.        1.492e+01  1.724e+04   0.001    0.999
+note         1.446e+01  2.294e+04   0.001    0.999
+now          3.790e+01  1.219e+04   0.003    0.998
+number      -9.622e+00  1.591e+04  -0.001    1.000
+offer        1.174e+01  1.084e+04   0.001    0.999
+offic       -1.344e+01  2.311e+04  -0.001    1.000
+one          1.241e+01  6.652e+03   0.002    0.999
+onlin        3.589e+01  1.665e+04   0.002    0.998
+open         2.114e+01  2.961e+04   0.001    0.999
+oper        -1.696e+01  2.757e+04  -0.001    1.000
+opportun    -4.131e+00  1.918e+04   0.000    1.000
+option      -1.085e+00  9.325e+03   0.000    1.000
+order        6.533e+00  1.242e+04   0.001    1.000
+origin       3.226e+01  3.818e+04   0.001    0.999
+part         4.594e+00  3.483e+04   0.000    1.000
+particip    -1.154e+01  1.738e+04  -0.001    0.999
+peopl       -1.864e+01  1.439e+04  -0.001    0.999
+per          1.367e+01  1.273e+04   0.001    0.999
+person       1.870e+01  9.575e+03   0.002    0.998
+phone       -6.957e+00  1.172e+04  -0.001    1.000
+place        9.005e+00  3.661e+04   0.000    1.000
+plan        -1.830e+01  6.320e+03  -0.003    0.998
+pleas       -7.961e+00  9.484e+03  -0.001    0.999
+point        5.498e+00  3.403e+04   0.000    1.000
+posit       -1.543e+01  2.316e+04  -0.001    0.999
+possibl     -1.366e+01  2.492e+04  -0.001    1.000
+power       -5.643e+00  1.173e+04   0.000    1.000
+present     -6.163e+00  1.278e+04   0.000    1.000
+price        3.428e+00  7.850e+03   0.000    1.000
+problem      1.262e+01  9.763e+03   0.001    0.999
+process     -2.957e-01  1.191e+04   0.000    1.000
+product      1.016e+01  1.345e+04   0.001    0.999
+program      1.444e+00  1.183e+04   0.000    1.000
+project      2.173e+00  1.497e+04   0.000    1.000
+provid       2.422e-01  1.859e+04   0.000    1.000
+public      -5.250e+01  2.341e+04  -0.002    0.998
+put         -1.052e+01  2.681e+04   0.000    1.000
+question    -3.467e+01  1.859e+04  -0.002    0.999
+rate        -3.112e+00  1.319e+04   0.000    1.000
+read        -1.527e+01  2.145e+04  -0.001    0.999
+real         2.046e+01  2.358e+04   0.001    0.999
+realli      -2.667e+01  4.640e+04  -0.001    1.000
+receiv       5.765e-01  1.585e+04   0.000    1.000
+recent      -2.067e+00  1.780e+04   0.000    1.000
+regard      -3.668e+00  1.511e+04   0.000    1.000
+relat       -5.114e+01  1.793e+04  -0.003    0.998
+remov        2.325e+01  2.484e+04   0.001    0.999
+repli        1.538e+01  2.916e+04   0.001    1.000
+report      -1.482e+01  1.477e+04  -0.001    0.999
+request     -1.232e+01  1.167e+04  -0.001    0.999
+requir       5.004e-01  2.937e+04   0.000    1.000
+research    -2.826e+01  1.553e+04  -0.002    0.999
+resourc     -2.735e+01  3.522e+04  -0.001    0.999
+respond      2.974e+01  3.888e+04   0.001    0.999
+respons     -1.960e+01  3.667e+04  -0.001    1.000
+result      -5.002e-01  3.140e+04   0.000    1.000
+resum       -9.219e+00  2.100e+04   0.000    1.000
+return       1.745e+01  1.844e+04   0.001    0.999
+review      -4.825e+00  1.013e+04   0.000    1.000
+right        2.312e+01  1.590e+04   0.001    0.999
+risk        -4.001e+00  1.718e+04   0.000    1.000
+robert      -2.096e+01  2.907e+04  -0.001    0.999
+run         -5.162e+01  4.434e+04  -0.001    0.999
+say          7.366e+00  2.217e+04   0.000    1.000
+schedul      1.919e+00  3.580e+04   0.000    1.000
+school      -3.870e+00  2.882e+04   0.000    1.000
+secur       -1.604e+01  2.201e+03  -0.007    0.994
+see         -1.120e+01  1.293e+04  -0.001    0.999
+send        -2.427e+01  1.222e+04  -0.002    0.998
+sent        -1.488e+01  2.195e+04  -0.001    0.999
+servic      -7.164e+00  1.235e+04  -0.001    1.000
+set         -9.353e+00  2.627e+04   0.000    1.000
+sever        2.041e+01  3.093e+04   0.001    0.999
+shall        1.930e+01  3.075e+04   0.001    0.999
+shirley     -7.133e+01  6.329e+04  -0.001    0.999
+short       -8.974e+00  1.721e+04  -0.001    1.000
+sinc        -3.438e+00  3.546e+04   0.000    1.000
+sincer      -2.073e+01  3.515e+04  -0.001    1.000
+site         8.689e+00  1.496e+04   0.001    1.000
+softwar      2.575e+01  1.059e+04   0.002    0.998
+soon         2.350e+01  3.731e+04   0.001    0.999
+sorri        6.036e+00  2.299e+04   0.000    1.000
+special      1.777e+01  2.755e+04   0.001    0.999
+specif      -2.337e+01  3.083e+04  -0.001    0.999
+start        1.437e+01  1.897e+04   0.001    0.999
+state        1.221e+01  1.677e+04   0.001    0.999
+still        3.878e+00  2.622e+04   0.000    1.000
+stinson     -4.345e+01  2.697e+04  -0.002    0.999
+student     -1.815e+01  2.186e+04  -0.001    0.999
+subject      3.041e+01  1.055e+04   0.003    0.998
+success      4.344e+00  2.783e+04   0.000    1.000
+suggest     -3.842e+01  4.475e+04  -0.001    0.999
+support     -1.539e+01  1.976e+04  -0.001    0.999
+sure        -5.503e+00  2.078e+04   0.000    1.000
+system       3.778e+00  9.149e+03   0.000    1.000
+take         5.731e+00  1.716e+04   0.000    1.000
+talk        -1.011e+01  2.021e+04  -0.001    1.000
+team         7.940e+00  2.570e+04   0.000    1.000
+term         2.013e+01  2.303e+04   0.001    0.999
+thank       -3.890e+01  1.059e+04  -0.004    0.997
+thing        2.579e+01  1.341e+04   0.002    0.998
+think       -1.218e+01  2.077e+04  -0.001    1.000
+thought      1.243e+01  3.023e+04   0.000    1.000
+thursday    -1.491e+01  3.262e+04   0.000    1.000
+time        -5.921e+00  8.335e+03  -0.001    0.999
+today       -1.762e+01  1.965e+04  -0.001    0.999
+togeth      -2.355e+01  1.869e+04  -0.001    0.999
+trade       -1.755e+01  1.483e+04  -0.001    0.999
+tri          9.278e-01  1.282e+04   0.000    1.000
+tuesday     -2.808e+01  3.959e+04  -0.001    0.999
+two         -2.573e+01  1.844e+04  -0.001    0.999
+type        -1.447e+01  2.755e+04  -0.001    1.000
+understand   9.307e+00  2.342e+04   0.000    1.000
+unit        -4.020e+00  3.008e+04   0.000    1.000
+univers      1.228e+01  2.197e+04   0.001    1.000
+updat       -1.510e+01  1.448e+04  -0.001    0.999
+use         -1.385e+01  9.382e+03  -0.001    0.999
+valu         9.024e-01  1.360e+04   0.000    1.000
+version     -3.606e+01  2.939e+04  -0.001    0.999
+vinc        -3.735e+01  8.647e+03  -0.004    0.997
+visit        2.585e+01  1.170e+04   0.002    0.998
+vkamin      -6.649e+01  5.703e+04  -0.001    0.999
+want        -2.555e+00  1.106e+04   0.000    1.000
+way          1.339e+01  1.138e+04   0.001    0.999
+web          2.791e+00  1.686e+04   0.000    1.000
+websit      -2.563e+01  1.848e+04  -0.001    0.999
+wednesday   -1.526e+01  2.642e+04  -0.001    1.000
+week        -6.795e+00  1.046e+04  -0.001    0.999
+well        -2.222e+01  9.713e+03  -0.002    0.998
+will        -1.119e+01  5.980e+03  -0.002    0.999
+wish         1.173e+01  3.175e+04   0.000    1.000
+within       2.900e+01  2.163e+04   0.001    0.999
+without      1.942e+01  1.763e+04   0.001    0.999
+work        -1.099e+01  1.160e+04  -0.001    0.999
+write        4.406e+01  2.825e+04   0.002    0.999
+www         -7.867e+00  2.224e+04   0.000    1.000
+year        -1.010e+01  1.039e+04  -0.001    0.999
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 4409.49  on 4009  degrees of freedom
+Residual deviance:   13.46  on 3679  degrees of freedom
+AIC: 675.46
+
+Number of Fisher Scoring iterations: 25
+
+> prp(spamCART)
+> table(train$spam, predTrainLog > 0.5)
+   
+    FALSE TRUE
+  0  3052    0
+  1     4  954
+> 
+>  (3052+954)/nrow(train)
+[1] 0.9990025
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: ‘gplots’
+
+The following object is masked from ‘package:stats’:
+
+    lowess
+
+Warning messages:
+1: package ‘ROCR’ was built under R version 3.6.3 
+2: package ‘gplots’ was built under R version 3.6.3 
+> predictionTrainLog = prediction(predTrainLog, train$spam)
+> 
+> as.numeric(performance(predictionTrainLog, "auc")@y.values)
+[1] 0.9999959
+> table(train$spam, predTrainCART > 0.5)
+   
+    FALSE TRUE
+  0  2885  167
+  1    64  894
+> (2885+894)/nrow(train)
+[1] 0.942394
+> predictionTrainCART = prediction(predTrainCART, train$spam)
+> 
+> as.numeric(performance(predictionTrainCART, "auc")@y.values)
+[1] 0.9696044
+>  
+> table(train$spam, predTrainRF > 0.5)
+   
+    FALSE TRUE
+  0  3015   37
+  1    46  912
+> (3013+914)/nrow(train)
+[1] 0.9793017
+> predictionTrainRF = prediction(predTrainRF, train$spam)
+> 
+> as.numeric(performance(predictionTrainRF, "auc")@y.values)
+[1] 0.9978855
+> table(test$spam, predTestLog > 0.5)
+Error in table(test$spam, predTestLog > 0.5) : 
+  object 'predTestLog' not found
+> 
+> predTestLog = predict(spamLog, newdata=test, type="response")
+> 
+> predTestCART = predict(spamCART, newdata=test)[,2]
+> 
+> predTestRF = predict(spamRF, newdata=test, type="prob")[,2]
+> table(test$spam, predTestLog > 0.5)
+   
+    FALSE TRUE
+  0  1257   51
+  1    34  376
+> 
+> (1257+376)/nrow(test)
+[1] 0.9505239
+> predictionTestLog = prediction(predTestLog, test$spam)
+> 
+> as.numeric(performance(predictionTestLog, "auc")@y.values)
+[1] 0.9627517
+> table(test$spam, predTestCART > 0.5)
+   
+    FALSE TRUE
+  0  1228   80
+  1    24  386
+> (1228+386)/nrow(test)
+[1] 0.9394645
+> predictionTestCART = prediction(predTestCART, test$spam)
+> 
+> as.numeric(performance(predictionTestCART, "auc")@y.values)
+[1] 0.963176
+> table(test$spam, predTestRF > 0.5)
+   
+    FALSE TRUE
+  0  1292   16
+  1    27  383
+> (1290+385)/nrow(test)
+[1] 0.9749709
+> predictionTestRF = prediction(predTestRF, test$spam)
+> 
+> as.numeric(performance(predictionTestRF, "auc")@y.values)
+[1] 0.9975871
+> wordCount = rowSums(as.matrix(dtm))
+> 
+> hist(wordCount)
+> emailsSparse$logWordCount = log(wordCount)
+> boxplot(emailsSparse$logWordCount~emailsSparse$spam)
+> 
+> train2 = subset(emailsSparse, spl == TRUE)
+> 
+> test2 = subset(emailsSparse, spl == FALSE)
+> 
+> spam2CART = rpart(spam~., data=train2, method="class")
+> 
+> set.seed(123)
+> 
+> spam2RF = randomForest(spam~., data=train2)
+> prp(spam2CART)
+> predTest2CART = predict(spam2CART, newdata=test2)[,2]
+> 
+> predTest2RF = predict(spam2RF, newdata=test2, type="prob")[,2]
+> table(test2$spam, predTest2CART > 0.5)
+   
+    FALSE TRUE
+  0  1224   84
+  1    24  386
+> (1214+384)/nrow(test2)
+[1] 0.9301513
+> predictionTest2CART = prediction(predTest2CART, test2$spam)
+> 
+> as.numeric(performance(predictionTest2CART, "auc")@y.values)
+[1] 0.9623462
+> table(test2$spam, predTest2RF > 0.5)
+   
+    FALSE TRUE
+  0  1294   14
+  1    19  391
+> (1296+383)/nrow(test2)
+[1] 0.9772992
+> predictionTest2RF = prediction(predTest2RF, test2$spam)
+> 
+> as.numeric(performance(predictionTest2RF, "auc")@y.values)
+[1] 0.9974528
+> 

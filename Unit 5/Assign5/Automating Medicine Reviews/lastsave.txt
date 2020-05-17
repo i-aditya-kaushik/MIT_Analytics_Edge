@@ -1,0 +1,179 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> trials = read.csv("clinical_trial.csv", stringsAsFactors=FALSE)
+> max(nchar(trials$abstract))
+[1] 3708
+> max((trials$abstract))
+[1] "Zoledronic acid has direct and indirect antitumor effects. However, the optimal regimen for breast cancer patients remains to be determined. This study aimed to compare biomarker changes between a weekly low dose (metronomic arm) and a conventional dosage of zoledronic acid (conventional arm), and to explore correlations between biomarkers and progression-free survival (PFS). Sixty breast cancer patients with bone metastases were randomized to receive either zoledronic acid 1 mg IV weekly for 4 doses or a single dose of zoledronic acid 4 mg IV. Administration of other treatments was delayed for 1 month. Serial blood samples were collected on days 1, 15, 29, and at 3 months. Serum VEGF alteration was the primary endpoint. Compared to the conventional arm, the metronomic arm resulted in a significantly greater reduction in serum levels of VEGF and N-telopeptide of type I collagen (NTx) over time during the first month of treatment. Serum CA 15-3 level stabilized over time in the metronomic arm, but increased in the conventional arm. Independent prognostic factors for PFS included chemotherapy received (HR, 8.042; P = 0.000), estrogen receptor status (HR, 2.837; P = 0.020), VEGF levels at 3 months after intervention (HR, 2.026; P = 0.045), and baseline NTx (HR, 1.051; P = 0.001). Metronomic low-dose zoledronic acid is more effective than the conventional regimen and generates sustained reductions in circulating VEGF and NTx levels, as well as stabilization of serum CA 15-3 levels (ClinicalTrials.gov number, NCT00524849)."
+>  table(nchar(trials$abstract) == 0) 
+
+FALSE  TRUE 
+ 1748   112 
+> min(nchar(trials$title))
+[1] 28
+> which.min(nchar(trials$title))
+[1] 1258
+>  trials$title[1258]
+[1] "A decade of letrozole: FACE."
+> library(tm)
+Loading required package: NLP
+Warning message:
+package �tm� was built under R version 3.6.3 
+> library(SnowballC)
+Warning message:
+package �SnowballC� was built under R version 3.6.3 
+> corpusTitle = VCorpus(VectorSource(trials$title))
+> corpusTitle = tm_map(corpusTitle, content_transformer(tolower))
+> corpusTitle = tm_map(corpusTitle, removePunctuation)
+> corpusTitle = tm_map(corpusTitle, removeWords, stopwords("english"))
+> corpusTitle = tm_map(corpusTitle, stemDocument)
+> dtmTitle = DocumentTermMatrix(corpusTitle)
+> dtmTitle = removeSparseTerms(dtmTitle, 0.95)
+> dtmTitle = as.data.frame(as.matrix(dtmTitle))
+> str(dtmTitle) 
+'data.frame':   1860 obs. of  31 variables:
+ $ adjuv          : num  0 0 0 0 0 0 0 0 1 0 ...
+ $ advanc         : num  0 0 0 0 0 0 1 0 0 0 ...
+ $ breast         : num  0 0 1 1 1 1 0 1 1 1 ...
+ $ cancer         : num  1 0 1 1 1 1 0 1 1 2 ...
+ $ chemotherapi   : num  0 0 0 0 1 1 0 0 0 0 ...
+ $ clinic         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ combin         : num  0 0 0 0 1 0 1 0 0 0 ...
+ $ compar         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ cyclophosphamid: num  0 0 0 1 0 0 0 0 0 0 ...
+ $ docetaxel      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ doxorubicin    : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ earli          : num  0 0 1 1 0 0 0 1 0 0 ...
+ $ effect         : num  0 0 0 0 1 0 0 1 0 1 ...
+ $ group          : num  0 0 0 0 0 0 0 0 1 1 ...
+ $ iii            : num  0 0 1 0 0 0 0 0 0 1 ...
+ $ metastat       : num  0 0 0 0 1 0 0 0 0 0 ...
+ $ patient        : num  0 0 0 0 1 0 1 0 1 1 ...
+ $ phase          : num  0 0 1 1 0 0 0 0 0 1 ...
+ $ plus           : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ postmenopaus   : num  0 0 0 0 0 0 0 1 1 0 ...
+ $ random         : num  0 0 1 1 1 0 0 0 0 1 ...
+ $ randomis       : num  0 0 0 0 0 0 0 1 1 0 ...
+ $ respons        : num  0 0 0 0 0 1 0 0 0 0 ...
+ $ result         : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ studi          : num  0 0 0 0 0 0 0 1 0 0 ...
+ $ tamoxifen      : num  0 0 0 0 0 0 0 2 1 0 ...
+ $ therapi        : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ treatment      : num  1 0 0 0 1 0 0 0 0 1 ...
+ $ trial          : num  0 0 1 1 1 0 0 1 1 1 ...
+ $ versus         : num  0 0 1 0 0 0 0 1 0 0 ...
+ $ women          : num  0 0 0 0 0 0 0 1 0 0 ...
+> corpusAbstract = VCorpus(VectorSource(trials$abstract))
+> corpusAbstract = tm_map(corpusAbstract, content_transformer(tolower))
+> corpusAbstract = tm_map(corpusAbstract, removePunctuation)
+> corpusAbstract = tm_map(corpusAbstract, removeWords, stopwords("english"))
+> corpusAbstract = tm_map(corpusAbstract, stemDocument)
+> dtmAbstract = DocumentTermMatrix(corpusAbstract)
+> dtmAbstract = removeSparseTerms(dtmAbstract, 0.95)
+> dtmAbstract = as.data.frame(as.matrix(dtmAbstract))
+> csAbstract = colSums(dtmAbstract)
+> 
+> which.max(csAbstract)
+patient 
+    212 
+> 
+> colnames(dtmTitle) = paste0("T", colnames(dtmTitle))
+> colnames(dtmAbstract) = paste0("A", colnames(dtmAbstract))
+> dtm = cbind(dtmTitle, dtmAbstract)
+> 
+> dtm$trial = trials$trial
+> 
+> ncol(dtm)
+[1] 367
+> set.seed(144)
+> 
+> spl = sample.split(dtm$trial, 0.7)
+Error in sample.split(dtm$trial, 0.7) : 
+  could not find function "sample.split"
+> 
+> train = subset(dtm, spl == TRUE)
+Error in eval(e, x, parent.frame()) : object 'spl' not found
+> 
+> library(caTools)
+Warning message:
+package �caTools� was built under R version 3.6.3 
+> set.seed(144)
+> 
+> spl = sample.split(dtm$trial, 0.7)
+> 
+> train = subset(dtm, spl == TRUE)
+> 
+> test = subset(dtm, spl == FALSE)
+>  table(train$trial)
+
+  0   1 
+730 572 
+> 730/(730+572)
+[1] 0.5606759
+> trialCART = rpart(trial~., data=train, method="class")
+Error in rpart(trial ~ ., data = train, method = "class") : 
+  could not find function "rpart"
+> library(rpart)
+Warning message:
+package �rpart� was built under R version 3.6.3 
+> library(rpart.plot)
+Warning message:
+package �rpart.plot� was built under R version 3.6.3 
+> trialCART = rpart(trial~., data=train, method="class")
+> prp(trialCART)
+> predTrain = predict(trialCart)[,2]
+Error in predict(trialCart) : object 'trialCart' not found
+> predTrain = predict(trialCART)[,2]
+> summary(predTrain)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.05455 0.13636 0.28750 0.43932 0.78231 0.87189 
+> table(train$trial, predTrain >= 0.5)
+   
+    FALSE TRUE
+  0   631   99
+  1   131  441
+>  (631+441)/(631+441+99+131)
+[1] 0.8233487
+> predTest = predict(trialCART, newdata=test)[,2]
+> table(test$trial, predTest >= 0.5)
+   
+    FALSE TRUE
+  0   261   52
+  1    83  162
+> (261+162)/(261+162+83+52)
+[1] 0.7580645
+> library(ROCR)
+Loading required package: gplots
+
+Attaching package: �gplots�
+
+The following object is masked from �package:stats�:
+
+    lowess
+
+Warning messages:
+1: package �ROCR� was built under R version 3.6.3 
+2: package �gplots� was built under R version 3.6.3 
+> 
+> pred = prediction(predTest, test$trial)
+> 
+> as.numeric(performance(pred, "auc")@y.values)
+[1] 0.8371063
+> 
