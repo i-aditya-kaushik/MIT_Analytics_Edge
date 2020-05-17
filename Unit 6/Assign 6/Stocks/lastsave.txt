@@ -1,0 +1,371 @@
+
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> stocks = read.csv('StocksCluster.csv')
+Error in file(file, "rt") : cannot open the connection
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'StocksCluster.csv': No such file or directory
+> stocks = read.csv('StocksCluster.csv')
+>  str(stocks)
+'data.frame':   11580 obs. of  12 variables:
+ $ ReturnJan  : num  0.0807 -0.0107 0.0477 -0.074 -0.031 ...
+ $ ReturnFeb  : num  0.0663 0.1021 0.036 -0.0482 -0.2127 ...
+ $ ReturnMar  : num  0.0329 0.1455 0.0397 0.0182 0.0915 ...
+ $ ReturnApr  : num  0.1831 -0.0844 -0.1624 -0.0247 0.1893 ...
+ $ ReturnMay  : num  0.13033 -0.3273 -0.14743 -0.00604 -0.15385 ...
+ $ ReturnJune : num  -0.0176 -0.3593 0.0486 -0.0253 -0.1061 ...
+ $ ReturnJuly : num  -0.0205 -0.0253 -0.1354 -0.094 0.3553 ...
+ $ ReturnAug  : num  0.0247 0.2113 0.0334 0.0953 0.0568 ...
+ $ ReturnSep  : num  -0.0204 -0.58 0 0.0567 0.0336 ...
+ $ ReturnOct  : num  -0.1733 -0.2671 0.0917 -0.0963 0.0363 ...
+ $ ReturnNov  : num  -0.0254 -0.1512 -0.0596 -0.0405 -0.0853 ...
+ $ PositiveDec: int  0 0 0 1 1 1 1 0 0 0 ...
+> table(stocks$PositiveDec)
+
+   0    1 
+5256 6324 
+> (6324+5256)/nrow(stocks)
+[1] 1
+> 1-(5256)/nrow(stocks)
+[1] 0.546114
+> cor(stocks)
+               ReturnJan   ReturnFeb    ReturnMar    ReturnApr    ReturnMay
+ReturnJan    1.000000000  0.06677458 -0.090496798 -0.037678006 -0.044411417
+ReturnFeb    0.066774583  1.00000000 -0.155983263 -0.191351924 -0.095520920
+ReturnMar   -0.090496798 -0.15598326  1.000000000  0.009726288 -0.003892789
+ReturnApr   -0.037678006 -0.19135192  0.009726288  1.000000000  0.063822504
+ReturnMay   -0.044411417 -0.09552092 -0.003892789  0.063822504  1.000000000
+ReturnJune   0.092238307  0.16999448 -0.085905486 -0.011027752 -0.021074539
+ReturnJuly  -0.081429765 -0.06177851  0.003374160  0.080631932  0.090850264
+ReturnAug   -0.022792019  0.13155979 -0.022005400 -0.051756051 -0.033125658
+ReturnSep   -0.026437153  0.04350177  0.076518327 -0.028920972  0.021962862
+ReturnOct    0.142977229 -0.08732427 -0.011923758  0.048540025  0.017166728
+ReturnNov    0.067632333 -0.15465828  0.037323535  0.031761837  0.048046590
+PositiveDec  0.004728518 -0.03817318  0.022408661  0.094353528  0.058201934
+             ReturnJune    ReturnJuly     ReturnAug     ReturnSep   ReturnOct
+ReturnJan    0.09223831 -0.0814297650 -0.0227920187 -0.0264371526  0.14297723
+ReturnFeb    0.16999448 -0.0617785094  0.1315597863  0.0435017706 -0.08732427
+ReturnMar   -0.08590549  0.0033741597 -0.0220053995  0.0765183267 -0.01192376
+ReturnApr   -0.01102775  0.0806319317 -0.0517560510 -0.0289209718  0.04854003
+ReturnMay   -0.02107454  0.0908502642 -0.0331256580  0.0219628623  0.01716673
+ReturnJune   1.00000000 -0.0291525996  0.0107105260  0.0447472692 -0.02263599
+ReturnJuly  -0.02915260  1.0000000000  0.0007137558  0.0689478037 -0.05470891
+ReturnAug    0.01071053  0.0007137558  1.0000000000  0.0007407139 -0.07559456
+ReturnSep    0.04474727  0.0689478037  0.0007407139  1.0000000000 -0.05807924
+ReturnOct   -0.02263599 -0.0547089088 -0.0755945614 -0.0580792362  1.00000000
+ReturnNov   -0.06527054 -0.0483738369 -0.1164890345 -0.0197197998  0.19167279
+PositiveDec  0.02340975  0.0743642097  0.0041669657  0.0416302863 -0.05257496
+              ReturnNov  PositiveDec
+ReturnJan    0.06763233  0.004728518
+ReturnFeb   -0.15465828 -0.038173184
+ReturnMar    0.03732353  0.022408661
+ReturnApr    0.03176184  0.094353528
+ReturnMay    0.04804659  0.058201934
+ReturnJune  -0.06527054  0.023409745
+ReturnJuly  -0.04837384  0.074364210
+ReturnAug   -0.11648903  0.004166966
+ReturnSep   -0.01971980  0.041630286
+ReturnOct    0.19167279 -0.052574956
+ReturnNov    1.00000000 -0.062346556
+PositiveDec -0.06234656  1.000000000
+> summary(stocks)
+   ReturnJan            ReturnFeb           ReturnMar        
+ Min.   :-0.7616205   Min.   :-0.690000   Min.   :-0.712994  
+ 1st Qu.:-0.0691663   1st Qu.:-0.077748   1st Qu.:-0.046389  
+ Median : 0.0009965   Median :-0.010626   Median : 0.009878  
+ Mean   : 0.0126316   Mean   :-0.007605   Mean   : 0.019402  
+ 3rd Qu.: 0.0732606   3rd Qu.: 0.043600   3rd Qu.: 0.077066  
+ Max.   : 3.0683060   Max.   : 6.943694   Max.   : 4.008621  
+   ReturnApr           ReturnMay          ReturnJune       
+ Min.   :-0.826503   Min.   :-0.92207   Min.   :-0.717920  
+ 1st Qu.:-0.054468   1st Qu.:-0.04640   1st Qu.:-0.063966  
+ Median : 0.009059   Median : 0.01293   Median :-0.000880  
+ Mean   : 0.026308   Mean   : 0.02474   Mean   : 0.005938  
+ 3rd Qu.: 0.085338   3rd Qu.: 0.08396   3rd Qu.: 0.061566  
+ Max.   : 2.528827   Max.   : 6.93013   Max.   : 4.339713  
+   ReturnJuly           ReturnAug           ReturnSep        
+ Min.   :-0.7613096   Min.   :-0.726800   Min.   :-0.839730  
+ 1st Qu.:-0.0731917   1st Qu.:-0.046272   1st Qu.:-0.074648  
+ Median :-0.0008047   Median : 0.007205   Median :-0.007616  
+ Mean   : 0.0030509   Mean   : 0.016198   Mean   :-0.014721  
+ 3rd Qu.: 0.0718205   3rd Qu.: 0.070783   3rd Qu.: 0.049476  
+ Max.   : 2.5500000   Max.   : 3.626609   Max.   : 5.863980  
+   ReturnOct           ReturnNov          PositiveDec    
+ Min.   :-0.685504   Min.   :-0.747171   Min.   :0.0000  
+ 1st Qu.:-0.070915   1st Qu.:-0.054890   1st Qu.:0.0000  
+ Median : 0.002115   Median : 0.008522   Median :1.0000  
+ Mean   : 0.005651   Mean   : 0.011387   Mean   :0.5461  
+ 3rd Qu.: 0.074542   3rd Qu.: 0.076576   3rd Qu.:1.0000  
+ Max.   : 5.665138   Max.   : 3.271676   Max.   :1.0000  
+> set.seed(144)
+>  spl = sample.split(stocks$PositiveDec, SplitRatio = 0.7)
+Error in sample.split(stocks$PositiveDec, SplitRatio = 0.7) : 
+  could not find function "sample.split"
+> library(caTools)
+Warning message:
+package ‘caTools’ was built under R version 3.6.3 
+>  spl = sample.split(stocks$PositiveDec, SplitRatio = 0.7)
+> stocksTrain = subset(stocks, spl == TRUE)
+> stocksTest = subset(stocks, spl == FALSE)
+> Log = glm(PositiveDec ~ ., data=stocksTrain, family=binomial)
+> PredictTrain = predict(Log, type="response")
+> table(stocksTrain$PositiveDec, PredictTrain > 0.5)
+   
+    FALSE TRUE
+  0   990 2689
+  1   787 3640
+> (990 + 3640)/nrow(stocksTrain)
+[1] 0.5711818
+> PredictTest = predict(Log, newdata=stocksTest, type="response")
+> table(stocksTest$PositiveDec, PredictTest > 0.5)
+   
+    FALSE TRUE
+  0   417 1160
+  1   344 1553
+>  (417 + 1553)/nrow(stocksTest)
+[1] 0.5670697
+> table(stocksTest$PositiveDec)
+
+   0    1 
+1577 1897 
+> 1897/nrow(stocksTest)
+[1] 0.5460564
+> limitedTrain = stocksTrain
+> limitedTrain$PositiveDec = NULL
+> limitedTest = stocksTest
+> limitedTest$PositiveDec = NULL
+> library(caret)
+Loading required package: lattice
+Loading required package: ggplot2
+Warning messages:
+1: package ‘caret’ was built under R version 3.6.3 
+2: package ‘ggplot2’ was built under R version 3.6.3 
+> preproc = preProcess(limitedTrain)
+>  normTrain = predict(preproc, limitedTrain)
+> normTest = predict(preproc, limitedTest)
+> summary(normTrain)
+   ReturnJan          ReturnFeb          ReturnMar          ReturnApr      
+ Min.   :-4.57682   Min.   :-3.43004   Min.   :-4.54609   Min.   :-5.0227  
+ 1st Qu.:-0.48271   1st Qu.:-0.35589   1st Qu.:-0.40758   1st Qu.:-0.4757  
+ Median :-0.07055   Median :-0.01875   Median :-0.05778   Median :-0.1104  
+ Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.0000  
+ 3rd Qu.: 0.35898   3rd Qu.: 0.25337   3rd Qu.: 0.36106   3rd Qu.: 0.3400  
+ Max.   :18.06234   Max.   :34.92751   Max.   :24.77296   Max.   :14.6959  
+   ReturnMay          ReturnJune         ReturnJuly         ReturnAug       
+ Min.   :-4.96759   Min.   :-4.82957   Min.   :-5.19139   Min.   :-5.60378  
+ 1st Qu.:-0.43045   1st Qu.:-0.45602   1st Qu.:-0.51832   1st Qu.:-0.47163  
+ Median :-0.06983   Median :-0.04354   Median :-0.02372   Median :-0.07393  
+ Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.00000  
+ 3rd Qu.: 0.35906   3rd Qu.: 0.37273   3rd Qu.: 0.47735   3rd Qu.: 0.39967  
+ Max.   :42.69158   Max.   :10.84515   Max.   :17.33975   Max.   :27.14273  
+   ReturnSep          ReturnOct          ReturnNov       
+ Min.   :-5.47078   Min.   :-3.53719   Min.   :-4.31684  
+ 1st Qu.:-0.39604   1st Qu.:-0.42176   1st Qu.:-0.43564  
+ Median : 0.04767   Median :-0.01891   Median :-0.01878  
+ Mean   : 0.00000   Mean   : 0.00000   Mean   : 0.00000  
+ 3rd Qu.: 0.42287   3rd Qu.: 0.37451   3rd Qu.: 0.42560  
+ Max.   :39.05435   Max.   :31.25996   Max.   :17.18255  
+> summary(normTest)
+   ReturnJan           ReturnFeb           ReturnMar          ReturnApr       
+ Min.   :-3.743836   Min.   :-3.251044   Min.   :-4.07731   Min.   :-4.47865  
+ 1st Qu.:-0.485690   1st Qu.:-0.348951   1st Qu.:-0.40662   1st Qu.:-0.51121  
+ Median :-0.066856   Median :-0.006860   Median :-0.05674   Median :-0.11414  
+ Mean   :-0.000419   Mean   :-0.003862   Mean   : 0.00583   Mean   :-0.03638  
+ 3rd Qu.: 0.357729   3rd Qu.: 0.264647   3rd Qu.: 0.35653   3rd Qu.: 0.32742  
+ Max.   : 8.412973   Max.   : 9.552365   Max.   : 9.00982   Max.   : 6.84589  
+   ReturnMay          ReturnJune         ReturnJuly          ReturnAug       
+ Min.   :-5.84445   Min.   :-4.73628   Min.   :-5.201454   Min.   :-4.62097  
+ 1st Qu.:-0.43819   1st Qu.:-0.44968   1st Qu.:-0.512039   1st Qu.:-0.51546  
+ Median :-0.05346   Median :-0.02678   Median :-0.026576   Median :-0.10277  
+ Mean   : 0.02651   Mean   : 0.04315   Mean   : 0.006016   Mean   :-0.04973  
+ 3rd Qu.: 0.42290   3rd Qu.: 0.43010   3rd Qu.: 0.457193   3rd Qu.: 0.38781  
+ Max.   : 7.21362   Max.   :29.00534   Max.   :12.790901   Max.   : 6.66889  
+   ReturnSep          ReturnOct           ReturnNov        
+ Min.   :-3.57222   Min.   :-3.807577   Min.   :-4.881463  
+ 1st Qu.:-0.38067   1st Qu.:-0.393856   1st Qu.:-0.396764  
+ Median : 0.08215   Median : 0.006783   Median :-0.002337  
+ Mean   : 0.02939   Mean   : 0.029672   Mean   : 0.017128  
+ 3rd Qu.: 0.45847   3rd Qu.: 0.419005   3rd Qu.: 0.424617  
+ Max.   : 7.09106   Max.   : 7.428466   Max.   :21.007786  
+> set.seed(144)
+> km = kmeans(normTrain, centers = 3)
+> table(km$cluster)
+
+   1    2    3 
+2479 4731  896 
+> library(flexclust)
+Loading required package: grid
+Loading required package: modeltools
+Loading required package: stats4
+Warning messages:
+1: package ‘flexclust’ was built under R version 3.6.3 
+2: package ‘modeltools’ was built under R version 3.6.3 
+> km.kcca = as.kcca(km, normTrain)
+> clusterTrain = predict(km.kcca)
+> clusterTest = predict(km.kcca, newdata=normTest)
+> table(clusterTest)
+clusterTest
+   1    2    3 
+1058 2029  387 
+> stocksTrain1 = subset(stocksTrain, clusterTrain == 1)
+> stocksTrain2 = subset(stocksTrain, clusterTrain == 2)
+> stocksTrain3 = subset(stocksTrain, clusterTrain == 3)
+> stocksTest1 = subset(stocksTest, clusterTest == 1)
+> stocksTest2 = subset(stocksTest, clusterTest == 2)
+> stocksTest3 = subset(stocksTest, clusterTest == 3)
+> mean(stocksTrain1$PositiveDec)
+[1] 0.6103267
+> mean(stocksTrain2$PositiveDec)
+[1] 0.5250476
+> mean(stocksTrain3$PositiveDec)
+[1] 0.4799107
+> StocksModel1 = glm(PositiveDec ~ ., data=stocksTrain1, family=binomial)
+> StocksModel2 = glm(PositiveDec ~ ., data=stocksTrain2, family=binomial)
+> StocksModel3 = glm(PositiveDec ~ ., data=stocksTrain3, family=binomial)
+> summary(StocksModel1)
+
+Call:
+glm(formula = PositiveDec ~ ., family = binomial, data = stocksTrain1)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.7220  -1.2879   0.8679   1.0096   1.7170  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  0.20739    0.08020   2.586  0.00971 ** 
+ReturnJan    0.12448    0.31474   0.396  0.69246    
+ReturnFeb   -0.46307    0.32713  -1.416  0.15692    
+ReturnMar    0.55465    0.24804   2.236  0.02534 *  
+ReturnApr    1.08354    0.25005   4.333 1.47e-05 ***
+ReturnMay    0.30487    0.24993   1.220  0.22253    
+ReturnJune   0.00172    0.33525   0.005  0.99591    
+ReturnJuly  -0.02763    0.30216  -0.091  0.92714    
+ReturnAug    0.40299    0.34570   1.166  0.24373    
+ReturnSep    0.70779    0.32611   2.170  0.02998 *  
+ReturnOct   -1.33254    0.29055  -4.586 4.51e-06 ***
+ReturnNov   -0.78944    0.30583  -2.581  0.00984 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 3314.9  on 2478  degrees of freedom
+Residual deviance: 3244.0  on 2467  degrees of freedom
+AIC: 3268
+
+Number of Fisher Scoring iterations: 4
+
+> summary(StocksModel2)
+
+Call:
+glm(formula = PositiveDec ~ ., family = binomial, data = stocksTrain2)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.2268  -1.2086   0.9698   1.1294   1.6769  
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  0.1165255  0.0335061   3.478 0.000506 ***
+ReturnJan    0.4489316  0.2414090   1.860 0.062938 .  
+ReturnFeb   -0.1385458  0.1514734  -0.915 0.360373    
+ReturnMar    0.4657754  0.2442129   1.907 0.056488 .  
+ReturnApr    0.7839726  0.2558668   3.064 0.002184 ** 
+ReturnMay    0.7709831  0.2625217   2.937 0.003316 ** 
+ReturnJune   0.5764584  0.2191809   2.630 0.008537 ** 
+ReturnJuly   0.8654737  0.2869778   3.016 0.002563 ** 
+ReturnAug    0.0177313  0.2317020   0.077 0.939001    
+ReturnSep    1.0464947  0.2684133   3.899 9.67e-05 ***
+ReturnOct   -0.0001062  0.2426989   0.000 0.999651    
+ReturnNov   -0.3716212  0.2603210  -1.428 0.153421    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 6546.7  on 4730  degrees of freedom
+Residual deviance: 6481.4  on 4719  degrees of freedom
+AIC: 6505.4
+
+Number of Fisher Scoring iterations: 4
+
+> summary(StocksModel3)
+
+Call:
+glm(formula = PositiveDec ~ ., family = binomial, data = stocksTrain3)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.8938  -1.0863  -0.5241   1.0874   2.1892  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   0.4504     0.1700   2.649 0.008071 ** 
+ReturnJan     0.3816     0.2742   1.392 0.163927    
+ReturnFeb     0.3943     0.4612   0.855 0.392490    
+ReturnMar    -1.7220     0.4372  -3.938 8.20e-05 ***
+ReturnApr     0.5214     0.3275   1.592 0.111316    
+ReturnMay     1.1301     0.4274   2.644 0.008194 ** 
+ReturnJune    1.5889     0.4423   3.592 0.000328 ***
+ReturnJuly    1.3800     0.4602   2.999 0.002709 ** 
+ReturnAug     0.4146     0.4824   0.860 0.390054    
+ReturnSep    -0.0148     0.4754  -0.031 0.975167    
+ReturnOct    -0.6820     0.3044  -2.241 0.025039 *  
+ReturnNov    -1.7175     0.4133  -4.156 3.24e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1240.7  on 895  degrees of freedom
+Residual deviance: 1131.5  on 884  degrees of freedom
+AIC: 1155.5
+
+Number of Fisher Scoring iterations: 4
+
+> PredictTest1 = predict(StocksModel1, newdata = stocksTest1, type="response")
+> PredictTest2 = predict(StocksModel2, newdata = stocksTest2, type="response")
+> PredictTest3 = predict(StocksModel3, newdata = stocksTest3, type="response")
+> table(stocksTest1$PositiveDec, PredictTest1 > 0.5)
+   
+    FALSE TRUE
+  0    43  350
+  1    26  639
+> table(stocksTest2$PositiveDec, PredictTest2 > 0.5)
+   
+    FALSE TRUE
+  0   277  719
+  1   221  812
+> table(stocksTest3$PositiveDec, PredictTest3 > 0.5)
+   
+    FALSE TRUE
+  0   119   69
+  1    76  123
+> AllPredictions = c(PredictTest1, PredictTest2, PredictTest3)
+> AllOutcomes = c(stocksTest1$PositiveDec, stocksTest2$PositiveDec, stocksTest3$PositiveDec)
+> table(AllOutcomes, AllPredictions > 0.5)
+           
+AllOutcomes FALSE TRUE
+          0   439 1138
+          1   323 1574
+> (439+1574)/(439+1574+323+1138)
+[1] 0.5794473
+> 
